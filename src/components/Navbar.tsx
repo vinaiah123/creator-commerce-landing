@@ -56,52 +56,58 @@ const Navbar = () => {
     };
   }, [menuOpen]);
 
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   return (
-    <header 
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        scrolled ? "bg-white/90 backdrop-blur-md shadow-sm py-4" : "bg-transparent py-6"
-      )}
-    >
-      <div className="container mx-auto px-4 flex items-center justify-between">
-        <Link 
-          to="/" 
-          className="font-inter font-bold text-xl md:text-2xl text-carteYellow transition-all duration-300 z-50"
-        >
-          Carte
-        </Link>
-        
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/features">Features</NavLink>
-          <NavLink to="/pricing">Pricing</NavLink>
+    <>
+      <header 
+        className={cn(
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          scrolled ? "bg-white/90 backdrop-blur-md shadow-sm py-4" : "bg-transparent py-6"
+        )}
+      >
+        <div className="container mx-auto px-4 flex items-center justify-between">
           <Link 
-            to="/#start"
-            className="px-6 py-2.5 bg-carteYellow text-gray-900 rounded-md hover:bg-carteYellow-600 transition-colors duration-300 font-outfit font-medium text-sm"
+            to="/" 
+            className="font-inter font-bold text-xl md:text-2xl text-carteYellow transition-all duration-300 z-50"
           >
-            Start Selling
+            Carte
           </Link>
-        </nav>
-        
-        {/* Mobile Menu Button */}
-        <button 
-          className="md:hidden text-carteYellow focus:outline-none z-50"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
-        >
-          {menuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
+          
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-8">
+            <NavLink to="/">Home</NavLink>
+            <NavLink to="/features">Features</NavLink>
+            <NavLink to="/pricing">Pricing</NavLink>
+            <Link 
+              to="/#start"
+              className="px-6 py-2.5 bg-carteYellow text-gray-900 rounded-md hover:bg-carteYellow-600 transition-colors duration-300 font-outfit font-medium text-sm"
+            >
+              Start Selling
+            </Link>
+          </nav>
+          
+          {/* Mobile Menu Button */}
+          <button 
+            className="md:hidden text-carteYellow focus:outline-none z-50"
+            onClick={toggleMenu}
+            aria-label="Toggle menu"
+          >
+            {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+      </header>
       
-      {/* Mobile Menu */}
+      {/* Mobile Menu - Moved outside header to ensure proper positioning */}
       <div 
         className={cn(
-          "fixed inset-0 bg-white z-40 transition-transform duration-300 md:hidden overflow-auto",
+          "fixed inset-0 bg-white z-40 transition-transform duration-300 md:hidden overflow-auto pt-20",
           menuOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
-        <div className="container mx-auto px-4 pt-24 pb-10 flex flex-col space-y-6">
+        <div className="container mx-auto px-4 py-10 flex flex-col space-y-6">
           <NavLink
             to="/"
             className="text-2xl py-2"
@@ -128,7 +134,7 @@ const Navbar = () => {
           </Link>
         </div>
       </div>
-    </header>
+    </>
   );
 };
 
