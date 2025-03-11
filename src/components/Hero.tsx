@@ -1,5 +1,5 @@
 
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Rocket, Sparkles, Palette, ShoppingBag } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { useIntersectionObserver } from '../lib/animations';
 
@@ -21,16 +21,32 @@ const Hero = () => {
       className="relative min-h-[90vh] flex items-center justify-center pt-24 overflow-hidden"
       ref={elementRef as React.RefObject<HTMLDivElement>}
     >
-      {/* Background Image with Overlay */}
+      {/* Gradient background instead of image */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-r from-carteYellow/80 to-carteYellow-700/80 z-10"></div>
-        <div 
-          className="absolute inset-0 bg-cover bg-center z-0"
-          style={{ 
-            backgroundImage: "url('https://images.unsplash.com/photo-1558244661-d248897f7bc4?q=80&w=2000')",
-            filter: "brightness(0.7)"
-          }}
-        ></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-carteYellow-500/90 via-carteYellow-400/80 to-carteYellow-300/70 z-10"></div>
+      </div>
+
+      {/* Illustrations relevant to indie creators */}
+      <div className="absolute inset-0 z-5 pointer-events-none">
+        <Rocket className="absolute top-[15%] right-[15%] w-16 h-16 text-white/60 animate-floatSlow" 
+               style={{animationDelay: "0.3s"}} />
+        
+        <Sparkles className="absolute bottom-[25%] left-[18%] w-14 h-14 text-white/70 animate-floatMedium" 
+                 style={{animationDelay: "0.7s"}} />
+        
+        <Palette className="absolute top-[30%] left-[12%] w-12 h-12 text-white/80 animate-float" 
+                style={{animationDelay: "1.2s"}} />
+        
+        <ShoppingBag className="absolute bottom-[20%] right-[20%] w-16 h-16 text-white/70 animate-floatFast" 
+                    style={{animationDelay: "0.5s"}} />
+
+        {/* Decorative elements */}
+        <div className="absolute top-[25%] right-[25%] w-32 h-32 bg-white/10 rounded-full blur-xl animate-floatSlow" 
+             style={{animationDelay: "0.3s"}}></div>
+        <div className="absolute bottom-[35%] left-[20%] w-24 h-24 bg-white/10 rounded-full blur-xl animate-floatMedium" 
+             style={{animationDelay: "0.8s"}}></div>
+        <div className="absolute top-[40%] left-[30%] w-16 h-16 bg-cartePink/20 rounded-xl rotate-12 blur-sm animate-float" 
+             style={{animationDelay: "1.5s"}}></div>
       </div>
 
       <div className="container mx-auto px-6 z-10 relative">
