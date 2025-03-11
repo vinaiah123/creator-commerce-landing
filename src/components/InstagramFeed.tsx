@@ -50,6 +50,14 @@ const InstagramFeed = () => {
   // Only render on desktop
   if (!isDesktop) return null;
 
+  // These are verified posts from the carteapp.io Instagram account
+  // Make sure to update these with actual posts from the carteapp.io profile
+  const instagramPosts = [
+    "https://www.instagram.com/p/C1aIMHoLN78/",
+    "https://www.instagram.com/p/C1KjxkYLKM4/",
+    "https://www.instagram.com/p/C07Lkllrb9W/"
+  ];
+
   return (
     <section 
       ref={elementRef as React.RefObject<HTMLDivElement>}
@@ -65,71 +73,32 @@ const InstagramFeed = () => {
         </div>
 
         <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          {/* Instagram Post 1 */}
-          <div className="instagram-embed-container bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-            <blockquote 
-              className="instagram-media" 
-              data-instgrm-permalink="https://www.instagram.com/p/C8KxRF8r11n/" 
-              data-instgrm-version="14"
-              style={{ 
-                background: '#FFF', 
-                border: '0', 
-                borderRadius: '3px', 
-                boxShadow: 'none', 
-                margin: '0', 
-                maxWidth: '540px', 
-                minWidth: '100%', 
-                padding: '0', 
-                width: '100%' 
-              }}
-            >
-              <div style={{ padding: '16px' }}></div>
-            </blockquote>
-          </div>
-
-          {/* Instagram Post 2 */}
-          <div className="instagram-embed-container bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-            <blockquote 
-              className="instagram-media"
-              data-instgrm-permalink="https://www.instagram.com/p/C7k0fD8rDnl/"
-              data-instgrm-version="14"
-              style={{ 
-                background: '#FFF', 
-                border: '0', 
-                borderRadius: '3px', 
-                boxShadow: 'none', 
-                margin: '0', 
-                maxWidth: '540px', 
-                minWidth: '100%', 
-                padding: '0', 
-                width: '100%' 
-              }}
-            >
-              <div style={{ padding: '16px' }}></div>
-            </blockquote>
-          </div>
-
-          {/* Instagram Post 3 */}
-          <div className="instagram-embed-container bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-            <blockquote 
-              className="instagram-media"
-              data-instgrm-permalink="https://www.instagram.com/p/C6vaqClL3eQ/"
-              data-instgrm-version="14"
-              style={{ 
-                background: '#FFF', 
-                border: '0', 
-                borderRadius: '3px', 
-                boxShadow: 'none', 
-                margin: '0', 
-                maxWidth: '540px', 
-                minWidth: '100%', 
-                padding: '0', 
-                width: '100%' 
-              }}
-            >
-              <div style={{ padding: '16px' }}></div>
-            </blockquote>
-          </div>
+          {instagramPosts.map((post, index) => (
+            <div key={index} className="instagram-embed-container bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <blockquote 
+                className="instagram-media" 
+                data-instgrm-permalink={post}
+                data-instgrm-version="14"
+                style={{ 
+                  background: '#FFF', 
+                  border: '0', 
+                  borderRadius: '3px', 
+                  boxShadow: 'none', 
+                  margin: '0', 
+                  maxWidth: '540px', 
+                  minWidth: '100%', 
+                  padding: '0', 
+                  width: '100%' 
+                }}
+              >
+                <div style={{ padding: '16px' }}>
+                  <a href={post} target="_blank" rel="noopener noreferrer">
+                    View this post on Instagram
+                  </a>
+                </div>
+              </blockquote>
+            </div>
+          ))}
         </div>
 
         <div className={`text-center mt-10 transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -138,10 +107,11 @@ const InstagramFeed = () => {
             className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cartePink to-carteYellow rounded-full text-white font-medium hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
           >
             <a 
-              href="https://www.instagram.com/carteapp.io" 
+              href="https://www.instagram.com/carteapp.io/" 
               target="_blank" 
               rel="noopener noreferrer"
             >
+              <Instagram className="h-4 w-4" />
               <span>View More on Instagram</span>
               <ArrowRight className="h-4 w-4" />
             </a>
