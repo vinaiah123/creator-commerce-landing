@@ -1,11 +1,10 @@
-
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { 
   ShoppingBag, Link, Palette, Ticket, CreditCard, Users, 
   Package, Tags, Store, Webhook, FileDigit, Filter, 
-  Copy, MessageCircleQuestion, Sparkles 
+  Copy, MessageCircleQuestion, Sparkles
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
@@ -36,7 +35,6 @@ const FeaturesPage = () => {
   const [activeCategory, setActiveCategory] = useState('all');
   const navigate = useNavigate();
 
-  // Add an effect to scroll to top when component mounts
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -178,7 +176,6 @@ const FeaturesPage = () => {
             </p>
           </div>
 
-          {/* Category Filter */}
           <div className="flex flex-wrap justify-center gap-3 mb-12">
             {categories.map((category) => (
               <button
@@ -195,7 +192,6 @@ const FeaturesPage = () => {
             ))}
           </div>
           
-          {/* Features Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredFeatures.map((feature, index) => (
               <FeatureCard 
