@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { useIntersectionObserver } from '@/lib/animations';
@@ -64,30 +63,27 @@ const PricingFAQ = () => {
       <div className="container mx-auto px-4 max-w-6xl">
         <div className={`text-center mb-12 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient">Pricing FAQs</h2>
-          <p className="text-lg text-gray-700 max-w-2xl mx-auto">
+          <p className="text-lg text-carteBlue-700 max-w-2xl mx-auto">
             Have questions about our pricing? Here are answers to commonly asked questions about plans, fees, and billing.
           </p>
         </div>
 
-        {/* FAQ content will always be visible */}
         <div className="grid grid-cols-1 gap-8 relative">
-          {/* Decorative elements */}
           <div className="absolute top-0 -left-16 w-32 h-32 bg-carteYellow/10 rounded-full filter blur-xl animate-float" style={{ animationDelay: '0s' }}></div>
           <div className="absolute bottom-20 -right-16 w-40 h-40 bg-cartePink/10 rounded-full filter blur-xl animate-float" style={{ animationDelay: '1s' }}></div>
           <div className="absolute top-1/3 right-0 w-24 h-24 bg-carteYellow/20 rounded-full filter blur-lg animate-float" style={{ animationDelay: '0.5s' }}></div>
           
-          {/* FAQ Accordion - Always visible */}
           <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg border border-carteYellow/20 overflow-hidden">
             <Accordion type="single" collapsible className="w-full">
               {faqItems.map((item, i) => (
                 <AccordionItem value={`item-${i}`} key={i} className="border-b border-carteYellow/20 last:border-0">
                   <AccordionTrigger className="py-6 px-6 hover:bg-carteYellow/5 hover:no-underline text-left font-medium">
-                    <div className="flex items-center text-gray-800">
+                    <div className="flex items-center text-carteBlue-700">
                       {item.icon}
                       <span>{item.question}</span>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="px-6 pb-6 pt-2 text-gray-600">
+                  <AccordionContent className="px-6 pb-6 pt-2 text-carteBlue-700">
                     {item.answer}
                   </AccordionContent>
                 </AccordionItem>
@@ -96,7 +92,6 @@ const PricingFAQ = () => {
           </div>
         </div>
 
-        {/* Support CTA section - Always visible */}
         <div className="mt-12">
           <div className="bg-gradient-to-r from-cartePink/90 to-carteYellow/90 rounded-2xl p-6 md:p-8 shadow-lg flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-start space-x-4 max-w-xl">

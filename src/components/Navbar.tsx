@@ -14,7 +14,7 @@ const NavLink = ({ to, children, className }: { to: string; children: React.Reac
       to={to}
       className={cn(
         "font-worksans transition-colors duration-300 text-base",
-        isActive ? "text-carteYellow" : "text-gray-800 hover:text-carteYellow",
+        isActive ? "text-carteYellow" : "text-carteBlue-700 hover:text-carteYellow",
         className
       )}
     >
