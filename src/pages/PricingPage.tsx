@@ -8,6 +8,8 @@ import { Slider } from '@/components/ui/slider';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useNavigate } from 'react-router-dom';
 import SubscriptionComparisonCard from '@/components/SubscriptionComparisonCard';
+import Testimonials from '@/components/Testimonials';
+import FAQ from '@/components/FAQ';
 
 // Fee calculator function
 const calculateFees = (sales: number) => {
@@ -33,6 +35,7 @@ const formatCurrency = (amount: number) => {
 const formatPercent = (amount: number, total: number) => {
   return `${(amount / total * 100).toFixed(1)}%`;
 };
+
 type PricingCardProps = {
   title: string;
   subtitle?: string;
@@ -43,6 +46,7 @@ type PricingCardProps = {
   delay: number;
   isVisible: boolean;
 };
+
 const PricingCard = ({
   title,
   subtitle,
@@ -74,6 +78,7 @@ const PricingCard = ({
       </Button>
     </div>;
 };
+
 const FeeComparisonCard = ({
   platform,
   fee,
@@ -85,7 +90,6 @@ const FeeComparisonCard = ({
   monthlySales: number;
   isLowest?: boolean;
 }) => {
-  // Calculate percentage of sales
   const percentage = (fee / monthlySales * 100).toFixed(1);
   const cardColor = isLowest ? 'border-carteYellow bg-carteYellow/5' : 'border-gray-200';
   const textColor = isLowest ? 'text-carteYellow' : 'text-gray-700';
@@ -104,8 +108,7 @@ const FeeComparisonCard = ({
       <div className="w-full bg-gray-100 rounded-full h-3">
         <div className={`${isLowest ? 'bg-carteYellow' : 'bg-gray-400'} h-3 rounded-full`} style={{
         width: `${Math.min(parseFloat(percentage) * 5, 100)}%`
-      }} // Scale for better visualization
-      />
+      }} />
       </div>
       
       {isLowest && <div className="flex items-center mt-3 text-carteYellow">
@@ -114,17 +117,18 @@ const FeeComparisonCard = ({
         </div>}
     </div>;
 };
+
 const PricingPage = () => {
-  const {
-    elementRef,
-    isVisible
-  } = useIntersectionObserver();
+  const { elementRef, isVisible } = useIntersectionObserver();
   const [monthlySales, setMonthlySales] = useState<number>(1000);
   const fees = calculateFees(monthlySales);
+  
   const handleSalesChange = (value: number[]) => {
     setMonthlySales(value[0]);
   };
-  return <div className="min-h-screen flex flex-col">
+  
+  return (
+    <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-grow pt-20 bg-carteBackground">
@@ -142,7 +146,6 @@ const PricingPage = () => {
             </p>
           </div>
           
-          {/* Pricing Plans */}
           <div className={`${isVisible ? 'animate-fade-in animation-delay-300' : 'opacity-0'} mb-20`}>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               <PricingCard title="Free" subtitle="Pay As You Go" price={<div className="flex items-center">
@@ -163,7 +166,6 @@ const PricingPage = () => {
             </div>
           </div>
           
-          {/* Fee Comparison Calculator */}
           <div className={`${isVisible ? 'animate-fade-in animation-delay-500' : 'opacity-0'} mb-20 bg-carteBackground-dark rounded-3xl p-8 kawaii-shadow`}>
             <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center">See How Much You'll Save</h2>
             <p className="text-center text-gray-600 max-w-2xl mx-auto mb-8">
@@ -205,17 +207,34 @@ const PricingPage = () => {
             </div>
           </div>
           
-          {/* Subscription Comparison */}
           <div className={`${isVisible ? 'animate-fade-in animation-delay-600' : 'opacity-0'} mb-20`}>
             <SubscriptionComparisonCard />
           </div>
           
-          {/* CTA Section */}
+          <div className={`${isVisible ? 'animate-fade-in animation-delay-700' : 'opacity-0'} mb-20`}>
+            <Testimonials />
+          </div>
           
+          <div className={`${isVisible ? 'animate-fade-in animation-delay-800' : 'opacity-0'} mb-20`}>
+            <FAQ />
+          </div>
+          
+          <div className={`${isVisible ? 'animate-fade-in animation-delay-900' : 'opacity-0'} bg-white rounded-3xl p-10 text-center kawaii-shadow border-2 border-carteYellow/30`}>
+            <h3 className="text-2xl md:text-3xl font-bold mb-4">Ready to Start Your Creative Business?</h3>
+            <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
+              Join thousands of creators who are building successful businesses with Carte.
+            </p>
+            <Button size="lg" className="bg-carteYellow hover:bg-carteYellow-600 text-gray-900 kawaii-shadow">
+              Get Started Now
+              <ArrowRight size={16} />
+            </Button>
+          </div>
         </div>
       </main>
       
       <Footer />
-    </div>;
+    </div>
+  );
 };
+
 export default PricingPage;
