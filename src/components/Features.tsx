@@ -149,7 +149,9 @@ const Features = () => {
         
         <div 
           ref={featureContainerRef}
-          className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ${isMobile ? 'features-mobile-container' : ''}`}
+          className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ${
+            isMobile ? 'features-mobile-container overflow-hidden' : ''
+          }`}
         >
           {features.map((feature, index) => (
             <FeatureCard 

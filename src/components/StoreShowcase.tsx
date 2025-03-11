@@ -6,6 +6,7 @@ import FeaturedStore from "@/components/store/FeaturedStore";
 import StoreCard from "@/components/store/StoreCard";
 import GetStartedCard from "@/components/store/GetStartedCard";
 import StoreScrollNavigation from "@/components/store/StoreScrollNavigation";
+import { useMobile } from "@/hooks/use-mobile";
 
 const StoreShowcase = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -13,36 +14,41 @@ const StoreShowcase = () => {
   const [canScrollRight, setCanScrollRight] = useState(true);
   const { elementRef, isVisible } = useIntersectionObserver();
   const [activeStore, setActiveStore] = useState<string | null>(null);
+  const isMobile = useMobile();
 
   const scrollLeft = () => {
-    if (scrollContainerRef.current) {
+    if (scrollContainerRef.current && !isMobile) {
       scrollContainerRef.current.scrollBy({ left: -320, behavior: 'smooth' });
     }
   };
 
   const scrollRight = () => {
-    if (scrollContainerRef.current) {
+    if (scrollContainerRef.current && !isMobile) {
       scrollContainerRef.current.scrollBy({ left: 320, behavior: 'smooth' });
     }
   };
 
   const checkScrollButtons = () => {
-    if (scrollContainerRef.current) {
+    if (scrollContainerRef.current && !isMobile) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
       setCanScrollLeft(scrollLeft > 0);
       setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 10);
+    } else {
+      setCanScrollLeft(false);
+      setCanScrollRight(false);
     }
   };
 
   useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
-    if (scrollContainer) {
+    if (scrollContainer && !isMobile) {
       scrollContainer.addEventListener('scroll', checkScrollButtons);
       // Check on initial load
       checkScrollButtons();
-      // Check when window is resized
-      window.addEventListener('resize', checkScrollButtons);
     }
+
+    // Check when window is resized
+    window.addEventListener('resize', checkScrollButtons);
 
     return () => {
       if (scrollContainer) {
@@ -50,7 +56,7 @@ const StoreShowcase = () => {
       }
       window.removeEventListener('resize', checkScrollButtons);
     };
-  }, []);
+  }, [isMobile]);
 
   const featuredStore = stores.find(store => store.featured);
   const regularStores = stores.filter(store => !store.featured);
@@ -99,18 +105,17 @@ const StoreShowcase = () => {
         </div>
 
         <div className="relative">
-          <StoreScrollNavigation 
-            scrollLeft={scrollLeft}
-            scrollRight={scrollRight}
-            canScrollLeft={canScrollLeft}
-            canScrollRight={canScrollRight}
-          />
+          {!isMobile && (
+            <StoreScrollNavigation 
+              scrollLeft={scrollLeft}
+              scrollRight={scrollRight}
+              canScrollLeft={canScrollLeft}
+              canScrollRight={canScrollRight}
+            />
+          )}
 
-          <div 
-            className="overflow-x-auto hide-scrollbar pb-8"
-            ref={scrollContainerRef}
-          >
-            <div className="flex gap-6 min-w-max">
+          {isMobile ? (
+            <div className="grid grid-cols-1 gap-6">
               {regularStores.map((store, index) => (
                 <StoreCard 
                   key={store.id}
@@ -127,7 +132,30 @@ const StoreShowcase = () => {
                 delay={300 + regularStores.length * 150}
               />
             </div>
-          </div>
+          ) : (
+            <div 
+              className="overflow-x-auto hide-scrollbar pb-8"
+              ref={scrollContainerRef}
+            >
+              <div className="flex gap-6 min-w-max">
+                {regularStores.map((store, index) => (
+                  <StoreCard 
+                    key={store.id}
+                    store={store}
+                    isVisible={isVisible}
+                    index={index}
+                    activeStore={activeStore}
+                    setActiveStore={setActiveStore}
+                  />
+                ))}
+                
+                <GetStartedCard 
+                  isVisible={isVisible}
+                  delay={300 + regularStores.length * 150}
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>
