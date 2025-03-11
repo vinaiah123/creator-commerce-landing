@@ -1,4 +1,5 @@
-import React from 'react';
+
+import React, { useEffect } from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { useIntersectionObserver } from '@/lib/animations';
 import { HelpCircle, MessageCircle, CreditCard, DollarSign, Calendar, BarChart, ArrowUpDown, RefreshCw } from 'lucide-react';
@@ -11,6 +12,19 @@ const PricingFAQ = () => {
     rootMargin: '100px' 
   });
   const isMobile = useIsMobile();
+
+  // Force visibility on initial render
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const element = elementRef.current;
+      if (element && window.scrollY === 0) {
+        // Force the element to be visible if at the top of the page
+        element.scrollIntoView({ behavior: 'auto', block: 'nearest' });
+      }
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, [elementRef]);
 
   const faqItems = [
     {
@@ -64,7 +78,7 @@ const PricingFAQ = () => {
           
           {/* FAQ Accordion - Always visible */}
           <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg border border-carteYellow/20 overflow-hidden">
-            <Accordion type="single" collapsible className="w-full" defaultValue="item-0">
+            <Accordion type="single" collapsible className="w-full">
               {faqItems.map((item, i) => (
                 <AccordionItem value={`item-${i}`} key={i} className="border-b border-carteYellow/20 last:border-0">
                   <AccordionTrigger className="py-6 px-6 hover:bg-carteYellow/5 hover:no-underline text-left font-medium">
