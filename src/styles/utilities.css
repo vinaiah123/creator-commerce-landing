@@ -1,0 +1,103 @@
+
+/* Custom animations and transitions */
+@layer utilities {
+  .transition-all-300 {
+    @apply transition-all duration-300 ease-in-out;
+  }
+  
+  .transition-transform-300 {
+    @apply transition-transform duration-300 ease-in-out;
+  }
+  
+  .transition-opacity-300 {
+    @apply transition-opacity duration-300 ease-in-out;
+  }
+  
+  .hover-lift {
+    @apply transition-all duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg;
+  }
+  
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Kawaii utilities */
+  .kawaii-shadow {
+    box-shadow: 0 4px 0 0 rgba(0,0,0,0.1);
+  }
+  
+  .kawaii-border {
+    @apply border-2 border-accent/50 rounded-xl;
+  }
+  
+  .kawaii-button {
+    @apply rounded-full px-6 py-3 font-bold transition-all duration-300 kawaii-shadow hover:translate-y-[-2px] hover:shadow-lg active:translate-y-[2px] active:shadow-none;
+  }
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .hide-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  /* Animation delay utilities */
+  .delay-100 {
+    animation-delay: 100ms;
+  }
+  
+  .delay-200 {
+    animation-delay: 200ms;
+  }
+  
+  .delay-300 {
+    animation-delay: 300ms;
+  }
+  
+  .delay-400 {
+    animation-delay: 400ms;
+  }
+  
+  .delay-500 {
+    animation-delay: 500ms;
+  }
+  
+  .delay-600 {
+    animation-delay: 600ms;
+  }
+  
+  /* Gradient text */
+  .text-gradient {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-cartePink to-carteYellow;
+  }
+
+  /* 3D transform utilities */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  
+  .rotate-y-3 {
+    transform: rotateY(3deg);
+  }
+  
+  .rotate-x-2 {
+    transform: rotateX(2deg);
+  }
+  
+  /* Background position utilities for gradient animations */
+  .bg-size-200 {
+    background-size: 200% 100%;
+  }
+  
+  .bg-pos-0 {
+    background-position: 0% 0%;
+  }
+  
+  .bg-pos-100 {
+    background-position: 100% 0%;
+  }
+}
