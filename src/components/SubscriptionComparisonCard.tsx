@@ -24,12 +24,30 @@ const SubscriptionComparisonCard = () => {
               </div>
             </div>
             <div className="space-y-4">
-              {['All-in-one platform for creators', 'Complete feature set in one subscription', 'No additional costs as you scale'].map((feature, index) => (
+              {[
+                'All-in-one platform for creators',
+                'Complete feature set in one subscription',
+                'No additional costs as you scale',
+                'Unlimited products and digital assets',
+                'Customizable checkout experience',
+                'Advanced analytics and reporting',
+                'Priority customer support',
+                'Secure payment processing',
+                'API access for custom integrations',
+                'White-labeled experience'
+              ].map((feature, index) => (
                 <div key={index} className="flex items-start">
                   <Check size={18} className="text-carteYellow mt-1 mr-2 flex-shrink-0" />
                   <span className="text-gray-200">{feature}</span>
                 </div>
               ))}
+            </div>
+            <div className="mt-6 bg-carteYellow/10 rounded-xl p-4 border border-carteYellow/30">
+              <div className="flex justify-between items-center text-carteYellow">
+                <span className="font-bold">Monthly Total</span>
+                <span className="font-bold">$29/mo</span>
+              </div>
+              <div className="text-sm text-carteYellow/80 mt-1">No transaction fees on any sales</div>
             </div>
           </div>
         </div>
