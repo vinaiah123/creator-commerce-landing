@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useIntersectionObserver } from '../lib/animations';
 import { CreditCard, DollarSign, Infinity, Percent, ArrowRight, Check, Info, ArrowDown, TrendingDown, Award } from 'lucide-react';
@@ -43,7 +44,7 @@ const PricingCard = ({
   title: string;
   subtitle?: string;
   price: React.ReactNode;
-  features: string[];
+  features: React.ReactNode[];
   cta: string;
   isPopular?: boolean;
   delay: number;
@@ -300,10 +301,6 @@ const Pricing = () => {
               *Estimates based on standard platform rates. Actual fees may vary by specific plan, transaction volume, and payment method.
             </p>
           </div>
-        </div>
-
-        <div className={`mb-12 ${isVisible ? 'animate-fade-in animation-delay-700' : 'opacity-0'}`}>
-          <SubscriptionComparisonCard />
         </div>
 
         <div className={`bg-white rounded-3xl p-10 text-center kawaii-shadow border-2 border-carteYellow/30 ${isVisible ? 'animate-fade-in animation-delay-800' : 'opacity-0'}`}>
