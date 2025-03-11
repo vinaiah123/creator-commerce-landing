@@ -33,6 +33,7 @@ const formatPercent = (amount: number, total: number) => {
 
 const PricingCard = ({ 
   title, 
+  subtitle,
   price, 
   features, 
   cta, 
@@ -41,6 +42,7 @@ const PricingCard = ({
   isVisible 
 }: { 
   title: string;
+  subtitle?: string;
   price: React.ReactNode;
   features: string[];
   cta: string;
@@ -64,7 +66,8 @@ const PricingCard = ({
         </div>
       )}
       <div className="mb-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-4">{title}</h3>
+        <h3 className="text-xl font-bold text-gray-900 mb-1">{title}</h3>
+        {subtitle && <p className="text-sm text-gray-500 mb-3">{subtitle}</p>}
         <div className="text-3xl font-bold text-gray-900 mb-2">{price}</div>
       </div>
       <div className="space-y-3 mb-8">
@@ -132,7 +135,6 @@ const FeeComparisonCard = ({
   );
 };
 
-// Updated SubscriptionComparisonCard component with a more visual comparison
 const SubscriptionComparisonCard = () => {
   return (
     <div className="bg-white rounded-3xl p-8 kawaii-shadow border-2 border-carteYellow/30">
@@ -287,7 +289,8 @@ const Pricing = () => {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           <PricingCard 
-            title="Pay As You Go"
+            title="Free"
+            subtitle="Pay As You Go"
             price={
               <div className="flex items-center">
                 <span className="text-4xl">5%</span>
@@ -306,6 +309,7 @@ const Pricing = () => {
             features={[
               "No monthly fees",
               "Only pay when you sell",
+              "5% transaction costs",
               "All core features included",
               "Unlimited products",
               "Custom domain support"
@@ -460,4 +464,3 @@ const Pricing = () => {
 };
 
 export default Pricing;
-
