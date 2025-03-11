@@ -24,21 +24,38 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-carteBackground-dark via-carteYellow-50 to-carteBackground z-10"></div>
       </div>
 
-      {/* Creator cutout positioned on the right side */}
+      {/* Sticker-like cutout of people working together */}
       <div className="absolute right-0 bottom-0 z-10 h-[90%] pointer-events-none hidden md:block">
         <div className="relative h-full">
-          {/* Drop shadow for the cutout */}
+          {/* Drop shadow for the sticker effect */}
           <div className="absolute inset-0 bg-gradient-to-r from-transparent to-carteYellow-100/40 rounded-full blur-xl transform translate-x-4"></div>
           
-          {/* Creator image */}
-          <img 
-            src="https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?q=80&w=1000&auto=format&fit=crop&crop=faces&facepad=3" 
-            alt="Creative store owner" 
-            className="h-full object-contain object-right-bottom"
-            style={{
-              clipPath: "polygon(0% 15%, 100% 0%, 100% 100%, 0% 100%)",
-            }}
-          />
+          {/* Creator image group - sticker effect */}
+          <div className="h-full relative">
+            <img 
+              src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?q=80&w=1000&auto=format&fit=crop&crop=faces&facepad=3" 
+              alt="Creative store owners working together" 
+              className="h-full object-contain object-right-bottom"
+              style={{
+                clipPath: "polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 25%)",
+                filter: "drop-shadow(0px 8px 16px rgba(0,0,0,0.15))"
+              }}
+            />
+            
+            {/* Decorative sticker border */}
+            <div 
+              className="absolute inset-0 border-4 border-dashed border-white/30 animate-floatSlow" 
+              style={{
+                clipPath: "polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 25%)",
+                animationDelay: "1.2s"
+              }}
+            ></div>
+            
+            {/* Small decorative elements to enhance sticker feel */}
+            <div className="absolute top-10 right-10 bg-white/80 px-3 py-1 rounded-full font-bold text-xs text-carteYellow-600 transform rotate-12 kawaii-shadow">
+              Create Together!
+            </div>
+          </div>
         </div>
       </div>
 

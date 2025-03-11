@@ -18,11 +18,11 @@ const GetStartedCard = ({ isVisible, delay }: GetStartedCardProps) => {
           : 'opacity-0 translate-y-10'
       )}
     >
-      {/* Creator image */}
+      {/* Creator image - group of people */}
       <div className="mb-6 relative">
         <div className="absolute inset-0 bg-gradient-to-r from-accent/20 to-carteYellow/20 rounded-full blur-lg transform scale-110"></div>
         <img 
-          src="https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?q=80&w=200&auto=format" 
+          src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=200&auto=format" 
           alt="Become a Creator" 
           className="w-20 h-20 rounded-full object-cover border-2 border-white"
         />
