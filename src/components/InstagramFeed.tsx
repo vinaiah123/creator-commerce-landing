@@ -11,24 +11,24 @@ const InstagramFeed = () => {
   const [posts] = useState([
     {
       id: 1,
-      imageUrl: 'https://images.unsplash.com/photo-1682687982093-4c2b21f72d4c?q=80&w=2670&auto=format&fit=crop',
-      likes: 178,
-      caption: 'Turn your passion into a thriving business with Carte! Our platform makes it easy to set up your online store in minutes.',
-      date: '2023-11-15'
+      imageUrl: 'https://images.unsplash.com/photo-1662036625997-069dd13e70ba?q=80&w=1974&auto=format&fit=crop',
+      likes: 217,
+      caption: 'Helping small businesses thrive with our all-in-one ecommerce platform. Start selling online today with Carte! #ecommerce #smallbusiness',
+      date: '2024-05-15'
     },
     {
       id: 2,
-      imageUrl: 'https://images.unsplash.com/photo-1675351066828-6bbd440f8748?q=80&w=2574&auto=format&fit=crop',
-      likes: 156,
-      caption: 'Meet the entrepreneurs who transformed their side hustles into successful businesses with Carte. Link in bio to read their stories!',
-      date: '2023-12-01'
+      imageUrl: 'https://images.unsplash.com/photo-1661956602926-db6b25f75947?q=80&w=1942&auto=format&fit=crop',
+      likes: 189,
+      caption: 'New feature alert! 🚀 We\'ve just launched our advanced analytics dashboard to help you understand your customers better. #carteapp #digitalmarketing',
+      date: '2024-05-01'
     },
     {
       id: 3,
-      imageUrl: 'https://images.unsplash.com/photo-1666919643134-d97687c1826c?q=80&w=2487&auto=format&fit=crop',
-      likes: 203,
-      caption: 'Just launched! Our new analytics dashboard helps you understand your customers better and boost your sales. #ecommerce #smallbusiness',
-      date: '2024-01-10'
+      imageUrl: 'https://images.unsplash.com/photo-1664575599618-8f6bd76fc670?q=80&w=2070&auto=format&fit=crop',
+      likes: 246,
+      caption: 'Meet Sarah, who turned her handcrafted jewelry business into a six-figure success story with Carte! Read her full story in our latest blog post (link in bio).',
+      date: '2024-04-22'
     }
   ]);
 
@@ -64,6 +64,7 @@ const InstagramFeed = () => {
                   src={post.imageUrl} 
                   alt={`Instagram post ${post.id}`} 
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
                 />
               </div>
               <div className="p-4">
@@ -71,7 +72,7 @@ const InstagramFeed = () => {
                   <Heart className="h-4 w-4 text-cartePink-500" />
                   <span className="text-sm text-gray-600">{post.likes} likes</span>
                 </div>
-                <p className="text-sm text-gray-800 line-clamp-2 mb-3">{post.caption}</p>
+                <p className="text-sm text-gray-800 line-clamp-3 mb-3">{post.caption}</p>
               </div>
             </div>
           ))}
