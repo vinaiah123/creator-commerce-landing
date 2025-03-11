@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { useIntersectionObserver } from '@/lib/animations';
@@ -47,35 +46,7 @@ const PricingFAQ = () => {
   ];
 
   return (
-    <section id="pricingFaq" className="py-16 bg-carteBackground/50 relative" ref={elementRef as React.RefObject<HTMLDivElement>}>
-      {/* Creator images in creative positions */}
-      <div className="absolute -top-10 left-[10%] z-10 hidden md:block">
-        <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-carteYellow/20 to-carteYellow/5 rounded-full blur-lg"></div>
-          <img 
-            src="https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?q=80&w=150&auto=format" 
-            alt="Creator" 
-            className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-md"
-          />
-        </div>
-      </div>
-      
-      <div className="absolute top-1/4 right-[5%] z-10 hidden md:block">
-        <img 
-          src="https://images.unsplash.com/photo-1589911057671-755493e5f1d5?q=80&w=150&auto=format" 
-          alt="Creator" 
-          className="w-20 h-20 rounded-[30%] object-cover border-2 border-white shadow-md"
-        />
-      </div>
-      
-      <div className="absolute bottom-20 left-[15%] z-10 hidden md:block">
-        <img 
-          src="https://images.unsplash.com/photo-1580894742597-87bc8789db3d?q=80&w=150&auto=format" 
-          alt="Creator" 
-          className="w-14 h-14 rounded-full object-cover border-2 border-white shadow-md"
-        />
-      </div>
-      
+    <section id="pricingFaq" className="py-16 bg-carteBackground/50" ref={elementRef as React.RefObject<HTMLDivElement>}>
       <div className="container mx-auto px-4 max-w-6xl">
         <div className={`text-center mb-12 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient">Pricing FAQs</h2>
@@ -111,28 +82,9 @@ const PricingFAQ = () => {
           </div>
         </div>
 
-        {/* Support CTA section with creator images */}
+        {/* Support CTA section - Always visible */}
         <div className="mt-12">
-          <div className="bg-gradient-to-r from-cartePink/90 to-carteYellow/90 rounded-2xl p-6 md:p-8 shadow-lg flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
-            {/* Creative blob shapes */}
-            <div className="absolute top-0 left-0 w-full h-full opacity-10">
-              <div className="absolute top-[10%] left-[5%] w-40 h-40 rounded-full bg-white"></div>
-              <div className="absolute bottom-[20%] right-[15%] w-32 h-32 rounded-full bg-white"></div>
-            </div>
-            
-            {/* Mini creator image collage */}
-            <div className="absolute bottom-0 right-0 w-32 h-32 overflow-hidden md:flex hidden">
-              <div className="absolute bottom-6 right-6 w-10 h-10 rounded-full overflow-hidden border-2 border-white">
-                <img src="https://images.unsplash.com/photo-1535468850893-d6e543fbd7f5?q=80&w=100&auto=format" alt="Creator" className="w-full h-full object-cover" />
-              </div>
-              <div className="absolute bottom-12 right-14 w-8 h-8 rounded-full overflow-hidden border-2 border-white">
-                <img src="https://images.unsplash.com/photo-1558898479-33c0057a5d12?q=80&w=100&auto=format" alt="Creator" className="w-full h-full object-cover" />
-              </div>
-              <div className="absolute bottom-20 right-10 w-12 h-12 rounded-full overflow-hidden border-2 border-white">
-                <img src="https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?q=80&w=100&auto=format" alt="Creator" className="w-full h-full object-cover" />
-              </div>
-            </div>
-            
+          <div className="bg-gradient-to-r from-cartePink/90 to-carteYellow/90 rounded-2xl p-6 md:p-8 shadow-lg flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-start space-x-4 max-w-xl">
               <HelpCircle className="h-8 w-8 text-white flex-shrink-0 mt-1" />
               <div>

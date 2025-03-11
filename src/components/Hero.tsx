@@ -1,62 +1,22 @@
-
 import { ArrowRight, Heart, Star, Sparkles, IceCream } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { useIntersectionObserver } from '../lib/animations';
-
 const Hero = () => {
   const {
     elementRef,
     isVisible
   } = useIntersectionObserver();
-  
   const textContainerRef = useRef<HTMLDivElement>(null);
-  
   useEffect(() => {
     const textContainer = textContainerRef.current;
     if (isVisible && textContainer) {
       textContainer.classList.add('animate-hero-content');
     }
   }, [isVisible]);
-  
   return <section id="hero" className="relative min-h-[90vh] flex items-center justify-center pt-24 overflow-hidden" ref={elementRef as React.RefObject<HTMLDivElement>}>
       {/* Soft gradient background */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-carteBackground-dark via-carteYellow-50 to-carteBackground z-10"></div>
-      </div>
-
-      {/* Sticker-like cutout of people working together */}
-      <div className="absolute right-0 bottom-0 z-10 h-[90%] pointer-events-none hidden md:block">
-        <div className="relative h-full">
-          {/* Drop shadow for the sticker effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-carteYellow-100/40 rounded-full blur-xl transform translate-x-4"></div>
-          
-          {/* Creator image group - sticker effect */}
-          <div className="h-full relative">
-            <img 
-              src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?q=80&w=1000&auto=format&fit=crop&crop=faces&facepad=3" 
-              alt="Creative store owners working together" 
-              className="h-full object-contain object-right-bottom"
-              style={{
-                clipPath: "polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 25%)",
-                filter: "drop-shadow(0px 8px 16px rgba(0,0,0,0.15))"
-              }}
-            />
-            
-            {/* Decorative sticker border */}
-            <div 
-              className="absolute inset-0 border-4 border-dashed border-white/30 animate-floatSlow" 
-              style={{
-                clipPath: "polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 25%)",
-                animationDelay: "1.2s"
-              }}
-            ></div>
-            
-            {/* Small decorative elements to enhance sticker feel */}
-            <div className="absolute top-10 right-10 bg-white/80 px-3 py-1 rounded-full font-bold text-xs text-carteYellow-600 transform rotate-12 kawaii-shadow">
-              Create Together!
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Kawaii-style illustrations */}
@@ -90,7 +50,7 @@ const Hero = () => {
       </div>
 
       <div className="container mx-auto px-6 z-10 relative">
-        <div ref={textContainerRef} className="max-w-3xl mr-auto text-left md:text-center md:mx-auto opacity-0">
+        <div ref={textContainerRef} className="max-w-3xl mx-auto text-center opacity-0">
           <span className="inline-block bg-white/90 text-carteBlue-800 px-4 py-1.5 rounded-full mb-6 hero-badge kawaii-shadow font-bold text-xs text-center">TINY SHOPS</span>
           
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-carteBlue-800 mb-6 leading-tight hero-title">
@@ -115,5 +75,4 @@ const Hero = () => {
       </div>
     </section>;
 };
-
 export default Hero;
