@@ -127,7 +127,7 @@
 
 /* Enhanced mobile touch feedback */
 .mobile-touch-feedback {
-  @apply active:scale-98 active:opacity-80 transition-all duration-150;
+  @apply active:scale-95 active:opacity-80 transition-all duration-150;
 }
 
 /* Mobile-specific padding adjustments */
