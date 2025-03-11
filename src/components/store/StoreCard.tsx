@@ -12,6 +12,8 @@ interface StoreCardProps {
 }
 
 const StoreCard = ({ store, isVisible, index, activeStore, setActiveStore }: StoreCardProps) => {
+  const isActive = activeStore === store.id;
+  
   return (
     <div 
       className={cn(
@@ -38,6 +40,15 @@ const StoreCard = ({ store, isVisible, index, activeStore, setActiveStore }: Sto
           <span className="text-xs font-semibold">{store.rating}</span>
         </div>
         
+        {/* Creator floating image */}
+        <div className="absolute -bottom-6 left-6 w-16 h-16 rounded-full border-4 border-white shadow-lg overflow-hidden z-10 transform transition-transform duration-300 group-hover:scale-110">
+          <img 
+            src={store.creator.avatar}
+            alt={store.creator.name}
+            className="w-full h-full object-cover"
+          />
+        </div>
+        
         <div className={`absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300`}>
           <a 
             href={store.url}
@@ -48,17 +59,17 @@ const StoreCard = ({ store, isVisible, index, activeStore, setActiveStore }: Sto
         </div>
       </div>
       
-      <div className="p-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-accent transition-colors">{store.name}</h3>
+      <div className="p-6 pt-8">
+        <div className="flex justify-between items-center mb-3">
+          <h3 className="text-xl font-bold text-gray-900 group-hover:text-accent transition-colors">{store.name}</h3>
+          
+          {/* Creator badge */}
+          <div className="bg-accent/10 text-accent text-xs rounded-full px-2 py-0.5">
+            Creator
+          </div>
+        </div>
         
         <div className="mb-4 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border-2 border-accent/20">
-            <img 
-              src={store.creator.avatar}
-              alt={store.creator.name}
-              className="w-full h-full object-cover"
-            />
-          </div>
           <div>
             <p className="text-sm font-medium text-gray-800">{store.creator.name}</p>
             <p className="text-xs text-gray-500">{store.creator.title}</p>
@@ -72,6 +83,22 @@ const StoreCard = ({ store, isVisible, index, activeStore, setActiveStore }: Sto
               : store.creator.quote}"
           </p>
         </div>
+        
+        {/* Additional images preview */}
+        {store.additionalImages && store.additionalImages.length > 0 && (
+          <div className="mt-4 flex gap-2 overflow-hidden">
+            {store.additionalImages.slice(0, 2).map((img, i) => (
+              <div key={i} className="w-16 h-16 rounded-md overflow-hidden">
+                <img src={img} alt={`${store.name} additional ${i+1}`} className="w-full h-full object-cover" />
+              </div>
+            ))}
+            {store.additionalImages.length > 2 && (
+              <div className="w-16 h-16 rounded-md bg-gray-100 flex items-center justify-center">
+                <span className="text-xs font-medium text-gray-500">+{store.additionalImages.length - 2}</span>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

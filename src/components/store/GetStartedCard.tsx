@@ -18,14 +18,51 @@ const GetStartedCard = ({ isVisible, delay }: GetStartedCardProps) => {
           : 'opacity-0 translate-y-10'
       )}
     >
-      <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-        <PlusCircle className="w-8 h-8 text-accent" />
+      {/* Creator image */}
+      <div className="mb-6 relative">
+        <div className="absolute inset-0 bg-gradient-to-r from-accent/20 to-carteYellow/20 rounded-full blur-lg transform scale-110"></div>
+        <img 
+          src="https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?q=80&w=200&auto=format" 
+          alt="Become a Creator" 
+          className="w-20 h-20 rounded-full object-cover border-2 border-white"
+        />
       </div>
+      
       <h3 className="text-xl font-bold text-gray-900 mb-2 text-center">Start Your Store</h3>
       <p className="text-gray-600 text-center mb-6">Join thousands of successful creators</p>
-      <Button className="bg-accent hover:bg-accent/90 text-white rounded-full px-6">
+      <Button className="bg-accent hover:bg-accent/90 text-white rounded-full px-6 flex items-center gap-2">
+        <PlusCircle className="w-4 h-4" />
         Get Started
       </Button>
+      
+      {/* Mini creator faces */}
+      <div className="mt-8 flex justify-center">
+        <div className="flex -space-x-2">
+          <img 
+            src="https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?q=80&w=100&auto=format" 
+            alt="Creator" 
+            className="w-6 h-6 rounded-full border border-white"
+          />
+          <img 
+            src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100&auto=format" 
+            alt="Creator" 
+            className="w-6 h-6 rounded-full border border-white"
+          />
+          <img 
+            src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=100&auto=format" 
+            alt="Creator" 
+            className="w-6 h-6 rounded-full border border-white"
+          />
+          <img 
+            src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=100&auto=format" 
+            alt="Creator" 
+            className="w-6 h-6 rounded-full border border-white"
+          />
+          <div className="w-6 h-6 rounded-full bg-accent/10 flex items-center justify-center border border-white">
+            <span className="text-[10px] font-medium text-accent">+28</span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
