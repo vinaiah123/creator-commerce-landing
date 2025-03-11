@@ -1,6 +1,6 @@
 
 import { useState, useRef, useEffect } from "react";
-import { ChevronLeft, ChevronRight, ExternalLink, Star } from "lucide-react";
+import { ChevronLeft, ChevronRight, ExternalLink, Star, Sparkles, PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useIntersectionObserver } from "@/lib/animations";
 import { cn } from "@/lib/utils";
@@ -19,6 +19,7 @@ interface Store {
     avatar: string;
   };
   rating: number;
+  featured?: boolean;
 }
 
 const StoreShowcase = () => {
@@ -26,6 +27,7 @@ const StoreShowcase = () => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const { elementRef, isVisible } = useIntersectionObserver();
+  const [activeStore, setActiveStore] = useState<string | null>(null);
 
   // Sample store data - replace with your actual data
   const stores: Store[] = [
@@ -41,7 +43,8 @@ const StoreShowcase = () => {
         quote: "Carte makes it so easy to showcase my handcrafted pieces beautifully. Sales increased 45% in the first month!",
         avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=200&auto=format"
       },
-      rating: 4.9
+      rating: 4.9,
+      featured: true
     },
     {
       id: "2",
@@ -142,11 +145,16 @@ const StoreShowcase = () => {
   return (
     <section 
       id="stores" 
-      className="py-24 bg-white"
+      className="py-24 relative overflow-hidden"
       ref={elementRef as React.RefObject<HTMLDivElement>}
     >
+      {/* Background decoration */}
+      <div className="absolute inset-0 bg-gradient-to-br from-muted/30 to-white -z-10" />
+      <div className="absolute top-20 right-20 w-64 h-64 rounded-full bg-cartePink/10 blur-3xl -z-10" />
+      <div className="absolute bottom-20 left-20 w-72 h-72 rounded-full bg-carteYellow/10 blur-3xl -z-10" />
+      
       <div className="container px-4 mx-auto">
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <span 
             className={`inline-block bg-cartePink/10 text-cartePink px-4 py-1.5 rounded-full text-sm font-medium mb-4 ${
               isVisible ? 'animate-fade-in' : 'opacity-0'
@@ -155,7 +163,7 @@ const StoreShowcase = () => {
             SUCCESS STORIES
           </span>
           <h2 
-            className={`text-3xl md:text-4xl font-bold text-gray-900 mb-6 ${
+            className={`text-3xl md:text-5xl font-bold text-gray-900 mb-6 ${
               isVisible ? 'animate-fade-in animation-delay-100' : 'opacity-0'
             }`}
           >
@@ -170,15 +178,77 @@ const StoreShowcase = () => {
           </p>
         </div>
 
+        {/* Featured store - larger highlight */}
+        <div 
+          className={`mb-16 rounded-2xl overflow-hidden bg-white shadow-xl ${
+            isVisible ? 'animate-fade-in animation-delay-300' : 'opacity-0'
+          }`}
+        >
+          {stores.filter(store => store.featured).map(store => (
+            <div key={store.id} className="grid md:grid-cols-2 gap-0">
+              <div className="relative h-96">
+                <div className="absolute inset-0 bg-gradient-to-tr from-cartePink/20 via-transparent to-carteYellow/20" />
+                <img 
+                  src={store.image} 
+                  alt={store.name} 
+                  className="w-full h-full object-cover" 
+                />
+                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-gray-800 flex items-center gap-1">
+                  <Sparkles className="w-3.5 h-3.5 text-carteYellow" />
+                  <span>FEATURED STORE</span>
+                </div>
+              </div>
+              <div className="p-8 md:p-12 flex flex-col justify-center">
+                <div className="inline-flex items-center gap-1.5 bg-accent/10 text-accent px-3 py-1 rounded-full text-sm font-medium mb-4">
+                  {store.category}
+                </div>
+                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">{store.name}</h3>
+                
+                <div className="mb-6 flex items-center gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className={`h-5 w-5 ${i < Math.floor(store.rating) ? 'fill-carteYellow stroke-carteYellow' : 'stroke-gray-300'}`} />
+                  ))}
+                  <span className="ml-2 text-sm font-medium text-gray-600">{store.rating}/5</span>
+                </div>
+                
+                <div className="mb-8">
+                  <div className="flex items-start gap-4 mb-4">
+                    <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 border-2 border-accent/20">
+                      <img 
+                        src={store.creator.avatar}
+                        alt={store.creator.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div>
+                      <p className="text-lg font-semibold text-gray-800">{store.creator.name}</p>
+                      <p className="text-sm text-gray-600">{store.creator.title}</p>
+                    </div>
+                  </div>
+                  <p className="text-gray-700 text-lg italic leading-relaxed">"{store.creator.quote}"</p>
+                </div>
+                
+                <a 
+                  href={store.url}
+                  className="inline-flex items-center justify-center gap-2 bg-accent text-white px-6 py-3 rounded-full font-medium hover:bg-accent/90 transition-colors self-start"
+                >
+                  Visit Store 
+                  <ExternalLink className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+
         <div className="relative">
           {/* Scroll controls */}
-          <div className="flex justify-end gap-2 mb-6">
+          <div className="flex justify-end gap-3 mb-8">
             <Button 
               variant="outline" 
               size="icon" 
               onClick={scrollLeft} 
               disabled={!canScrollLeft}
-              className="rounded-full border-gray-200 hover:bg-gray-100 transition-all h-10 w-10"
+              className="rounded-full border-gray-200 hover:bg-gray-100 transition-all h-12 w-12"
             >
               <ChevronLeft className="h-5 w-5 text-gray-700" />
               <span className="sr-only">Scroll left</span>
@@ -188,7 +258,7 @@ const StoreShowcase = () => {
               size="icon" 
               onClick={scrollRight} 
               disabled={!canScrollRight}
-              className="rounded-full border-gray-200 hover:bg-gray-100 transition-all h-10 w-10"
+              className="rounded-full border-gray-200 hover:bg-gray-100 transition-all h-12 w-12"
             >
               <ChevronRight className="h-5 w-5 text-gray-700" />
               <span className="sr-only">Scroll right</span>
@@ -201,22 +271,25 @@ const StoreShowcase = () => {
             ref={scrollContainerRef}
           >
             <div className="flex gap-6 min-w-max">
-              {stores.map((store, index) => (
+              {stores.filter(store => !store.featured).map((store, index) => (
                 <div 
                   key={store.id}
-                  className={`w-[340px] bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden hover-lift ${
+                  className={`w-[320px] bg-white rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] overflow-hidden group hover:shadow-[0_15px_50px_rgba(0,0,0,0.15)] transition-all duration-500 ${
                     isVisible 
-                      ? `opacity-100 translate-y-0 transition-all duration-700 ease-out delay-${index * 100}` 
+                      ? `opacity-100 translate-y-0 transition-all duration-700 ease-out delay-${300 + index * 150}` 
                       : 'opacity-0 translate-y-10'
                   }`}
+                  onMouseEnter={() => setActiveStore(store.id)}
+                  onMouseLeave={() => setActiveStore(null)}
                 >
                   {/* Store Image */}
                   <div className="relative h-48 w-full overflow-hidden">
                     <img 
                       src={store.image} 
                       alt={store.name} 
-                      className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-gray-800">
                       {store.category}
                     </div>
@@ -224,40 +297,64 @@ const StoreShowcase = () => {
                       <Star className="h-3.5 w-3.5 fill-carteYellow stroke-carteYellow" />
                       <span className="text-xs font-semibold">{store.rating}</span>
                     </div>
+                    
+                    {/* Hover overlay */}
+                    <div className={`absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300`}>
+                      <a 
+                        href={store.url}
+                        className="bg-white text-gray-900 font-medium px-5 py-2.5 rounded-full flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
+                      >
+                        Visit Store <ExternalLink className="w-4 h-4" />
+                      </a>
+                    </div>
                   </div>
                   
                   {/* Store Info */}
                   <div className="p-6">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">{store.name}</h3>
+                    <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-accent transition-colors">{store.name}</h3>
                     
-                    {/* Creator testimonial */}
-                    <div className="mb-5">
-                      <div className="flex items-start gap-3 mb-3">
-                        <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 mt-1">
-                          <img 
-                            src={store.creator.avatar}
-                            alt={store.creator.name}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div>
-                          <p className="text-sm font-medium text-gray-800">{store.creator.name}</p>
-                          <p className="text-xs text-gray-500">{store.creator.title}</p>
-                        </div>
+                    <div className="mb-4 flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border-2 border-accent/20">
+                        <img 
+                          src={store.creator.avatar}
+                          alt={store.creator.name}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
-                      <p className="text-gray-600 text-sm italic leading-relaxed">"{store.creator.quote}"</p>
+                      <div>
+                        <p className="text-sm font-medium text-gray-800">{store.creator.name}</p>
+                        <p className="text-xs text-gray-500">{store.creator.title}</p>
+                      </div>
                     </div>
                     
-                    <a 
-                      href={store.url}
-                      className="flex items-center justify-center gap-1.5 w-full text-center text-sm font-medium text-carteBlue hover:text-carteBlue-400 transition-colors"
-                    >
-                      Visit Store 
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </a>
+                    <div className="relative overflow-hidden">
+                      <p className="text-gray-600 text-sm italic leading-relaxed">
+                        "{store.creator.quote.length > 100 
+                          ? `${store.creator.quote.substring(0, 100)}...` 
+                          : store.creator.quote}"
+                      </p>
+                    </div>
                   </div>
                 </div>
               ))}
+              
+              {/* Add your store card */}
+              <div 
+                className={`w-[320px] bg-gradient-to-br from-muted/30 to-white rounded-xl border-2 border-dashed border-accent/30 overflow-hidden flex flex-col items-center justify-center p-8 group hover:border-accent/60 transition-all duration-300 ${
+                  isVisible 
+                    ? `opacity-100 translate-y-0 transition-all duration-700 ease-out delay-${300 + stores.length * 150}` 
+                    : 'opacity-0 translate-y-10'
+                }`}
+              >
+                <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <PlusCircle className="w-8 h-8 text-accent" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2 text-center">Start Your Store</h3>
+                <p className="text-gray-600 text-center mb-6">Join thousands of successful creators</p>
+                <Button className="bg-accent hover:bg-accent/90 text-white rounded-full px-6">
+                  Get Started
+                </Button>
+              </div>
             </div>
           </div>
         </div>
