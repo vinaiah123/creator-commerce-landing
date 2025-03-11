@@ -162,6 +162,19 @@ export default {
 				'bounce-small': {
 					'0%, 100%': { transform: 'translateY(0)' },
 					'50%': { transform: 'translateY(-5px)' },
+				},
+				'hero-element-appear': {
+					'0%': { opacity: '0', transform: 'translateY(20px)' },
+					'100%': { opacity: '1', transform: 'translateY(0)' },
+				},
+				'hero-shapes-appear': {
+					'0%': { opacity: '0' },
+					'100%': { opacity: '1' },
+				},
+				'hero-button-pop': {
+					'0%': { transform: 'scale(0.95)' },
+					'50%': { transform: 'scale(1.05)' },
+					'100%': { transform: 'scale(1)' },
 				}
 			},
 			animation: {
@@ -172,7 +185,10 @@ export default {
 				'fade-in-left': 'fade-in-left 0.7s ease-out',
 				'spin-slow': 'spin-slow 3s linear infinite',
 				'float': 'float 3s ease-in-out infinite',
-				'bounce-small': 'bounce-small 2s ease-in-out infinite'
+				'bounce-small': 'bounce-small 2s ease-in-out infinite',
+				'hero-element-appear': 'hero-element-appear 0.7s ease-out forwards',
+				'hero-shapes-appear': 'hero-shapes-appear 1s ease-out forwards',
+				'hero-button-pop': 'hero-button-pop 0.5s ease-out forwards'
 			}
 		}
 	},
