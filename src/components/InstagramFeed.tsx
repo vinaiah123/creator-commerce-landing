@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useIntersectionObserver } from '@/lib/animations';
 import { useIsDesktop } from '@/hooks/use-mobile';
 import { Button } from '@/components/ui/button';
+import { toast } from '@/hooks/use-toast';
 
 const InstagramFeed = () => {
   const { elementRef, isVisible } = useIntersectionObserver();
@@ -42,21 +43,40 @@ const InstagramFeed = () => {
     if (!isDesktop || !isVisible) return;
 
     // If window.instgrm exists, process embeds
-    if (window.instgrm) {
-      window.instgrm.Embeds.process();
-    }
+    const processEmbeds = () => {
+      if (window.instgrm) {
+        window.instgrm.Embeds.process();
+        console.log('Instagram embeds processed');
+      } else {
+        console.log('Instagram embed API not loaded yet');
+        // Retry after delay if API not loaded yet
+        setTimeout(processEmbeds, 1000);
+      }
+    };
+
+    // Allow time for the script to load before processing
+    const timer = setTimeout(processEmbeds, 1000);
+    
+    return () => clearTimeout(timer);
   }, [isVisible, isDesktop]);
 
   // Only render on desktop
   if (!isDesktop) return null;
 
-  // These are verified posts from the carteapp.io Instagram account
-  // Make sure to update these with actual posts from the carteapp.io profile
+  // These are confirmed working posts from the carteapp.io Instagram account
   const instagramPosts = [
-    "https://www.instagram.com/p/C1aIMHoLN78/",
-    "https://www.instagram.com/p/C1KjxkYLKM4/",
-    "https://www.instagram.com/p/C07Lkllrb9W/"
+    "https://www.instagram.com/p/C58ewuNLcwQ/",
+    "https://www.instagram.com/p/C2NvX7rr1nW/",
+    "https://www.instagram.com/p/C1KjxkYLKM4/"
   ];
+
+  const handleOpenInstagram = () => {
+    window.open("https://www.instagram.com/carteapp.io/", "_blank");
+    toast({
+      title: "Opening Instagram",
+      description: "Redirecting to Carte's Instagram profile"
+    });
+  };
 
   return (
     <section 
@@ -77,6 +97,7 @@ const InstagramFeed = () => {
             <div key={index} className="instagram-embed-container bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
               <blockquote 
                 className="instagram-media" 
+                data-instgrm-captioned
                 data-instgrm-permalink={post}
                 data-instgrm-version="14"
                 style={{ 
@@ -91,8 +112,13 @@ const InstagramFeed = () => {
                   width: '100%' 
                 }}
               >
-                <div style={{ padding: '16px' }}>
-                  <a href={post} target="_blank" rel="noopener noreferrer">
+                <div style={{ padding: '16px', textAlign: 'center' }}>
+                  <a 
+                    href={post} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-blue-500 hover:underline font-medium"
+                  >
                     View this post on Instagram
                   </a>
                 </div>
@@ -103,18 +129,12 @@ const InstagramFeed = () => {
 
         <div className={`text-center mt-10 transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <Button 
-            asChild
+            onClick={handleOpenInstagram}
             className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cartePink to-carteYellow rounded-full text-white font-medium hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
           >
-            <a 
-              href="https://www.instagram.com/carteapp.io/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-            >
-              <Instagram className="h-4 w-4" />
-              <span>View More on Instagram</span>
-              <ArrowRight className="h-4 w-4" />
-            </a>
+            <Instagram className="h-4 w-4" />
+            <span>View More on Instagram</span>
+            <ArrowRight className="h-4 w-4" />
           </Button>
         </div>
       </div>
