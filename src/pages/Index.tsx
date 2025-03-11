@@ -7,6 +7,7 @@ import Features from '@/components/Features';
 import Pricing from '@/components/Pricing';
 import Testimonials from '@/components/Testimonials';
 import StoreShowcase from '@/components/StoreShowcase';
+import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
 
 const Index = () => {
@@ -57,6 +58,7 @@ const Index = () => {
       <StoreShowcase />
       <Pricing />
       <Testimonials />
+      <FAQ />
       <Footer />
     </div>
   );
