@@ -1,4 +1,3 @@
-
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useIntersectionObserver } from '../lib/animations';
@@ -9,7 +8,7 @@ import { Slider } from '@/components/ui/slider';
 import { useNavigate } from 'react-router-dom';
 import SubscriptionComparisonCard from '@/components/SubscriptionComparisonCard';
 import Testimonials from '@/components/Testimonials';
-import FAQ from '@/components/FAQ';
+import PricingFAQ from '@/components/PricingFAQ';
 import PricingCard from '@/components/PricingCard';
 import FeeComparisonCard from '@/components/FeeComparisonCard';
 import { calculateFees, formatCurrency } from '@/utils/pricing';
@@ -167,7 +166,7 @@ const PricingPage = () => {
           </div>
           
           <div className={`${isVisible ? 'animate-fade-in animation-delay-800' : 'opacity-0'} mb-20`}>
-            <FAQ />
+            <PricingFAQ />
           </div>
           
           <div className={`${isVisible ? 'animate-fade-in animation-delay-900' : 'opacity-0'} bg-white rounded-3xl p-10 text-center kawaii-shadow border-2 border-carteYellow/30`}>
