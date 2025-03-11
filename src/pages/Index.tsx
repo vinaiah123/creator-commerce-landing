@@ -9,56 +9,68 @@ import Testimonials from '@/components/Testimonials';
 import StoreShowcase from '@/components/StoreShowcase';
 import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const Index = () => {
   const location = useLocation();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
+    // Smooth scroll for anchor links with mobile header offset adjustment
+    const handleAnchorClick = (e: MouseEvent) => {
+      const target = e.target as HTMLAnchorElement;
+      if (target.hash) {
         e.preventDefault();
-        const href = this.getAttribute('href');
-        if (!href) return;
-        
-        const targetElement = document.querySelector(href);
-        if (!targetElement) return;
-        
-        window.scrollTo({
-          top: targetElement.getBoundingClientRect().top + window.scrollY - 100,
-          behavior: 'smooth'
-        });
-      });
+        const element = document.querySelector(target.hash);
+        if (element) {
+          const offset = isMobile ? 80 : 100; // Adjust offset based on device
+          const top = element.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      }
+    };
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', handleAnchorClick);
     });
 
+    return () => {
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.removeEventListener('click', handleAnchorClick);
+      });
+    };
+  }, [isMobile]);
+
+  useEffect(() => {
     // Handle hash in URL when arriving from other pages
     const handleHashURL = () => {
       const hash = location.hash;
       if (hash) {
-        const targetElement = document.querySelector(hash);
-        if (targetElement) {
+        const element = document.querySelector(hash);
+        if (element) {
           setTimeout(() => {
-            window.scrollTo({
-              top: targetElement.getBoundingClientRect().top + window.scrollY - 100,
-              behavior: 'smooth'
-            });
+            const offset = isMobile ? 80 : 100;
+            const top = element.getBoundingClientRect().top + window.scrollY - offset;
+            window.scrollTo({ top, behavior: 'smooth' });
           }, 100);
         }
       }
     };
 
     handleHashURL();
-  }, [location]);
+  }, [location, isMobile]);
 
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <Hero />
-      <Features />
-      <StoreShowcase />
-      <Pricing />
-      <Testimonials />
-      <FAQ />
+      <main className="flex-1">
+        <Hero />
+        <Features />
+        <StoreShowcase />
+        <Pricing />
+        <Testimonials />
+        <FAQ />
+      </main>
       <Footer />
     </div>
   );

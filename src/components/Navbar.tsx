@@ -2,74 +2,77 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
+
+const NavLink = ({ to, children, className }: { to: string; children: React.ReactNode; className?: string }) => {
+  const location = useLocation();
+  const isActive = location.pathname === to;
+  
+  return (
+    <Link
+      to={to}
+      className={cn(
+        "font-outfit transition-colors duration-300 text-base",
+        isActive ? "text-carteYellow" : "text-gray-800 hover:text-carteYellow",
+        className
+      )}
+    >
+      {children}
+    </Link>
+  );
+};
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const handleScroll = () => {
-      const offset = window.scrollY;
-      if (offset > 10) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
+      setScrolled(window.scrollY > 10);
     };
 
     window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
+  useEffect(() => {
+    // Close mobile menu when route changes
+    setMenuOpen(false);
+  }, [location]);
 
-  const isHomePage = location.pathname === '/';
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobile) {
+      document.body.style.overflow = menuOpen ? 'hidden' : 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [menuOpen, isMobile]);
 
   return (
     <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
-        scrolled ? 'bg-white/90 backdrop-blur-md shadow-sm py-4' : 'bg-transparent py-6'
-      }`}
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        scrolled ? "bg-white/90 backdrop-blur-md shadow-sm py-4" : "bg-transparent py-6"
+      )}
     >
-      <div className="container mx-auto px-6 flex items-center justify-between">
+      <div className="container mx-auto px-4 flex items-center justify-between">
         <Link 
           to="/" 
-          className="font-inter font-bold text-2xl text-carteYellow transition-all duration-300"
+          className="font-inter font-bold text-xl md:text-2xl text-carteYellow transition-all duration-300"
         >
           Carte
         </Link>
         
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
-          <Link
-            to="/"
-            className={`font-outfit transition-colors duration-300 text-base ${
-              location.pathname === '/' ? 'text-carteYellow' : 'text-gray-800 hover:text-carteYellow'
-            }`}
-          >
-            Home
-          </Link>
-          <Link
-            to="/features"
-            className={`font-outfit transition-colors duration-300 text-base ${
-              location.pathname === '/features' ? 'text-carteYellow' : 'text-gray-800 hover:text-carteYellow'
-            }`}
-          >
-            Features
-          </Link>
-          <Link
-            to="/pricing"
-            className={`font-outfit transition-colors duration-300 text-base ${
-              location.pathname === '/pricing' ? 'text-carteYellow' : 'text-gray-800 hover:text-carteYellow'
-            }`}
-          >
-            Pricing
-          </Link>
+          <NavLink to="/">Home</NavLink>
+          <NavLink to="/features">Features</NavLink>
+          <NavLink to="/pricing">Pricing</NavLink>
           <Link 
             to="/#start"
             className="px-6 py-2.5 bg-carteYellow text-gray-900 rounded-md hover:bg-carteYellow-600 transition-colors duration-300 font-outfit font-medium text-sm"
@@ -80,8 +83,8 @@ const Navbar = () => {
         
         {/* Mobile Menu Button */}
         <button 
-          className="md:hidden text-carteYellow focus:outline-none" 
-          onClick={toggleMenu}
+          className="md:hidden text-carteYellow focus:outline-none"
+          onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
           {menuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -90,42 +93,33 @@ const Navbar = () => {
       
       {/* Mobile Menu */}
       <div 
-        className={`md:hidden absolute top-full left-0 right-0 bg-white shadow-md transition-all duration-300 ease-in-out overflow-hidden ${
-          menuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
-        }`}
+        className={cn(
+          "fixed inset-0 bg-white z-40 transition-transform duration-300 md:hidden",
+          menuOpen ? "translate-x-0" : "translate-x-full"
+        )}
       >
-        <div className="container mx-auto px-6 py-4 flex flex-col space-y-4">
-          <Link
+        <div className="container mx-auto px-4 py-20 flex flex-col space-y-6">
+          <NavLink
             to="/"
-            className={`font-outfit transition-colors duration-300 py-2 text-lg ${
-              location.pathname === '/' ? 'text-carteYellow' : 'text-gray-800 hover:text-carteYellow'
-            }`}
-            onClick={() => setMenuOpen(false)}
+            className="text-2xl py-2"
           >
             Home
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/features"
-            className={`font-outfit transition-colors duration-300 py-2 text-lg ${
-              location.pathname === '/features' ? 'text-carteYellow' : 'text-gray-800 hover:text-carteYellow'
-            }`}
-            onClick={() => setMenuOpen(false)}
+            className="text-2xl py-2"
           >
             Features
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/pricing"
-            className={`font-outfit transition-colors duration-300 py-2 text-lg ${
-              location.pathname === '/pricing' ? 'text-carteYellow' : 'text-gray-800 hover:text-carteYellow'
-            }`}
-            onClick={() => setMenuOpen(false)}
+            className="text-2xl py-2"
           >
             Pricing
-          </Link>
+          </NavLink>
           <Link 
             to="/#start"
-            className="px-6 py-3 bg-carteYellow text-gray-900 rounded-md hover:bg-carteYellow-600 transition-colors duration-300 font-outfit font-medium text-base text-center"
-            onClick={() => setMenuOpen(false)}
+            className="w-full px-6 py-3 bg-carteYellow text-gray-900 rounded-md hover:bg-carteYellow-600 transition-colors duration-300 font-outfit font-medium text-xl text-center mt-4"
           >
             Start Selling
           </Link>
