@@ -30,7 +30,6 @@ const formatCurrency = (amount: number) => {
 const formatPercent = (amount: number, total: number) => {
   return `${(amount / total * 100).toFixed(1)}%`;
 };
-
 const PricingCard = ({
   title,
   subtitle,
@@ -71,7 +70,6 @@ const PricingCard = ({
       </Button>
     </div>;
 };
-
 const FeeComparisonCard = ({
   platform,
   fee,
@@ -112,7 +110,6 @@ const FeeComparisonCard = ({
         </div>}
     </div>;
 };
-
 const SubscriptionComparisonCard = () => {
   return <div className="rounded-3xl p-8 kawaii-shadow border-2 border-carteYellow/30 bg-zinc-900">
       <h3 className="text-2xl font-bold mb-6 text-center text-slate-50">Switch to Zero Fees with Our Subscription</h3>
@@ -208,7 +205,6 @@ const SubscriptionComparisonCard = () => {
       </div>
     </div>;
 };
-
 const Pricing = () => {
   const {
     elementRef,
@@ -281,8 +277,8 @@ const Pricing = () => {
                 <Slider defaultValue={[1000]} min={100} max={5000} step={100} onValueChange={handleSalesChange} className="my-4" />
                 <div className="flex justify-between text-sm text-gray-500">
                   <span>$100</span>
-                  <span>$1,000</span>
-                  <span>$2,500</span>
+                  
+                  
                   <span>$5,000</span>
                 </div>
               </div>
@@ -314,5 +310,4 @@ const Pricing = () => {
       </div>
     </section>;
 };
-
 export default Pricing;
