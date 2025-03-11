@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from "react";
 import { useIntersectionObserver } from "@/lib/animations";
 import { stores } from "@/data/stores";
@@ -16,19 +17,19 @@ const StoreShowcase = () => {
   const isMobile = useIsMobile();
 
   const scrollLeft = () => {
-    if (scrollContainerRef.current && !isMobile) {
+    if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollBy({ left: -320, behavior: 'smooth' });
     }
   };
 
   const scrollRight = () => {
-    if (scrollContainerRef.current && !isMobile) {
+    if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollBy({ left: 320, behavior: 'smooth' });
     }
   };
 
   const checkScrollButtons = () => {
-    if (scrollContainerRef.current && !isMobile) {
+    if (scrollContainerRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
       setCanScrollLeft(scrollLeft > 0);
       setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 10);
@@ -40,7 +41,7 @@ const StoreShowcase = () => {
 
   useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
-    if (scrollContainer && !isMobile) {
+    if (scrollContainer) {
       scrollContainer.addEventListener('scroll', checkScrollButtons);
       checkScrollButtons();
     }
@@ -53,7 +54,7 @@ const StoreShowcase = () => {
       }
       window.removeEventListener('resize', checkScrollButtons);
     };
-  }, [isMobile]);
+  }, []);
 
   const featuredStore = stores.find(store => store.featured);
   const regularStores = stores.filter(store => !store.featured);
@@ -102,17 +103,18 @@ const StoreShowcase = () => {
         </div>
 
         <div className="relative">
-          {!isMobile && (
-            <StoreScrollNavigation 
-              scrollLeft={scrollLeft}
-              scrollRight={scrollRight}
-              canScrollLeft={canScrollLeft}
-              canScrollRight={canScrollRight}
-            />
-          )}
-
-          {isMobile ? (
-            <div className="grid grid-cols-1 gap-6">
+          <StoreScrollNavigation 
+            scrollLeft={scrollLeft}
+            scrollRight={scrollRight}
+            canScrollLeft={canScrollLeft}
+            canScrollRight={canScrollRight}
+          />
+          
+          <div 
+            className="overflow-x-auto hide-scrollbar pb-8"
+            ref={scrollContainerRef}
+          >
+            <div className="flex gap-6 min-w-max">
               {regularStores.map((store, index) => (
                 <StoreCard 
                   key={store.id}
@@ -129,30 +131,7 @@ const StoreShowcase = () => {
                 delay={300 + regularStores.length * 150}
               />
             </div>
-          ) : (
-            <div 
-              className="overflow-x-auto hide-scrollbar pb-8"
-              ref={scrollContainerRef}
-            >
-              <div className="flex gap-6 min-w-max">
-                {regularStores.map((store, index) => (
-                  <StoreCard 
-                    key={store.id}
-                    store={store}
-                    isVisible={isVisible}
-                    index={index}
-                    activeStore={activeStore}
-                    setActiveStore={setActiveStore}
-                  />
-                ))}
-                
-                <GetStartedCard 
-                  isVisible={isVisible}
-                  delay={300 + regularStores.length * 150}
-                />
-              </div>
-            </div>
-          )}
+          </div>
         </div>
       </div>
     </section>

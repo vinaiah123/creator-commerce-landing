@@ -45,13 +45,16 @@ const Navbar = () => {
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
-    if (isMobile) {
-      document.body.style.overflow = menuOpen ? 'hidden' : 'unset';
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
     }
+    
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
     };
-  }, [menuOpen, isMobile]);
+  }, [menuOpen]);
 
   return (
     <header 
@@ -63,7 +66,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4 flex items-center justify-between">
         <Link 
           to="/" 
-          className="font-inter font-bold text-xl md:text-2xl text-carteYellow transition-all duration-300"
+          className="font-inter font-bold text-xl md:text-2xl text-carteYellow transition-all duration-300 z-50"
         >
           Carte
         </Link>
@@ -83,7 +86,7 @@ const Navbar = () => {
         
         {/* Mobile Menu Button */}
         <button 
-          className="md:hidden text-carteYellow focus:outline-none"
+          className="md:hidden text-carteYellow focus:outline-none z-50"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
@@ -94,11 +97,11 @@ const Navbar = () => {
       {/* Mobile Menu */}
       <div 
         className={cn(
-          "fixed inset-0 bg-white z-40 transition-transform duration-300 md:hidden",
+          "fixed inset-0 bg-white z-40 transition-transform duration-300 md:hidden overflow-auto",
           menuOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
-        <div className="container mx-auto px-4 py-20 flex flex-col space-y-6">
+        <div className="container mx-auto px-4 pt-24 pb-10 flex flex-col space-y-6">
           <NavLink
             to="/"
             className="text-2xl py-2"
