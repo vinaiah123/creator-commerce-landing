@@ -16,16 +16,16 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 180 100% 21.4%;
+    --primary: 241 49% 36%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 33 70% 89.6%;
+    --secondary: 217 91% 60%;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 33 70% 89.6%;
+    --accent: 217 91% 60%;
     --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
@@ -33,7 +33,7 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 180 100% 21.4%;
+    --ring: 241 49% 36%;
 
     --radius: 0.5rem;
 
@@ -94,14 +94,14 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-teal-300/50 rounded-full transition-colors;
+  @apply bg-blue-500/50 rounded-full transition-colors;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-teal/80;
+  @apply bg-primary/80;
 }
 
 /* Focus styles */
 :focus-visible {
-  @apply outline-none ring-2 ring-teal ring-offset-2 ring-offset-white;
+  @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-white;
 }

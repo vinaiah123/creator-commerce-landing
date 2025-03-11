@@ -13,7 +13,7 @@ const Hero = () => {
     >
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-r from-teal-800/80 to-teal-900/80 z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-800/80 to-blue-800/80 z-10"></div>
         <div 
           className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1558244661-d248897f7bc4?q=80&w=2000')] bg-cover bg-center z-0"
           style={{ 
@@ -26,7 +26,7 @@ const Hero = () => {
       <div className="container mx-auto px-6 z-10 relative">
         <div className="max-w-3xl mx-auto text-center">
           <span 
-            className={`inline-block bg-brown-400/90 text-teal-900 px-4 py-1.5 rounded-full text-sm font-medium mb-6 ${
+            className={`inline-block bg-white/90 text-purple-800 px-4 py-1.5 rounded-full text-sm font-medium mb-6 ${
               isVisible ? 'animate-fade-in' : 'opacity-0'
             }`}
           >
@@ -56,7 +56,7 @@ const Hero = () => {
             <a 
               href="#start" 
               id="start"
-              className="px-8 py-4 bg-teal-600 hover:bg-teal-500 text-white rounded-md transition-all duration-300 font-medium text-lg flex items-center justify-center gap-2 hover:gap-3 w-full sm:w-auto"
+              className="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-md transition-all duration-300 font-medium text-lg flex items-center justify-center gap-2 hover:gap-3 w-full sm:w-auto"
             >
               <span>Start Selling Now</span>
               <ArrowRight size={18} />
