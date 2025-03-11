@@ -30,6 +30,8 @@ const formatCurrency = (amount: number) => {
 const formatPercent = (amount: number, total: number) => {
   return `${(amount / total * 100).toFixed(1)}%`;
 };
+
+// Updated the type to allow React.ReactNode for features
 const PricingCard = ({
   title,
   subtitle,
@@ -43,7 +45,7 @@ const PricingCard = ({
   title: string;
   subtitle?: string;
   price: React.ReactNode;
-  features: string[];
+  features: React.ReactNode[]; // Changed from string[] to ReactNode[]
   cta: string;
   isPopular?: boolean;
   delay: number;
@@ -70,6 +72,7 @@ const PricingCard = ({
       </Button>
     </div>;
 };
+
 const FeeComparisonCard = ({
   platform,
   fee,
@@ -110,6 +113,7 @@ const FeeComparisonCard = ({
         </div>}
     </div>;
 };
+
 const SubscriptionComparisonCard = () => {
   return <div className="rounded-3xl p-8 kawaii-shadow border-2 border-carteYellow/30 bg-zinc-900">
       <h3 className="text-2xl font-bold mb-6 text-center text-slate-50">Switch to Zero Fees with Our Subscription</h3>
@@ -205,6 +209,7 @@ const SubscriptionComparisonCard = () => {
       </div>
     </div>;
 };
+
 const Pricing = () => {
   const {
     elementRef,
@@ -239,19 +244,38 @@ const Pricing = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           <PricingCard title="Free" subtitle="Pay As You Go" price={<div className="flex items-center">
                 <span className="text-lg text-gray-600">Start for free</span>
-              </div>} features={[<span key="transaction-fee" className="font-bold text-carteYellow">5% transaction costs</span>, "No monthly fees", "Only pay when you sell", "All core features included", "Unlimited products", "Custom domain support"]} cta="Start for Free" delay={200} isVisible={isVisible} />
+              </div>} features={[
+                <span key="transaction-fee" className="font-bold text-carteYellow">5% transaction costs</span>, 
+                "No monthly fees", 
+                "Only pay when you sell", 
+                "All core features included", 
+                "Unlimited products", 
+                "Custom domain support"
+              ]} cta="Start for Free" delay={200} isVisible={isVisible} />
           
           <PricingCard title="Starter" price={<div className="flex items-center">
                 <span className="text-2xl mr-1">$</span>
                 <span className="text-4xl">12</span>
                 <span className="text-xl ml-1 text-gray-500">/mo</span>
-              </div>} features={["0% transaction fees", "Priority support", "Premium themes", "Advanced analytics", "Custom checkout"]} cta="Get Started" isPopular={true} delay={300} isVisible={isVisible} />
+              </div>} features={[
+                "0% transaction fees", 
+                "Priority support", 
+                "Premium themes", 
+                "Advanced analytics", 
+                "Custom checkout"
+              ]} cta="Get Started" isPopular={true} delay={300} isVisible={isVisible} />
           
           <PricingCard title="Professional" price={<div className="flex items-center">
                 <span className="text-2xl mr-1">$</span>
                 <span className="text-4xl">29</span>
                 <span className="text-xl ml-1 text-gray-500">/mo</span>
-              </div>} features={["0% transaction fees", "Multiple team members", "API access", "Webhooks integration", "White-label experience"]} cta="Go Pro" delay={400} isVisible={isVisible} />
+              </div>} features={[
+                "0% transaction fees", 
+                "Multiple team members", 
+                "API access", 
+                "Webhooks integration", 
+                "White-label experience"
+              ]} cta="Go Pro" delay={400} isVisible={isVisible} />
         </div>
 
         <div className={`bg-carteBackground-dark rounded-3xl p-8 mb-12 kawaii-shadow ${isVisible ? 'animate-fade-in animation-delay-500' : 'opacity-0'}`}>
@@ -319,4 +343,5 @@ const Pricing = () => {
       </div>
     </section>;
 };
+
 export default Pricing;
