@@ -1,11 +1,9 @@
-
 import { useState, useRef, useEffect } from "react";
-import { ChevronLeft, ChevronRight, ExternalLink, Star, Sparkles, PlusCircle } from "lucide-react";
+import { ChevronLeft, ChevronRight, ExternalLink, Star, Sparkles, PlusCircle, Images, ChevronRight as ChevronRightIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useIntersectionObserver } from "@/lib/animations";
 import { cn } from "@/lib/utils";
 
-// Define the store data structure
 interface Store {
   id: string;
   name: string;
@@ -18,6 +16,7 @@ interface Store {
     quote: string;
     avatar: string;
   };
+  additionalImages?: string[];
   rating: number;
   featured?: boolean;
 }
@@ -28,13 +27,19 @@ const StoreShowcase = () => {
   const [canScrollRight, setCanScrollRight] = useState(true);
   const { elementRef, isVisible } = useIntersectionObserver();
   const [activeStore, setActiveStore] = useState<string | null>(null);
+  const [featuredImageIndex, setFeaturedImageIndex] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
 
-  // Sample store data - replace with your actual data
   const stores: Store[] = [
     {
       id: "1",
       name: "Harmony Ceramics",
       image: "https://images.unsplash.com/photo-1602173574767-37ac01994b2a?q=80&w=2070&auto=format&fit=crop",
+      additionalImages: [
+        "https://images.unsplash.com/photo-1610701596007-11502861dcfa?q=80&w=2070&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1576020799627-aeac74d58064?q=80&w=2070&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1525974160448-038dacadcc71?q=80&w=2070&auto=format&fit=crop"
+      ],
       category: "Ceramics & Pottery",
       url: "#",
       creator: {
@@ -142,13 +147,35 @@ const StoreShowcase = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (!isHovering) return;
+    
+    const featuredStore = stores.find(store => store.featured);
+    if (!featuredStore?.additionalImages?.length) return;
+    
+    const imageCount = featuredStore.additionalImages.length + 1; // +1 for the main image
+    
+    const interval = setInterval(() => {
+      setFeaturedImageIndex(prev => (prev + 1) % imageCount);
+    }, 3000);
+    
+    return () => clearInterval(interval);
+  }, [isHovering, stores]);
+
+  const handleNextImage = () => {
+    const featuredStore = stores.find(store => store.featured);
+    if (!featuredStore?.additionalImages?.length) return;
+    
+    const imageCount = featuredStore.additionalImages.length + 1;
+    setFeaturedImageIndex(prev => (prev + 1) % imageCount);
+  };
+
   return (
     <section 
       id="stores" 
       className="py-24 relative overflow-hidden"
       ref={elementRef as React.RefObject<HTMLDivElement>}
     >
-      {/* Background decoration */}
       <div className="absolute inset-0 bg-gradient-to-br from-muted/30 to-white -z-10" />
       <div className="absolute top-20 right-20 w-64 h-64 rounded-full bg-cartePink/10 blur-3xl -z-10" />
       <div className="absolute bottom-20 left-20 w-72 h-72 rounded-full bg-carteYellow/10 blur-3xl -z-10" />
@@ -178,70 +205,145 @@ const StoreShowcase = () => {
           </p>
         </div>
 
-        {/* Featured store - larger highlight */}
         <div 
           className={`mb-16 rounded-2xl overflow-hidden bg-white shadow-xl ${
             isVisible ? 'animate-fade-in animation-delay-300' : 'opacity-0'
           }`}
         >
           {stores.filter(store => store.featured).map(store => (
-            <div key={store.id} className="grid md:grid-cols-2 gap-0">
-              <div className="relative h-96">
-                <div className="absolute inset-0 bg-gradient-to-tr from-cartePink/20 via-transparent to-carteYellow/20" />
-                <img 
-                  src={store.image} 
-                  alt={store.name} 
-                  className="w-full h-full object-cover" 
-                />
-                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-gray-800 flex items-center gap-1">
-                  <Sparkles className="w-3.5 h-3.5 text-carteYellow" />
-                  <span>FEATURED STORE</span>
-                </div>
-              </div>
-              <div className="p-8 md:p-12 flex flex-col justify-center">
-                <div className="inline-flex items-center gap-1.5 bg-accent/10 text-accent px-3 py-1 rounded-full text-sm font-medium mb-4">
-                  {store.category}
-                </div>
-                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">{store.name}</h3>
-                
-                <div className="mb-6 flex items-center gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className={`h-5 w-5 ${i < Math.floor(store.rating) ? 'fill-carteYellow stroke-carteYellow' : 'stroke-gray-300'}`} />
-                  ))}
-                  <span className="ml-2 text-sm font-medium text-gray-600">{store.rating}/5</span>
-                </div>
-                
-                <div className="mb-8">
-                  <div className="flex items-start gap-4 mb-4">
-                    <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 border-2 border-accent/20">
+            <div 
+              key={store.id} 
+              className="grid md:grid-cols-2 gap-0"
+              onMouseEnter={() => setIsHovering(true)}
+              onMouseLeave={() => {
+                setIsHovering(false);
+                setFeaturedImageIndex(0);
+              }}
+            >
+              <div 
+                className="relative h-96 transform-gpu transition-all duration-700 perspective-1000 group"
+                style={{ transformStyle: 'preserve-3d' }}
+              >
+                <div 
+                  className="h-full w-full relative overflow-hidden"
+                >
+                  <div 
+                    className="absolute inset-0 flex transition-transform duration-700 ease-in-out"
+                    style={{ 
+                      transform: `translateX(-${featuredImageIndex * 100}%)`,
+                    }}
+                  >
+                    <div className="h-full w-full flex-shrink-0">
+                      <div className="absolute inset-0 bg-gradient-to-tr from-cartePink/20 via-transparent to-carteYellow/20 z-10" />
                       <img 
-                        src={store.creator.avatar}
-                        alt={store.creator.name}
-                        className="w-full h-full object-cover"
+                        src={store.image} 
+                        alt={store.name} 
+                        className="w-full h-full object-cover" 
                       />
                     </div>
-                    <div>
-                      <p className="text-lg font-semibold text-gray-800">{store.creator.name}</p>
-                      <p className="text-sm text-gray-600">{store.creator.title}</p>
-                    </div>
+                    
+                    {store.additionalImages?.map((img, idx) => (
+                      <div key={idx} className="h-full w-full flex-shrink-0">
+                        <div className="absolute inset-0 bg-gradient-to-tr from-cartePink/20 via-transparent to-carteYellow/20 z-10" />
+                        <img 
+                          src={img} 
+                          alt={`${store.name} product ${idx + 1}`} 
+                          className="w-full h-full object-cover" 
+                        />
+                      </div>
+                    ))}
                   </div>
-                  <p className="text-gray-700 text-lg italic leading-relaxed">"{store.creator.quote}"</p>
+                  
+                  <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-20">
+                    {[store.image, ...store.additionalImages].map((_, idx) => (
+                      <button 
+                        key={idx}
+                        onClick={() => setFeaturedImageIndex(idx)}
+                        className={`w-2.5 h-2.5 rounded-full transition-all ${
+                          featuredImageIndex === idx 
+                            ? 'bg-white scale-110' 
+                            : 'bg-white/50 scale-100'
+                        }`}
+                        aria-label={`View image ${idx + 1}`}
+                      />
+                    ))}
+                  </div>
+                  
+                  <button 
+                    onClick={handleNextImage}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/20 hover:bg-black/40 backdrop-blur-sm text-white w-10 h-10 rounded-full flex items-center justify-center z-20 opacity-0 group-hover:opacity-100 transition-opacity"
+                    aria-label="Next image"
+                  >
+                    <ChevronRightIcon className="w-5 h-5" />
+                  </button>
+                  
+                  <div 
+                    className="absolute inset-0 bg-gradient-to-tr from-cartePink/10 via-transparent to-carteYellow/10 z-10 
+                    transform group-hover:rotate-y-3 group-hover:rotate-x-2 transition-transform duration-700" 
+                    style={{ transformStyle: 'preserve-3d', transformOrigin: 'center' }}
+                  />
+                  
+                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-gray-800 flex items-center gap-1 z-20">
+                    <Sparkles className="w-3.5 h-3.5 text-carteYellow" />
+                    <span>FEATURED STORE</span>
+                  </div>
+                  
+                  {store.additionalImages && store.additionalImages.length > 0 && (
+                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-gray-800 flex items-center gap-1 z-20">
+                      <Images className="w-3.5 h-3.5 text-accent" />
+                      <span>GALLERY</span>
+                    </div>
+                  )}
                 </div>
                 
-                <a 
-                  href={store.url}
-                  className="inline-flex items-center justify-center gap-2 bg-accent text-white px-6 py-3 rounded-full font-medium hover:bg-accent/90 transition-colors self-start"
+                <div 
+                  className="p-8 md:p-12 flex flex-col justify-center transform-gpu transition-all duration-700 hover:bg-gray-50/50"
                 >
-                  Visit Store 
-                  <ExternalLink className="w-4 h-4" />
-                </a>
+                  <div className="inline-flex items-center gap-1.5 bg-accent/10 text-accent px-3 py-1 rounded-full text-sm font-medium mb-4">
+                    {store.category}
+                  </div>
+                  <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 hover:text-accent transition-colors">{store.name}</h3>
+                  
+                  <div className="mb-6 flex items-center gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className={`h-5 w-5 ${i < Math.floor(store.rating) ? 'fill-carteYellow stroke-carteYellow' : 'stroke-gray-300'}`} />
+                    ))}
+                    <span className="ml-2 text-sm font-medium text-gray-600">{store.rating}/5</span>
+                  </div>
+                  
+                  <div className="mb-8">
+                    <div className="flex items-start gap-4 mb-4">
+                      <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 border-2 border-accent/20 transform hover:scale-110 transition-transform duration-300">
+                        <img 
+                          src={store.creator.avatar}
+                          alt={store.creator.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div>
+                        <p className="text-lg font-semibold text-gray-800">{store.creator.name}</p>
+                        <p className="text-sm text-gray-600">{store.creator.title}</p>
+                      </div>
+                    </div>
+                    <p className="text-gray-700 text-lg italic leading-relaxed">"{store.creator.quote}"</p>
+                  </div>
+                  
+                  <a 
+                    href={store.url}
+                    className="inline-flex items-center justify-center gap-2 bg-accent text-white px-6 py-3 rounded-full font-medium hover:bg-accent/90 transition-all self-start group relative overflow-hidden"
+                  >
+                    <span className="relative z-10">Visit Store</span>
+                    <ExternalLink className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
+                    
+                    <div className="absolute inset-0 bg-gradient-to-r from-accent via-cartePink to-accent bg-size-200 bg-pos-0 hover:bg-pos-100 transition-all duration-500"></div>
+                  </a>
+                </div>
               </div>
             </div>
           ))}
         </div>
 
         <div className="relative">
-          {/* Scroll controls */}
           <div className="flex justify-end gap-3 mb-8">
             <Button 
               variant="outline" 
@@ -265,7 +367,6 @@ const StoreShowcase = () => {
             </Button>
           </div>
 
-          {/* Scrollable store showcase */}
           <div 
             className="overflow-x-auto hide-scrollbar pb-8"
             ref={scrollContainerRef}
@@ -282,7 +383,6 @@ const StoreShowcase = () => {
                   onMouseEnter={() => setActiveStore(store.id)}
                   onMouseLeave={() => setActiveStore(null)}
                 >
-                  {/* Store Image */}
                   <div className="relative h-48 w-full overflow-hidden">
                     <img 
                       src={store.image} 
@@ -298,7 +398,6 @@ const StoreShowcase = () => {
                       <span className="text-xs font-semibold">{store.rating}</span>
                     </div>
                     
-                    {/* Hover overlay */}
                     <div className={`absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300`}>
                       <a 
                         href={store.url}
@@ -309,7 +408,6 @@ const StoreShowcase = () => {
                     </div>
                   </div>
                   
-                  {/* Store Info */}
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-accent transition-colors">{store.name}</h3>
                     
@@ -338,7 +436,6 @@ const StoreShowcase = () => {
                 </div>
               ))}
               
-              {/* Add your store card */}
               <div 
                 className={`w-[320px] bg-gradient-to-br from-muted/30 to-white rounded-xl border-2 border-dashed border-accent/30 overflow-hidden flex flex-col items-center justify-center p-8 group hover:border-accent/60 transition-all duration-300 ${
                   isVisible 
