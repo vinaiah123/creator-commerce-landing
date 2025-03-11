@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useIntersectionObserver } from '../lib/animations';
 import { CreditCard, DollarSign, Infinity, Percent, ArrowRight, Check, Info, ArrowDown, TrendingDown, Award } from 'lucide-react';
@@ -133,47 +132,105 @@ const FeeComparisonCard = ({
   );
 };
 
-// New component for subscription comparison
+// Updated SubscriptionComparisonCard component with a more visual comparison
 const SubscriptionComparisonCard = () => {
   return (
     <div className="bg-white rounded-3xl p-8 kawaii-shadow border-2 border-carteYellow/30">
-      <h3 className="text-2xl font-bold mb-6 text-center">All-in-One Solution vs Multiple Apps</h3>
+      <h3 className="text-2xl font-bold mb-6 text-center">Switch to Zero Fees with Our Subscription</h3>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="bg-carteYellow/10 rounded-2xl p-6 border-2 border-carteYellow kawaii-shadow">
-          <div className="flex justify-center mb-4">
-            <img src="/lovable-uploads/b07c314b-716f-455c-881c-41e31ba08a17.png" alt="Carte vs Other Apps" className="w-full max-w-md rounded-xl" />
+        <div className="space-y-6">
+          <div className="bg-carteYellow/10 rounded-2xl p-6 border-2 border-carteYellow kawaii-shadow">
+            <h4 className="text-xl font-bold mb-4 flex items-center">
+              <DollarSign className="text-carteYellow mr-2" size={20} /> 
+              Carte Subscription
+            </h4>
+            <div className="flex justify-between items-center mb-6">
+              <span className="text-lg font-bold">$29/month</span>
+              <div className="px-3 py-1 bg-carteYellow text-gray-900 rounded-full text-sm font-bold kawaii-shadow">
+                <Infinity size={14} className="inline mr-1" /> Zero Transaction Fees
+              </div>
+            </div>
+            <div className="space-y-3">
+              <div className="flex items-start">
+                <Check size={18} className="text-carteYellow mt-1 mr-2 flex-shrink-0" />
+                <span className="text-gray-600">All-in-one platform for creators</span>
+              </div>
+              <div className="flex items-start">
+                <Check size={18} className="text-carteYellow mt-1 mr-2 flex-shrink-0" />
+                <span className="text-gray-600">Complete feature set in one subscription</span>
+              </div>
+              <div className="flex items-start">
+                <Check size={18} className="text-carteYellow mt-1 mr-2 flex-shrink-0" />
+                <span className="text-gray-600">No additional costs as you scale</span>
+              </div>
+            </div>
           </div>
         </div>
         
-        <div className="flex flex-col justify-center">
-          <h4 className="text-xl font-bold mb-4">Why pay for multiple apps?</h4>
-          <p className="text-gray-700 mb-4">
-            Carte's <span className="font-bold">all-in-one, fixed price</span> subscription saves you hundreds, if not thousands, of dollars compared to using multiple specialized tools.
-          </p>
+        <div className="space-y-4">
+          <h4 className="text-xl font-bold mb-2 flex items-center">
+            <DollarSign className="text-gray-500 mr-2" size={20} /> 
+            Multiple Services Alternative
+          </h4>
           
-          <div className="space-y-3 mb-6">
-            <div className="flex items-start">
-              <Check size={18} className="text-carteYellow mt-1 mr-2 flex-shrink-0" />
-              <span className="text-gray-600">Switch from 5% transaction fee to <strong>ZERO fees</strong> with our subscription</span>
-            </div>
-            <div className="flex items-start">
-              <Check size={18} className="text-carteYellow mt-1 mr-2 flex-shrink-0" />
-              <span className="text-gray-600">One platform for everything: store, marketing, analytics</span>
-            </div>
-            <div className="flex items-start">
-              <Check size={18} className="text-carteYellow mt-1 mr-2 flex-shrink-0" />
-              <span className="text-gray-600">Save over $700/month compared to multiple services</span>
+          <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+            <div className="flex justify-between items-center">
+              <span className="font-medium">E-commerce Platform</span>
+              <span className="font-bold">$29/mo</span>
             </div>
           </div>
           
-          <Button 
-            className="bg-carteYellow hover:bg-carteYellow-600 text-gray-900 kawaii-shadow w-full md:w-auto"
-          >
-            Switch to Zero Fees
-            <ArrowRight size={16} />
-          </Button>
+          <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+            <div className="flex justify-between items-center">
+              <span className="font-medium">Email Marketing Tool</span>
+              <span className="font-bold">$25/mo</span>
+            </div>
+          </div>
+          
+          <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+            <div className="flex justify-between items-center">
+              <span className="font-medium">Landing Page Builder</span>
+              <span className="font-bold">$49/mo</span>
+            </div>
+          </div>
+          
+          <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+            <div className="flex justify-between items-center">
+              <span className="font-medium">Analytics Solution</span>
+              <span className="font-bold">$79/mo</span>
+            </div>
+          </div>
+          
+          <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+            <div className="flex justify-between items-center">
+              <span className="font-medium">Customer Support Tool</span>
+              <span className="font-bold">$39/mo</span>
+            </div>
+          </div>
+          
+          <div className="mt-4 bg-gray-100 rounded-xl p-4 border-2 border-red-200">
+            <div className="flex justify-between items-center">
+              <span className="font-bold text-red-500">Monthly Total</span>
+              <span className="font-bold text-red-500">$221/mo</span>
+            </div>
+            <div className="text-sm text-red-500 mt-1">+ transaction fees on every sale</div>
+          </div>
+          
+          <div className="mt-4 flex items-center justify-center">
+            <TrendingDown size={20} className="text-carteYellow mr-2" />
+            <span className="font-bold text-carteYellow">Save $192/month with Carte</span>
+          </div>
         </div>
+      </div>
+      
+      <div className="mt-8 text-center">
+        <Button 
+          className="bg-carteYellow hover:bg-carteYellow-600 text-gray-900 kawaii-shadow"
+        >
+          Switch to Zero Fees Now
+          <ArrowRight size={16} />
+        </Button>
       </div>
     </div>
   );
@@ -378,7 +435,6 @@ const Pricing = () => {
           </div>
         </div>
 
-        {/* New subscription comparison section */}
         <div className={`mb-12 ${isVisible ? 'animate-fade-in animation-delay-700' : 'opacity-0'}`}>
           <SubscriptionComparisonCard />
         </div>
@@ -404,3 +460,4 @@ const Pricing = () => {
 };
 
 export default Pricing;
+
