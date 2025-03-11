@@ -1,22 +1,45 @@
+
 import { ArrowRight, Heart, Star, Sparkles, IceCream } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { useIntersectionObserver } from '../lib/animations';
+
 const Hero = () => {
   const {
     elementRef,
     isVisible
   } = useIntersectionObserver();
+  
   const textContainerRef = useRef<HTMLDivElement>(null);
+  
   useEffect(() => {
     const textContainer = textContainerRef.current;
     if (isVisible && textContainer) {
       textContainer.classList.add('animate-hero-content');
     }
   }, [isVisible]);
+  
   return <section id="hero" className="relative min-h-[90vh] flex items-center justify-center pt-24 overflow-hidden" ref={elementRef as React.RefObject<HTMLDivElement>}>
       {/* Soft gradient background */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-carteBackground-dark via-carteYellow-50 to-carteBackground z-10"></div>
+      </div>
+
+      {/* Creator cutout positioned on the right side */}
+      <div className="absolute right-0 bottom-0 z-10 h-[90%] pointer-events-none hidden md:block">
+        <div className="relative h-full">
+          {/* Drop shadow for the cutout */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-carteYellow-100/40 rounded-full blur-xl transform translate-x-4"></div>
+          
+          {/* Creator image */}
+          <img 
+            src="https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?q=80&w=1000&auto=format&fit=crop&crop=faces&facepad=3" 
+            alt="Creative store owner" 
+            className="h-full object-contain object-right-bottom"
+            style={{
+              clipPath: "polygon(0% 15%, 100% 0%, 100% 100%, 0% 100%)",
+            }}
+          />
+        </div>
       </div>
 
       {/* Kawaii-style illustrations */}
@@ -50,7 +73,7 @@ const Hero = () => {
       </div>
 
       <div className="container mx-auto px-6 z-10 relative">
-        <div ref={textContainerRef} className="max-w-3xl mx-auto text-center opacity-0">
+        <div ref={textContainerRef} className="max-w-3xl mr-auto text-left md:text-center md:mx-auto opacity-0">
           <span className="inline-block bg-white/90 text-carteBlue-800 px-4 py-1.5 rounded-full mb-6 hero-badge kawaii-shadow font-bold text-xs text-center">TINY SHOPS</span>
           
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-carteBlue-800 mb-6 leading-tight hero-title">
@@ -75,4 +98,5 @@ const Hero = () => {
       </div>
     </section>;
 };
+
 export default Hero;
