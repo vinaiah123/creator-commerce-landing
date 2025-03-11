@@ -9,6 +9,7 @@ import Testimonials from '@/components/Testimonials';
 import StoreShowcase from '@/components/StoreShowcase';
 import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
+import InstagramFeed from '@/components/InstagramFeed';  // Add the new import
 import { useIsMobile } from '@/hooks/use-mobile';
 
 const Index = () => {
@@ -69,6 +70,7 @@ const Index = () => {
         <StoreShowcase />
         <Pricing />
         <Testimonials />
+        <InstagramFeed /> {/* Add the Instagram feed before the FAQ */}
         <FAQ />
       </main>
       <Footer />
