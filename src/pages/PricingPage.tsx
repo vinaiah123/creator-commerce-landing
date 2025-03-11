@@ -1,4 +1,3 @@
-
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useIntersectionObserver } from '../lib/animations';
@@ -8,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useNavigate } from 'react-router-dom';
+import SubscriptionComparisonCard from '@/components/SubscriptionComparisonCard';
 
 // Fee calculator function
 const calculateFees = (sales: number) => {
