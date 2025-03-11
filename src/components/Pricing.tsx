@@ -4,6 +4,33 @@ import { CreditCard, DollarSign, Infinity, Percent, ArrowRight, Check, Info, Arr
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useNavigate } from 'react-router-dom';
+import { Slider } from '@/components/ui/slider';
+
+// Fee calculator function
+const calculateFees = (sales: number) => {
+  return {
+    carte: parseFloat((sales * 0.05).toFixed(2)),
+    etsy: parseFloat((sales * 0.065 + Math.round(sales / 25) * 0.20).toFixed(2)),
+    gumroad: parseFloat((sales * 0.10 + Math.round(sales / 25) * 0.30).toFixed(2)),
+    patreon: parseFloat((sales * 0.10).toFixed(2)), // Using the middle of the 8-12% range
+    shopify: parseFloat((29 + sales * 0.029).toFixed(2))
+  };
+};
+
+// Helper to format currency
+const formatCurrency = (amount: number) => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2
+  }).format(amount);
+};
+
+// Format percentage
+const formatPercent = (amount: number, total: number) => {
+  return `${(amount/total * 100).toFixed(1)}%`;
+};
 
 const PricingCard = ({ 
   title, 
@@ -60,100 +87,46 @@ const PricingCard = ({
   );
 };
 
-const ComparisonCard = ({ 
+const FeeComparisonCard = ({ 
   platform, 
   fee, 
-  carteFee = "4.9%",
-  savingsPercent,
-  isLowest = false, 
-  delay, 
-  isVisible 
+  monthlySales,
+  isLowest = false
 }: { 
   platform: string;
-  fee: string;
-  carteFee?: string;
-  savingsPercent?: number;
+  fee: number;
+  monthlySales: number;
   isLowest?: boolean;
-  delay: number;
-  isVisible: boolean;
 }) => {
-  return (
-    <div 
-      className={`bg-white rounded-2xl p-5 kawaii-shadow border-2 ${
-        isLowest ? 'border-carteYellow' : 'border-gray-200'
-      } transition-all duration-500 ease-out ${
-        isVisible 
-          ? `opacity-100 translate-y-0 delay-${delay} hover:-translate-y-1` 
-          : 'opacity-0 translate-y-10'
-      }`}
-    >
-      <div className="text-lg font-semibold mb-1">{platform}</div>
-      <div className={`text-xl font-bold ${isLowest ? 'text-carteYellow' : 'text-gray-700'} mb-2`}>
-        {fee}
-      </div>
-      
-      {savingsPercent && (
-        <div className="flex items-center mt-2 text-green-600 font-medium text-sm">
-          <TrendingDown size={14} className="mr-1" />
-          <span>Save up to {savingsPercent}%</span>
-        </div>
-      )}
-      
-      {!isLowest && (
-        <div className="flex items-center pt-2 mt-2 border-t border-gray-100">
-          <div className="bg-carteYellow/20 text-gray-900 px-2 py-1 rounded-full text-xs font-medium flex items-center">
-            <ArrowDown size={12} className="mr-1" /> 
-            Carte: {carteFee}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
-
-const VisualComparisonCard = ({ 
-  platform, 
-  fee,
-  percentValue,
-  isLowest = false, 
-  delay, 
-  isVisible 
-}: { 
-  platform: string;
-  fee: string;
-  percentValue: number;
-  isLowest?: boolean;
-  delay: number;
-  isVisible: boolean;
-}) => {
-  const barColor = isLowest ? 'bg-carteYellow' : 'bg-gray-400';
-  const barWidth = `${Math.min(percentValue * 4, 100)}%`;  // Scale to make differences more visible
+  // Calculate percentage of sales
+  const percentage = (fee / monthlySales * 100).toFixed(1);
+  const cardColor = isLowest ? 'border-carteYellow bg-carteYellow/5' : 'border-gray-200';
+  const textColor = isLowest ? 'text-carteYellow' : 'text-gray-700';
   
   return (
-    <div 
-      className={`bg-white rounded-2xl p-5 kawaii-shadow border-2 ${
-        isLowest ? 'border-carteYellow' : 'border-gray-200'
-      } transition-all duration-500 ease-out ${
-        isVisible 
-          ? `opacity-100 translate-y-0 delay-${delay} hover:-translate-y-1` 
-          : 'opacity-0 translate-y-10'
-      }`}
-    >
-      <div className="flex items-center justify-between mb-2">
+    <div className={`bg-white rounded-2xl p-5 kawaii-shadow border-2 ${cardColor} transition-all duration-300 hover:-translate-y-1`}>
+      <div className="flex justify-between items-center mb-1">
         <div className="text-lg font-semibold">{platform}</div>
-        <div className={`text-lg font-bold ${isLowest ? 'text-carteYellow' : 'text-gray-700'}`}>
-          {fee}
+        <div className={`text-lg font-bold ${textColor}`}>
+          {formatCurrency(fee)}
         </div>
       </div>
       
-      <div className="w-full bg-gray-100 rounded-full h-2.5 mb-1">
-        <div className={`${barColor} h-2.5 rounded-full`} style={{ width: barWidth }}></div>
+      <div className="text-sm text-gray-500 mb-3">
+        {percentage}% of sales
+      </div>
+      
+      <div className="w-full bg-gray-100 rounded-full h-3">
+        <div 
+          className={`${isLowest ? 'bg-carteYellow' : 'bg-gray-400'} h-3 rounded-full`} 
+          style={{ width: `${Math.min(parseFloat(percentage) * 5, 100)}%` }} // Scale for better visualization
+        />
       </div>
       
       {isLowest && (
-        <div className="flex items-center justify-center mt-2">
-          <Award size={14} className="text-carteYellow mr-1" />
-          <span className="text-sm font-medium">Lowest Fees</span>
+        <div className="flex items-center mt-3 text-carteYellow">
+          <Award size={14} className="mr-1" />
+          <span className="text-sm font-medium">Save {formatCurrency(monthlySales * 0.10 - monthlySales * 0.05)}</span>
         </div>
       )}
     </div>
@@ -164,11 +137,25 @@ const Pricing = () => {
   const { elementRef, isVisible } = useIntersectionObserver();
   const [annualBilling, setAnnualBilling] = useState(false);
   const [comparisonStyle, setComparisonStyle] = useState<'standard' | 'visual'>('visual');
+  const [monthlySales, setMonthlySales] = useState<number>(1000);
   const navigate = useNavigate();
+
+  const fees = calculateFees(monthlySales);
+  
+  const handleSalesChange = (value: number[]) => {
+    setMonthlySales(value[0]);
+  };
 
   const handleViewAllPlans = () => {
     navigate('/features#pricing');
   };
+
+  const salesMarks = [
+    { value: 100, label: '$100' },
+    { value: 1000, label: '$1,000' },
+    { value: 2500, label: '$2,500' },
+    { value: 5000, label: '$5,000' },
+  ];
 
   return (
     <section 
@@ -279,117 +266,75 @@ const Pricing = () => {
         <div className={`bg-carteBackground-dark rounded-3xl p-8 mb-12 kawaii-shadow ${
           isVisible ? 'animate-fade-in animation-delay-500' : 'opacity-0'
         }`}>
-          <div className="flex flex-col md:flex-row items-center justify-between mb-8">
+          <div className="flex flex-col md:flex-row items-center justify-between mb-6">
             <div>
-              <h3 className="text-2xl font-bold mb-2">Why Creators Love Our Pricing</h3>
-              <p className="text-gray-600 max-w-xl">Carte offers the lowest transaction fees in the industry, helping you keep more of what you earn.</p>
-            </div>
-            <div className="flex space-x-2 mt-4 md:mt-0">
-              <Button 
-                variant={comparisonStyle === 'standard' ? 'default' : 'outline'} 
-                size="sm"
-                onClick={() => setComparisonStyle('standard')}
-                className={comparisonStyle === 'standard' ? 'bg-carteYellow text-gray-900' : ''}
-              >
-                Standard
-              </Button>
-              <Button 
-                variant={comparisonStyle === 'visual' ? 'default' : 'outline'} 
-                size="sm"
-                onClick={() => setComparisonStyle('visual')}
-                className={comparisonStyle === 'visual' ? 'bg-carteYellow text-gray-900' : ''}
-              >
-                Visual
-              </Button>
+              <h3 className="text-2xl font-bold mb-2">See How Much You'll Save</h3>
+              <p className="text-gray-600 max-w-xl">
+                Drag the slider to see how Carte's 5% transaction fee compares to other platforms at different sales volumes.
+              </p>
             </div>
           </div>
           
-          {comparisonStyle === 'standard' ? (
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-              <ComparisonCard 
+          <div className="bg-white p-6 rounded-xl mb-8">
+            <div className="flex flex-col md:flex-row justify-between items-center mb-6">
+              <div className="mb-4 md:mb-0">
+                <h4 className="text-lg font-bold">Monthly Sales</h4>
+                <p className="text-3xl font-bold text-carteYellow">
+                  {formatCurrency(monthlySales)}
+                </p>
+              </div>
+              
+              <div className="w-full md:w-2/3 px-4">
+                <Slider
+                  defaultValue={[1000]}
+                  min={100}
+                  max={5000}
+                  step={100}
+                  onValueChange={handleSalesChange}
+                  className="my-4"
+                />
+                <div className="flex justify-between text-sm text-gray-500">
+                  <span>$100</span>
+                  <span>$1,000</span>
+                  <span>$2,500</span>
+                  <span>$5,000</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+              <FeeComparisonCard 
                 platform="Carte" 
-                fee="4.9%" 
+                fee={fees.carte}
+                monthlySales={monthlySales}
                 isLowest={true}
-                delay={600}
-                isVisible={isVisible}
               />
-              <ComparisonCard 
+              <FeeComparisonCard 
                 platform="Etsy" 
-                fee="6.5% + $0.20" 
-                carteFee="4.9%"
-                savingsPercent={25}
-                delay={700}
-                isVisible={isVisible}
+                fee={fees.etsy}
+                monthlySales={monthlySales}
               />
-              <ComparisonCard 
+              <FeeComparisonCard 
                 platform="Gumroad" 
-                fee="10% + $0.30" 
-                carteFee="4.9%"
-                savingsPercent={51}
-                delay={800}
-                isVisible={isVisible}
+                fee={fees.gumroad}
+                monthlySales={monthlySales}
               />
-              <ComparisonCard 
+              <FeeComparisonCard 
                 platform="Patreon" 
-                fee="8-12%" 
-                carteFee="4.9%"
-                savingsPercent={59}
-                delay={900}
-                isVisible={isVisible}
+                fee={fees.patreon}
+                monthlySales={monthlySales}
               />
-              <ComparisonCard 
+              <FeeComparisonCard 
                 platform="Shopify" 
-                fee="$29/mo + 2.9%" 
-                carteFee="4.9%"
-                savingsPercent={40}
-                delay={1000}
-                isVisible={isVisible}
+                fee={fees.shopify}
+                monthlySales={monthlySales}
               />
             </div>
-          ) : (
-            <div className="grid grid-cols-1 gap-4">
-              <VisualComparisonCard 
-                platform="Carte" 
-                fee="4.9%" 
-                percentValue={4.9}
-                isLowest={true}
-                delay={600}
-                isVisible={isVisible}
-              />
-              <VisualComparisonCard 
-                platform="Etsy" 
-                fee="6.5% + $0.20" 
-                percentValue={7.5}
-                delay={700}
-                isVisible={isVisible}
-              />
-              <VisualComparisonCard 
-                platform="Gumroad" 
-                fee="10% + $0.30" 
-                percentValue={11}
-                delay={800}
-                isVisible={isVisible}
-              />
-              <VisualComparisonCard 
-                platform="Patreon" 
-                fee="8-12%" 
-                percentValue={12}
-                delay={900}
-                isVisible={isVisible}
-              />
-              <VisualComparisonCard 
-                platform="Shopify" 
-                fee="$29/mo + 2.9%" 
-                percentValue={9.9}
-                delay={1000}
-                isVisible={isVisible}
-              />
-            </div>
-          )}
+          </div>
           
           <div className="mt-6 text-center">
             <p className="text-gray-600 text-sm italic">
-              *Based on average transaction value of $25. Actual savings may vary depending on your sales volume.
+              *Estimates based on standard platform rates. Actual fees may vary by specific plan, transaction volume, and payment method.
             </p>
           </div>
         </div>
