@@ -7,44 +7,44 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 43 50% 98%;
     --foreground: 222.2 84% 4.9%;
 
-    --card: 0 0% 100%;
+    --card: 43 50% 98%;
     --card-foreground: 222.2 84% 4.9%;
 
-    --popover: 0 0% 100%;
+    --popover: 43 50% 98%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 261 48% 58%;
+    --primary: 200 78% 24%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 214 95% 93%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 45 100% 49%;
+    --secondary-foreground: 0 0% 20%;
 
-    --muted: 210 40% 96.1%;
+    --muted: 200 15% 95%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 261 48% 58%;
+    --accent: 200 78% 24%;
     --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 261 48% 58%;
+    --border: 200 10% 85%;
+    --input: 200 10% 85%;
+    --ring: 200 78% 24%;
 
     --radius: 0.5rem;
 
-    --sidebar-background: 0 0% 98%;
+    --sidebar-background: 43 50% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-primary: 200 78% 24%;
+    --sidebar-primary-foreground: 43 50% 98%;
+    --sidebar-accent: 43 40% 95%;
+    --sidebar-accent-foreground: 200 78% 24%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-ring: 200 78% 24%;
   }
 
   * {
@@ -52,7 +52,7 @@
   }
 
   body {
-    @apply bg-background text-foreground font-outfit;
+    @apply bg-carteBackground text-foreground font-outfit;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -94,14 +94,14 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-primary/50 rounded-full transition-colors;
+  @apply bg-carte/50 rounded-full transition-colors;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-primary/80;
+  @apply bg-carte/80;
 }
 
 /* Focus styles */
 :focus-visible {
-  @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-white;
+  @apply outline-none ring-2 ring-carte ring-offset-2 ring-offset-white;
 }

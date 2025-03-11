@@ -64,30 +64,34 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				carte: {
-					DEFAULT: '#A57CE4', // Main purple from Figma
-					50: '#F5F3FB',
-					100: '#E0DCF4',
-					200: '#C1B8E9',
-					300: '#A57CE4', // Primary purple
-					400: '#8D64DD',
-					500: '#744BD6',
-					600: '#5C31BE',
-					700: '#4D29A3',
-					800: '#3F2288',
-					900: '#311B6D',
+					DEFAULT: '#0D4E6F', // Primary blue from image
+					50: '#E6EFF3',
+					100: '#C2D8E3',
+					200: '#9BC0D2',
+					300: '#73A8C1',
+					400: '#4C90B0',
+					500: '#0D4E6F', // Primary blue
+					600: '#0B4560',
+					700: '#093A51',
+					800: '#072F41',
+					900: '#052432',
 				},
-				blue: {
-					DEFAULT: '#E8F1FF', // Light blue from Figma
-					50: '#F8FAFF',
-					100: '#E8F1FF', // Secondary blue
-					200: '#C5DBFF',
-					300: '#A2C5FF',
-					400: '#7FAFFF',
-					500: '#5C99FF',
-					600: '#3982FF',
-					700: '#166CFF',
-					800: '#0052E0',
-					900: '#0041B3',
+				carteYellow: {
+					DEFAULT: '#FAC200', // Secondary yellow from image
+					50: '#FFFBEB',
+					100: '#FEF3CD',
+					200: '#FDE7A0',
+					300: '#FCDA73',
+					400: '#FBCE47',
+					500: '#FAC200', // Secondary yellow
+					600: '#C89B00',
+					700: '#966F00',
+					800: '#644B00',
+					900: '#322500',
+				},
+				carteBackground: {
+					DEFAULT: '#FFFDF6', // Background cream from image
+					dark: '#F8F4E9',
 				},
 			},
 			borderRadius: {

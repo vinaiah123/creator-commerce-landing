@@ -13,13 +13,13 @@ interface FeatureCardProps {
 const FeatureCard = ({ icon, title, description, delay, isVisible }: FeatureCardProps) => {
   return (
     <div 
-      className={`bg-blue-50 rounded-2xl p-8 hover-lift ${
+      className={`bg-carteBackground-dark rounded-2xl p-8 hover-lift ${
         isVisible 
           ? `opacity-100 translate-y-0 transition-all duration-700 ease-out delay-${delay}` 
           : 'opacity-0 translate-y-10'
       }`}
     >
-      <div className="w-16 h-16 bg-purple-600/10 rounded-xl flex items-center justify-center text-blue-600 mb-6">
+      <div className="w-16 h-16 bg-carte/10 rounded-xl flex items-center justify-center text-carte mb-6">
         {icon}
       </div>
       <h3 className="text-2xl font-semibold text-gray-900 mb-4">{title}</h3>
@@ -58,7 +58,7 @@ const Features = () => {
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <span 
-            className={`inline-block bg-blue-50 text-purple-700 px-4 py-1.5 rounded-full text-sm font-medium mb-4 ${
+            className={`inline-block bg-carteBackground-dark text-carte px-4 py-1.5 rounded-full text-sm font-medium mb-4 ${
               isVisible ? 'animate-fade-in' : 'opacity-0'
             }`}
           >
