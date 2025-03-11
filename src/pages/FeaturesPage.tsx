@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { 
@@ -35,6 +35,14 @@ const FeatureCard = ({ icon, title, description, delay, color }: FeatureCardProp
 const FeaturesPage = () => {
   const [activeCategory, setActiveCategory] = useState('all');
   const navigate = useNavigate();
+
+  // Add an effect to scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, []);
 
   const categories = [
     { id: 'all', name: 'All Features' },

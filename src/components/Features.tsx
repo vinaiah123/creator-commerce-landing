@@ -112,7 +112,9 @@ const Features = () => {
   ];
 
   const handleViewAllFeatures = () => {
-    navigate('/features');
+    // Navigate to features page and ensure it starts at the top
+    navigate('/features', { replace: false });
+    // Scroll to top will happen when the page loads
   };
 
   return (
