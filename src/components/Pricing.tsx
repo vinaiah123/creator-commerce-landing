@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useIntersectionObserver } from '../lib/animations';
 import { CreditCard, DollarSign, Infinity, Percent, ArrowRight, Check, Info, ArrowDown, TrendingDown, Award } from 'lucide-react';
@@ -74,7 +75,7 @@ const PricingCard = ({
         {features.map((feature, index) => (
           <div key={index} className="flex items-start">
             <Check size={18} className="text-carteYellow mt-1 mr-2 flex-shrink-0" />
-            <span className="text-gray-600">{feature}</span>
+            <span className="text-gray-600" dangerouslySetInnerHTML={{ __html: feature }}></span>
           </div>
         ))}
       </div>
@@ -297,7 +298,7 @@ const Pricing = () => {
               </div>
             }
             features={[
-              <span key="transaction-fee" className="font-bold text-carteYellow">5% transaction costs</span>,
+              "<span class=\"font-bold text-carteYellow\">5% transaction costs</span>",
               "No monthly fees",
               "Only pay when you sell",
               "All core features included",
@@ -454,4 +455,3 @@ const Pricing = () => {
 };
 
 export default Pricing;
-
