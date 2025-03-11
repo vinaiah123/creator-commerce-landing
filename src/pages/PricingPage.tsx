@@ -1,7 +1,8 @@
+
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useIntersectionObserver } from '../lib/animations';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { DollarSign, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -14,8 +15,27 @@ import FeeComparisonCard from '@/components/FeeComparisonCard';
 import { calculateFees, formatCurrency } from '@/utils/pricing';
 
 const PricingPage = () => {
+  const pageRef = useRef<HTMLDivElement>(null);
+  
+  // Force scroll to top when component mounts with a slight delay to ensure it works
   useEffect(() => {
+    // Immediate scroll
     window.scrollTo(0, 0);
+    
+    // Also add a delayed scroll to ensure it works
+    const timer = setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'auto'
+      });
+      
+      // Also try scrolling the specific element if window scroll doesn't work
+      if (pageRef.current) {
+        pageRef.current.scrollIntoView({ behavior: 'auto', block: 'start' });
+      }
+    }, 100);
+    
+    return () => clearTimeout(timer);
   }, []);
 
   const { elementRef, isVisible } = useIntersectionObserver();
@@ -27,7 +47,7 @@ const PricingPage = () => {
   };
   
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col" ref={pageRef}>
       <Navbar />
       
       <main className="flex-grow pt-20 bg-carteBackground">
