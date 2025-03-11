@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { useIntersectionObserver } from '@/lib/animations';
 import { 
   ShoppingBag, Link, Palette, Ticket, CreditCard, Users, 
   Package, Tags, Store, Webhook, FileDigit, Filter, 
@@ -15,19 +14,14 @@ interface FeatureCardProps {
   icon: React.ReactNode;
   title: string;
   description: string;
-  isVisible: boolean;
   delay: number;
   color: string;
 }
 
-const FeatureCard = ({ icon, title, description, isVisible, delay, color }: FeatureCardProps) => {
+const FeatureCard = ({ icon, title, description, delay, color }: FeatureCardProps) => {
   return (
     <div 
-      className={`bg-white rounded-3xl p-6 kawaii-shadow kawaii-border border-${color}/30 hover:border-${color}/60 ${
-        isVisible 
-          ? `opacity-100 translate-y-0 transition-all duration-700 ease-out delay-${delay} hover:translate-y-[-8px]` 
-          : 'opacity-0 translate-y-10'
-      }`}
+      className={`bg-white rounded-3xl p-6 kawaii-shadow kawaii-border border-${color}/30 hover:border-${color}/60 opacity-100 translate-y-0 transition-all duration-700 ease-out hover:translate-y-[-8px]`}
     >
       <div className={`w-14 h-14 bg-${color}/20 rounded-2xl flex items-center justify-center text-${color} mb-4 animate-bounce-small`}>
         {icon}
@@ -39,7 +33,6 @@ const FeatureCard = ({ icon, title, description, isVisible, delay, color }: Feat
 };
 
 const FeaturesPage = () => {
-  const { elementRef, isVisible } = useIntersectionObserver();
   const [activeCategory, setActiveCategory] = useState('all');
   const navigate = useNavigate();
 
@@ -162,29 +155,17 @@ const FeaturesPage = () => {
       
       <section className="pt-32 pb-16 bg-carteBackground-dark">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-16" ref={elementRef as React.RefObject<HTMLDivElement>}>
-            <span 
-              className={`inline-block bg-white text-cartePink px-4 py-1.5 rounded-full text-sm font-bold mb-4 kawaii-shadow ${
-                isVisible ? 'animate-float' : 'opacity-0'
-              }`}
-            >
+          <div className="text-center mb-16">
+            <span className="inline-block bg-white text-cartePink px-4 py-1.5 rounded-full text-sm font-bold mb-4 kawaii-shadow animate-float">
               <Sparkles size={14} className="inline mr-1" />
               ALL OUR FEATURES
             </span>
-            <h1 
-              className={`text-3xl md:text-5xl font-bold text-gray-900 mb-6 ${
-                isVisible ? 'animate-fade-in animation-delay-100' : 'opacity-0'
-              }`}
-            >
+            <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6 animate-fade-in">
               Everything You Need to Create
               <br /> 
               <span className="text-carteYellow">Your Perfect Store</span>
             </h1>
-            <p 
-              className={`text-lg text-gray-600 max-w-2xl mx-auto ${
-                isVisible ? 'animate-fade-in animation-delay-200' : 'opacity-0'
-              }`}
-            >
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto animate-fade-in">
               Browse our comprehensive set of tools and features designed to help your handmade business thrive.
             </p>
           </div>
@@ -215,7 +196,6 @@ const FeaturesPage = () => {
                 title={feature.title}
                 description={feature.description}
                 delay={(index % 3) * 100}
-                isVisible={isVisible}
                 color={feature.color}
               />
             ))}
