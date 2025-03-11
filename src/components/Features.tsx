@@ -1,9 +1,9 @@
 
 import { useIntersectionObserver } from '../lib/animations';
 import { useNavigate } from 'react-router-dom';
-import { Palette, Globe, Coins, Sparkles, Heart, Star, ArrowRight, ShoppingBag, Link as LinkIcon, CreditCard, MessageSquare, Palette as PaletteIcon } from 'lucide-react';
+import { ShoppingBag, Link as LinkIcon, CreditCard, MessageSquare, Palette, Globe, Sparkles, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface FeatureCardProps {
   icon: React.ReactNode;
@@ -19,17 +19,19 @@ interface FeatureCardProps {
 const FeatureCard = ({ icon, title, description, delay, isVisible, color, index, isMobile }: FeatureCardProps) => {
   return (
     <div 
-      className={`bg-white rounded-3xl p-6 kawaii-shadow kawaii-border border-${color}/30 hover:border-${color}/60 ${
-        isVisible 
-          ? `opacity-100 translate-y-0 transition-all duration-700 ease-out delay-${delay} hover:translate-y-[-8px]` 
-          : 'opacity-0 translate-y-10'
-      } ${isMobile ? `feature-card-mobile-${index % 6}` : ''}`}
+      className={`bg-white rounded-3xl p-5 kawaii-shadow kawaii-border border-${color}/30 hover:border-${color}/60 ${
+        isMobile 
+          ? `feature-card-mobile-${index % 6}`
+          : isVisible 
+            ? `opacity-100 translate-y-0 transition-all duration-700 ease-out delay-${delay} hover:translate-y-[-8px]` 
+            : 'opacity-0 translate-y-10'
+      }`}
     >
-      <div className={`w-12 h-12 bg-${color}/20 rounded-2xl flex items-center justify-center text-${color} mb-4 animate-bounce-small`}>
+      <div className={`w-10 h-10 bg-${color}/20 rounded-xl flex items-center justify-center text-${color} mb-3 animate-bounce-small`}>
         {icon}
       </div>
-      <h3 className="text-xl font-bold text-gray-900 mb-2">{title}</h3>
-      <p className="text-gray-600 text-sm">{description}</p>
+      <h3 className="text-lg font-bold text-gray-900 mb-1">{title}</h3>
+      <p className="text-gray-600 text-xs">{description}</p>
     </div>
   );
 };
@@ -38,6 +40,7 @@ const Features = () => {
   const { elementRef, isVisible } = useIntersectionObserver();
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
+  const featureContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -52,41 +55,58 @@ const Features = () => {
     };
   }, []);
 
+  // Reset animations when we scroll into view on mobile
+  useEffect(() => {
+    if (isVisible && isMobile && featureContainerRef.current) {
+      const cards = featureContainerRef.current.querySelectorAll('.features-mobile-container > div');
+      cards.forEach((card, index) => {
+        const htmlCard = card as HTMLElement;
+        htmlCard.style.animation = 'none';
+        htmlCard.offsetHeight; // Trigger reflow
+        htmlCard.style.animation = '';
+        htmlCard.classList.remove(`feature-card-mobile-${index % 6}`);
+        setTimeout(() => {
+          htmlCard.classList.add(`feature-card-mobile-${index % 6}`);
+        }, 10);
+      });
+    }
+  }, [isVisible, isMobile]);
+
   const features = [
     {
-      icon: <ShoppingBag size={24} />,
+      icon: <ShoppingBag size={20} />,
       title: "Online Shop",
-      description: "Create a beautiful online shop to showcase and sell your handmade creations with zero transaction fees.",
+      description: "Create a beautiful online shop to showcase and sell your products.",
       color: "cartePink"
     },
     {
-      icon: <LinkIcon size={24} />,
+      icon: <LinkIcon size={20} />,
       title: "Link in Bio",
-      description: "Centralize all your social media links and content in one beautiful, customizable page.",
+      description: "Centralize all your social media links in one customizable page.",
       color: "carte"
     },
     {
-      icon: <CreditCard size={24} />,
+      icon: <CreditCard size={20} />,
       title: "Multiple Payments",
-      description: "Accept payments through PayPal, Stripe, bank transfers, and more to make purchasing easy.",
+      description: "Accept payments through PayPal, Stripe and more.",
       color: "carteBlue"
     },
     {
-      icon: <MessageSquare size={24} />,
+      icon: <MessageSquare size={20} />,
       title: "Customer Reviews",
-      description: "Let your customers leave reviews and build trust with future shoppers through social proof.",
+      description: "Let customers leave reviews to build trust with future shoppers.",
       color: "cartePink"
     },
     {
-      icon: <PaletteIcon size={24} />,
+      icon: <Palette size={20} />,
       title: "Custom Themes",
-      description: "Choose from dozens of kawaii themes or create your own to match your brand's unique personality.",
+      description: "Choose from dozens of kawaii themes or create your own.",
       color: "carte"
     },
     {
-      icon: <Globe size={24} />,
+      icon: <Globe size={20} />,
       title: "Global Shipping",
-      description: "Set up international shipping rates and sell your products to customers around the world.",
+      description: "Set up international shipping rates to sell worldwide.",
       color: "carteBlue"
     }
   ];
@@ -98,11 +118,11 @@ const Features = () => {
   return (
     <section 
       id="features" 
-      className="py-24 bg-carteBackground-dark"
+      className="py-20 bg-carteBackground-dark"
       ref={elementRef as React.RefObject<HTMLDivElement>}
     >
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
           <span 
             className={`inline-block bg-white text-cartePink px-4 py-1.5 rounded-full text-sm font-bold mb-4 kawaii-shadow ${
               isVisible ? 'animate-float' : 'opacity-0'
@@ -112,22 +132,25 @@ const Features = () => {
             CUTE FEATURES
           </span>
           <h2 
-            className={`text-3xl md:text-4xl font-bold text-gray-900 mb-6 ${
+            className={`text-2xl md:text-3xl font-bold text-gray-900 mb-4 ${
               isVisible ? 'animate-fade-in animation-delay-100' : 'opacity-0'
             }`}
           >
             Everything You Need to Create
           </h2>
           <p 
-            className={`text-lg text-gray-600 max-w-2xl mx-auto ${
+            className={`text-base text-gray-600 max-w-xl mx-auto ${
               isVisible ? 'animate-fade-in animation-delay-200' : 'opacity-0'
             }`}
           >
-            Our platform is designed specifically for independent creators, providing all the tools you need to grow your handmade business with a touch of magic.
+            Our platform provides all the tools you need to grow your handmade business with a touch of magic.
           </p>
         </div>
         
-        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 ${isMobile ? 'features-mobile-container' : ''}`}>
+        <div 
+          ref={featureContainerRef}
+          className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ${isMobile ? 'features-mobile-container' : ''}`}
+        >
           {features.map((feature, index) => (
             <FeatureCard 
               key={index}
@@ -143,7 +166,7 @@ const Features = () => {
           ))}
         </div>
 
-        <div className="text-center mt-12">
+        <div className="text-center mt-10">
           <Button 
             variant="outline" 
             className="bg-white border-carteYellow text-carteYellow hover:bg-carteYellow hover:text-gray-900 transition-all duration-300 kawaii-shadow"
