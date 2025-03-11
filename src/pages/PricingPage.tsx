@@ -1,7 +1,7 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useIntersectionObserver } from '../lib/animations';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DollarSign, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -14,6 +14,10 @@ import FeeComparisonCard from '@/components/FeeComparisonCard';
 import { calculateFees, formatCurrency } from '@/utils/pricing';
 
 const PricingPage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const { elementRef, isVisible } = useIntersectionObserver();
   const [monthlySales, setMonthlySales] = useState<number>(1000);
   const fees = calculateFees(monthlySales);
