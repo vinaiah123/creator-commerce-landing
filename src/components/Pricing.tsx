@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useIntersectionObserver } from '../lib/animations';
 import { CreditCard, DollarSign, Infinity, Percent, ArrowRight, Check, Info, ArrowDown, TrendingDown, Award } from 'lucide-react';
@@ -13,7 +14,6 @@ const calculateFees = (sales: number) => {
     etsy: parseFloat((sales * 0.065 + Math.round(sales / 25) * 0.20).toFixed(2)),
     gumroad: parseFloat((sales * 0.10 + Math.round(sales / 25) * 0.30).toFixed(2)),
     patreon: parseFloat((sales * 0.10).toFixed(2)), // Using the middle of the 8-12% range
-    shopify: parseFloat((29 + sales * 0.029).toFixed(2))
   };
 };
 
@@ -126,9 +126,55 @@ const FeeComparisonCard = ({
       {isLowest && (
         <div className="flex items-center mt-3 text-carteYellow">
           <Award size={14} className="mr-1" />
-          <span className="text-sm font-medium">Save {formatCurrency(monthlySales * 0.10 - monthlySales * 0.05)}</span>
+          <span className="text-sm font-medium">Save up to 50% on fees</span>
         </div>
       )}
+    </div>
+  );
+};
+
+// New component for subscription comparison
+const SubscriptionComparisonCard = () => {
+  return (
+    <div className="bg-white rounded-3xl p-8 kawaii-shadow border-2 border-carteYellow/30">
+      <h3 className="text-2xl font-bold mb-6 text-center">All-in-One Solution vs Multiple Apps</h3>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="bg-carteYellow/10 rounded-2xl p-6 border-2 border-carteYellow kawaii-shadow">
+          <div className="flex justify-center mb-4">
+            <img src="/lovable-uploads/b07c314b-716f-455c-881c-41e31ba08a17.png" alt="Carte vs Other Apps" className="w-full max-w-md rounded-xl" />
+          </div>
+        </div>
+        
+        <div className="flex flex-col justify-center">
+          <h4 className="text-xl font-bold mb-4">Why pay for multiple apps?</h4>
+          <p className="text-gray-700 mb-4">
+            Carte's <span className="font-bold">all-in-one, fixed price</span> subscription saves you hundreds, if not thousands, of dollars compared to using multiple specialized tools.
+          </p>
+          
+          <div className="space-y-3 mb-6">
+            <div className="flex items-start">
+              <Check size={18} className="text-carteYellow mt-1 mr-2 flex-shrink-0" />
+              <span className="text-gray-600">Switch from 5% transaction fee to <strong>ZERO fees</strong> with our subscription</span>
+            </div>
+            <div className="flex items-start">
+              <Check size={18} className="text-carteYellow mt-1 mr-2 flex-shrink-0" />
+              <span className="text-gray-600">One platform for everything: store, marketing, analytics</span>
+            </div>
+            <div className="flex items-start">
+              <Check size={18} className="text-carteYellow mt-1 mr-2 flex-shrink-0" />
+              <span className="text-gray-600">Save over $700/month compared to multiple services</span>
+            </div>
+          </div>
+          
+          <Button 
+            className="bg-carteYellow hover:bg-carteYellow-600 text-gray-900 kawaii-shadow w-full md:w-auto"
+          >
+            Switch to Zero Fees
+            <ArrowRight size={16} />
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };
@@ -149,13 +195,6 @@ const Pricing = () => {
   const handleViewAllPlans = () => {
     navigate('/features#pricing');
   };
-
-  const salesMarks = [
-    { value: 100, label: '$100' },
-    { value: 1000, label: '$1,000' },
-    { value: 2500, label: '$2,500' },
-    { value: 5000, label: '$5,000' },
-  ];
 
   return (
     <section 
@@ -194,7 +233,7 @@ const Pricing = () => {
             title="Pay As You Go"
             price={
               <div className="flex items-center">
-                <span className="text-4xl">4.9%</span>
+                <span className="text-4xl">5%</span>
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger>
@@ -273,6 +312,11 @@ const Pricing = () => {
                 Drag the slider to see how Carte's 5% transaction fee compares to other platforms at different sales volumes.
               </p>
             </div>
+            <div className="mt-4 md:mt-0">
+              <div className="px-4 py-1.5 bg-carteYellow text-gray-900 rounded-full text-sm font-bold kawaii-shadow">
+                <span>Carte: Always the Lowest Fees</span>
+              </div>
+            </div>
           </div>
           
           <div className="bg-white p-6 rounded-xl mb-8">
@@ -302,7 +346,7 @@ const Pricing = () => {
               </div>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <FeeComparisonCard 
                 platform="Carte" 
                 fee={fees.carte}
@@ -324,11 +368,6 @@ const Pricing = () => {
                 fee={fees.patreon}
                 monthlySales={monthlySales}
               />
-              <FeeComparisonCard 
-                platform="Shopify" 
-                fee={fees.shopify}
-                monthlySales={monthlySales}
-              />
             </div>
           </div>
           
@@ -339,8 +378,13 @@ const Pricing = () => {
           </div>
         </div>
 
+        {/* New subscription comparison section */}
+        <div className={`mb-12 ${isVisible ? 'animate-fade-in animation-delay-700' : 'opacity-0'}`}>
+          <SubscriptionComparisonCard />
+        </div>
+
         <div className={`bg-white rounded-3xl p-10 text-center kawaii-shadow border-2 border-carteYellow/30 ${
-          isVisible ? 'animate-fade-in animation-delay-600' : 'opacity-0'
+          isVisible ? 'animate-fade-in animation-delay-800' : 'opacity-0'
         }`}>
           <h3 className="text-2xl md:text-3xl font-bold mb-4">Flexible Pricing That Grows With You</h3>
           <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
