@@ -1,5 +1,6 @@
 
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import Features from '@/components/Features';
@@ -7,6 +8,8 @@ import Testimonials from '@/components/Testimonials';
 import Footer from '@/components/Footer';
 
 const Index = () => {
+  const location = useLocation();
+
   useEffect(() => {
     // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -24,7 +27,25 @@ const Index = () => {
         });
       });
     });
-  }, []);
+
+    // Handle hash in URL when arriving from other pages
+    const handleHashURL = () => {
+      const hash = location.hash;
+      if (hash) {
+        const targetElement = document.querySelector(hash);
+        if (targetElement) {
+          setTimeout(() => {
+            window.scrollTo({
+              top: targetElement.getBoundingClientRect().top + window.scrollY - 100,
+              behavior: 'smooth'
+            });
+          }, 100);
+        }
+      }
+    };
+
+    handleHashURL();
+  }, [location]);
 
   return (
     <div className="min-h-screen flex flex-col">

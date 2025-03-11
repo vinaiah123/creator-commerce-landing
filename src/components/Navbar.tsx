@@ -1,10 +1,12 @@
 
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,6 +28,8 @@ const Navbar = () => {
     setMenuOpen(!menuOpen);
   };
 
+  const isHomePage = location.pathname === '/';
+
   return (
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
@@ -33,30 +37,57 @@ const Navbar = () => {
       }`}
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
-        <a 
-          href="#" 
+        <Link 
+          to="/" 
           className="font-inter font-bold text-2xl text-carteYellow transition-all duration-300"
         >
           Carte
-        </a>
+        </Link>
         
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
-          {['Features', 'Pricing', 'Testimonials', 'Contact'].map((item) => (
-            <a 
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              className="font-outfit text-gray-800 hover:text-carteYellow transition-colors duration-300 text-base"
-            >
-              {item}
-            </a>
-          ))}
-          <a 
-            href="#start"
+          {isHomePage ? (
+            <>
+              {['Features', 'Pricing', 'Testimonials', 'Contact'].map((item) => (
+                <a 
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  className="font-outfit text-gray-800 hover:text-carteYellow transition-colors duration-300 text-base"
+                >
+                  {item}
+                </a>
+              ))}
+            </>
+          ) : (
+            <>
+              <Link
+                to="/#features"
+                className="font-outfit text-gray-800 hover:text-carteYellow transition-colors duration-300 text-base"
+              >
+                Home
+              </Link>
+              <Link
+                to="/features"
+                className={`font-outfit transition-colors duration-300 text-base ${
+                  location.pathname === '/features' ? 'text-carteYellow' : 'text-gray-800 hover:text-carteYellow'
+                }`}
+              >
+                Features
+              </Link>
+              <Link
+                to="/#pricing"
+                className="font-outfit text-gray-800 hover:text-carteYellow transition-colors duration-300 text-base"
+              >
+                Pricing
+              </Link>
+            </>
+          )}
+          <Link 
+            to="/#start"
             className="px-6 py-2.5 bg-carteYellow text-gray-900 rounded-md hover:bg-carteYellow-600 transition-colors duration-300 font-outfit font-medium text-sm"
           >
             Start Selling
-          </a>
+          </Link>
         </nav>
         
         {/* Mobile Menu Button */}
@@ -76,23 +107,53 @@ const Navbar = () => {
         }`}
       >
         <div className="container mx-auto px-6 py-4 flex flex-col space-y-4">
-          {['Features', 'Pricing', 'Testimonials', 'Contact'].map((item) => (
-            <a 
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              className="font-outfit text-gray-800 hover:text-carteYellow transition-colors duration-300 py-2 text-lg"
-              onClick={() => setMenuOpen(false)}
-            >
-              {item}
-            </a>
-          ))}
-          <a 
-            href="#start"
+          {isHomePage ? (
+            <>
+              {['Features', 'Pricing', 'Testimonials', 'Contact'].map((item) => (
+                <a 
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  className="font-outfit text-gray-800 hover:text-carteYellow transition-colors duration-300 py-2 text-lg"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item}
+                </a>
+              ))}
+            </>
+          ) : (
+            <>
+              <Link
+                to="/"
+                className="font-outfit text-gray-800 hover:text-carteYellow transition-colors duration-300 py-2 text-lg"
+                onClick={() => setMenuOpen(false)}
+              >
+                Home
+              </Link>
+              <Link
+                to="/features"
+                className={`font-outfit transition-colors duration-300 py-2 text-lg ${
+                  location.pathname === '/features' ? 'text-carteYellow' : 'text-gray-800 hover:text-carteYellow'
+                }`}
+                onClick={() => setMenuOpen(false)}
+              >
+                Features
+              </Link>
+              <Link
+                to="/#pricing"
+                className="font-outfit text-gray-800 hover:text-carteYellow transition-colors duration-300 py-2 text-lg"
+                onClick={() => setMenuOpen(false)}
+              >
+                Pricing
+              </Link>
+            </>
+          )}
+          <Link 
+            to="/#start"
             className="px-6 py-3 bg-carteYellow text-gray-900 rounded-md hover:bg-carteYellow-600 transition-colors duration-300 font-outfit font-medium text-base text-center"
             onClick={() => setMenuOpen(false)}
           >
             Start Selling
-          </a>
+          </Link>
         </div>
       </div>
     </header>

@@ -1,6 +1,8 @@
 
 import { useIntersectionObserver } from '../lib/animations';
-import { Palette, Globe, Coins, Sparkles, Heart, Star } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Palette, Globe, Coins, Sparkles, Heart, Star, ArrowRight, ShoppingBag, Link as LinkIcon, CreditCard } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 interface FeatureCardProps {
   icon: React.ReactNode;
@@ -31,27 +33,32 @@ const FeatureCard = ({ icon, title, description, delay, isVisible, color }: Feat
 
 const Features = () => {
   const { elementRef, isVisible } = useIntersectionObserver();
+  const navigate = useNavigate();
 
   const features = [
     {
-      icon: <Coins size={32} />,
-      title: "Zero Fees",
-      description: "Keep 100% of your sales. We never take a cut from your transactions, allowing you to maximize your profit margins.",
+      icon: <ShoppingBag size={32} />,
+      title: "Online Shop",
+      description: "Create a beautiful online shop to showcase and sell your handmade creations with zero transaction fees.",
       color: "cartePink"
     },
     {
-      icon: <Star size={32} />,
-      title: "Easy Setup",
-      description: "Launch your online store in minutes with our intuitive dashboard. No coding or design skills required.",
+      icon: <LinkIcon size={32} />,
+      title: "Link in Bio",
+      description: "Centralize all your social media links and content in one beautiful, customizable page.",
       color: "carte"
     },
     {
-      icon: <Heart size={32} />,
-      title: "Customizable Storefronts",
-      description: "Create a unique shopping experience that matches your brand with fully customizable templates and layouts.",
+      icon: <CreditCard size={32} />,
+      title: "Multiple Payment Options",
+      description: "Accept payments through PayPal, Stripe, bank transfers, and more to make purchasing easy for your customers.",
       color: "carteBlue"
     }
   ];
+
+  const handleViewAllFeatures = () => {
+    navigate('/features');
+  };
 
   return (
     <section 
@@ -97,6 +104,17 @@ const Features = () => {
               color={feature.color}
             />
           ))}
+        </div>
+
+        <div className="text-center mt-12">
+          <Button 
+            variant="outline" 
+            className="bg-white border-carteYellow text-carteYellow hover:bg-carteYellow hover:text-gray-900 transition-all duration-300 kawaii-shadow"
+            onClick={handleViewAllFeatures}
+          >
+            View All Features
+            <ArrowRight size={16} className="ml-2" />
+          </Button>
         </div>
       </div>
     </section>
