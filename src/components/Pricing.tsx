@@ -293,23 +293,13 @@ const Pricing = () => {
             subtitle="Pay As You Go"
             price={
               <div className="flex items-center">
-                <span className="text-4xl">5%</span>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <Info size={16} className="ml-2 text-gray-400 cursor-help" />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p className="max-w-xs text-sm">Only pay when you make a sale. No monthly fees.</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <span className="text-lg text-gray-600">Start for free</span>
               </div>
             }
             features={[
+              <span key="transaction-fee" className="font-bold text-carteYellow">5% transaction costs</span>,
               "No monthly fees",
               "Only pay when you sell",
-              "5% transaction costs",
               "All core features included",
               "Unlimited products",
               "Custom domain support"
@@ -464,3 +454,4 @@ const Pricing = () => {
 };
 
 export default Pricing;
+
