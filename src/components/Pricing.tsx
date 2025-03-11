@@ -201,10 +201,7 @@ const SubscriptionComparisonCard = () => {
       </div>
       
       <div className="mt-8 text-center">
-        <Button className="bg-carteYellow hover:bg-carteYellow-600 text-gray-900 kawaii-shadow">
-          Switch to Zero Fees Now
-          <ArrowRight size={16} />
-        </Button>
+        
       </div>
     </div>;
 };
