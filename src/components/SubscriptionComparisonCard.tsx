@@ -1,5 +1,5 @@
 
-import { DollarSign, ArrowRight, Infinity, TrendingDown, Award, Check, Heart, Sparkles, Star } from 'lucide-react';
+import { DollarSign, ArrowRight, Infinity, TrendingDown, Award, Check, Heart, Sparkles, Star, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const SubscriptionComparisonCard = () => {
@@ -74,12 +74,18 @@ const SubscriptionComparisonCard = () => {
             </div>
           ))}
           
-          <div className="mt-6 bg-blue-100 rounded-xl p-4 border-2 border-blue-300">
-            <div className="flex justify-between items-center text-blue-600">
-              <span className="font-bold">Monthly Total</span>
+          <div className="mt-6 bg-red-100 rounded-xl p-4 border-2 border-red-300">
+            <div className="flex justify-between items-center text-red-600">
+              <span className="font-bold flex items-center">
+                <AlertTriangle size={18} className="mr-2" />
+                Monthly Total
+              </span>
               <span className="font-bold">$221/mo</span>
             </div>
-            <div className="text-sm text-blue-500 mt-1">+ transaction fees on every sale</div>
+            <div className="text-sm text-red-500 mt-1 flex items-center">
+              <AlertTriangle size={14} className="mr-1" />
+              + transaction fees on every sale
+            </div>
           </div>
           
           <div className="mt-6 flex items-center justify-center text-lg">
