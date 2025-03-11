@@ -1,13 +1,30 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { useIntersectionObserver } from '@/lib/animations';
 import { HelpCircle, MessageCircle, CreditCard, DollarSign, Calendar, BarChart, ArrowUpDown, RefreshCw } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 const PricingFAQ = () => {
-  const { elementRef, isVisible } = useIntersectionObserver();
+  // Set a lower threshold to trigger visibility earlier
+  const { elementRef, isVisible } = useIntersectionObserver({ 
+    threshold: 0.05,
+    rootMargin: '100px' 
+  });
   const isMobile = useIsMobile();
+
+  // Force visibility on initial render
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const element = elementRef.current;
+      if (element && window.scrollY === 0) {
+        // Force the element to be visible if at the top of the page
+        element.scrollIntoView({ behavior: 'auto', block: 'nearest' });
+      }
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, [elementRef]);
 
   const faqItems = [
     {
@@ -52,14 +69,15 @@ const PricingFAQ = () => {
           </p>
         </div>
 
+        {/* FAQ content will always be visible */}
         <div className="grid grid-cols-1 gap-8 relative">
           {/* Decorative elements */}
           <div className="absolute top-0 -left-16 w-32 h-32 bg-carteYellow/10 rounded-full filter blur-xl animate-float" style={{ animationDelay: '0s' }}></div>
           <div className="absolute bottom-20 -right-16 w-40 h-40 bg-cartePink/10 rounded-full filter blur-xl animate-float" style={{ animationDelay: '1s' }}></div>
           <div className="absolute top-1/3 right-0 w-24 h-24 bg-carteYellow/20 rounded-full filter blur-lg animate-float" style={{ animationDelay: '0.5s' }}></div>
           
-          {/* FAQ Accordion */}
-          <div className={`bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg border border-carteYellow/20 overflow-hidden transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          {/* FAQ Accordion - Always visible */}
+          <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg border border-carteYellow/20 overflow-hidden">
             <Accordion type="single" collapsible className="w-full">
               {faqItems.map((item, i) => (
                 <AccordionItem value={`item-${i}`} key={i} className="border-b border-carteYellow/20 last:border-0">
@@ -78,8 +96,8 @@ const PricingFAQ = () => {
           </div>
         </div>
 
-        {/* Support CTA section */}
-        <div className={`mt-12 transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        {/* Support CTA section - Always visible */}
+        <div className="mt-12">
           <div className="bg-gradient-to-r from-cartePink/90 to-carteYellow/90 rounded-2xl p-6 md:p-8 shadow-lg flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-start space-x-4 max-w-xl">
               <HelpCircle className="h-8 w-8 text-white flex-shrink-0 mt-1" />
