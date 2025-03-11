@@ -6,15 +6,12 @@ import { useIntersectionObserver } from '../lib/animations';
 const Hero = () => {
   const { elementRef, isVisible } = useIntersectionObserver();
   const textContainerRef = useRef<HTMLDivElement>(null);
-  const shapesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const textContainer = textContainerRef.current;
-    const shapes = shapesRef.current;
     
-    if (isVisible && textContainer && shapes) {
+    if (isVisible && textContainer) {
       textContainer.classList.add('animate-hero-content');
-      shapes.classList.add('animate-hero-shapes');
     }
   }, [isVisible]);
 
@@ -34,59 +31,6 @@ const Hero = () => {
             filter: "brightness(0.7)"
           }}
         ></div>
-      </div>
-      
-      {/* Animated Floating Elements with Creator Images */}
-      <div 
-        ref={shapesRef}
-        className="absolute inset-0 z-5 opacity-0"
-      >
-        {/* Floating creator images */}
-        <div className="absolute top-[10%] right-[20%] w-24 h-24 rounded-full overflow-hidden animate-float shadow-xl border-2 border-white/30">
-          <img 
-            src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400" 
-            alt="Creator" 
-            className="w-full h-full object-cover"
-          />
-        </div>
-        
-        <div className="absolute bottom-[25%] left-[15%] w-32 h-32 rounded-full overflow-hidden animate-floatSlow shadow-xl border-2 border-white/30" style={{animationDelay: "1s"}}>
-          <img 
-            src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400" 
-            alt="Creator" 
-            className="w-full h-full object-cover"
-          />
-        </div>
-        
-        <div className="absolute top-[30%] left-[10%] w-28 h-28 rounded-full overflow-hidden animate-floatMedium shadow-xl border-2 border-white/30" style={{animationDelay: "0.5s"}}>
-          <img 
-            src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400" 
-            alt="Creator Team" 
-            className="w-full h-full object-cover"
-          />
-        </div>
-        
-        <div className="absolute bottom-[15%] right-[12%] w-36 h-36 rounded-full overflow-hidden animate-floatFast shadow-xl border-2 border-white/30" style={{animationDelay: "1.5s"}}>
-          <img 
-            src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400" 
-            alt="Creators Working" 
-            className="w-full h-full object-cover"
-          />
-        </div>
-        
-        <div className="absolute top-[50%] right-[30%] w-20 h-20 rounded-full overflow-hidden animate-float shadow-xl border-2 border-white/30" style={{animationDelay: "0.7s"}}>
-          <img 
-            src="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=400" 
-            alt="Creator" 
-            className="w-full h-full object-cover"
-          />
-        </div>
-        
-        {/* Additional decorative elements */}
-        <div className="absolute top-[20%] right-[15%] w-32 h-32 bg-white/10 rounded-full blur-xl animate-floatSlow" style={{animationDelay: "0.3s"}}></div>
-        <div className="absolute top-[30%] left-[10%] w-16 h-16 bg-cartePink/30 rounded-xl rotate-12 blur-sm animate-floatMedium" style={{animationDelay: "0.8s"}}></div>
-        <div className="absolute bottom-[25%] right-[20%] w-24 h-24 bg-white/20 rounded-full blur-lg animate-floatFast" style={{animationDelay: "1.2s"}}></div>
-        <div className="absolute top-[15%] left-[25%] w-20 h-20 bg-carteYellow-300/40 rounded-lg rotate-45 blur-sm animate-float" style={{animationDelay: "0.4s"}}></div>
       </div>
 
       <div className="container mx-auto px-6 z-10 relative">
