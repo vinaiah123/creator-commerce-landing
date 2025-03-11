@@ -1,7 +1,8 @@
+
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useIntersectionObserver } from '../lib/animations';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DollarSign, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -17,6 +18,11 @@ const PricingPage = () => {
   const { elementRef, isVisible } = useIntersectionObserver();
   const [monthlySales, setMonthlySales] = useState<number>(1000);
   const fees = calculateFees(monthlySales);
+  
+  // Force scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   
   const handleSalesChange = (value: number[]) => {
     setMonthlySales(value[0]);
