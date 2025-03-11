@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useIntersectionObserver } from '../lib/animations';
 import { CreditCard, DollarSign, Infinity, Percent, ArrowRight, Check, Info, ArrowDown, TrendingDown, Award } from 'lucide-react';
