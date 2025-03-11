@@ -29,3 +29,9 @@ export function useIsMobile() {
 
   return isMobile
 }
+
+// Add a desktop-only hook for convenience
+export function useIsDesktop() {
+  const isMobile = useIsMobile()
+  return !isMobile
+}
