@@ -1,4 +1,3 @@
-
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useIntersectionObserver } from '../lib/animations';
@@ -13,41 +12,41 @@ import PricingFAQ from '@/components/PricingFAQ';
 import PricingCard from '@/components/PricingCard';
 import FeeComparisonCard from '@/components/FeeComparisonCard';
 import { calculateFees, formatCurrency } from '@/utils/pricing';
-
 const PricingPage = () => {
   const pageRef = useRef<HTMLDivElement>(null);
-  
+
   // Force scroll to top when component mounts with a slight delay to ensure it works
   useEffect(() => {
     // Immediate scroll
     window.scrollTo(0, 0);
-    
+
     // Also add a delayed scroll to ensure it works
     const timer = setTimeout(() => {
       window.scrollTo({
         top: 0,
         behavior: 'auto'
       });
-      
+
       // Also try scrolling the specific element if window scroll doesn't work
       if (pageRef.current) {
-        pageRef.current.scrollIntoView({ behavior: 'auto', block: 'start' });
+        pageRef.current.scrollIntoView({
+          behavior: 'auto',
+          block: 'start'
+        });
       }
     }, 100);
-    
     return () => clearTimeout(timer);
   }, []);
-
-  const { elementRef, isVisible } = useIntersectionObserver();
+  const {
+    elementRef,
+    isVisible
+  } = useIntersectionObserver();
   const [monthlySales, setMonthlySales] = useState<number>(1000);
   const fees = calculateFees(monthlySales);
-  
   const handleSalesChange = (value: number[]) => {
     setMonthlySales(value[0]);
   };
-  
-  return (
-    <div className="min-h-screen flex flex-col" ref={pageRef}>
+  return <div className="min-h-screen flex flex-col" ref={pageRef}>
       <Navbar />
       
       <main className="flex-grow pt-20 bg-carteBackground">
@@ -67,69 +66,21 @@ const PricingPage = () => {
           
           <div className={`${isVisible ? 'animate-fade-in animation-delay-300' : 'opacity-0'} mb-20`}>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <PricingCard 
-                title="Free" 
-                subtitle="Pay As You Go" 
-                price={
-                  <div className="flex items-center">
+              <PricingCard title="Free" subtitle="Pay As You Go" price={<div className="flex items-center">
                     <span className="text-lg text-gray-600">Start for free</span>
-                  </div>
-                } 
-                features={[
-                  <span key="transaction-fee" className="font-bold text-carteYellow">5% transaction costs</span>, 
-                  "No monthly fees", 
-                  "Only pay when you sell", 
-                  "All core features included", 
-                  "Unlimited products", 
-                  "Custom domain support"
-                ]} 
-                cta="Start for Free" 
-                delay={200} 
-                isVisible={isVisible} 
-              />
+                  </div>} features={[<span key="transaction-fee" className="font-bold text-carteYellow">5% transaction costs</span>, "No monthly fees", "Only pay when you sell", "All core features included", "Unlimited products", "Custom domain support"]} cta="Start for Free" delay={200} isVisible={isVisible} />
               
-              <PricingCard 
-                title="Starter" 
-                price={
-                  <div className="flex items-center">
+              <PricingCard title="Starter" price={<div className="flex items-center">
                     <span className="text-2xl mr-1">$</span>
                     <span className="text-4xl">12</span>
                     <span className="text-xl ml-1 text-gray-500">/mo</span>
-                  </div>
-                } 
-                features={[
-                  "0% transaction fees", 
-                  "Priority support", 
-                  "Premium themes", 
-                  "Advanced analytics", 
-                  "Custom checkout"
-                ]} 
-                cta="Get Started" 
-                isPopular={true} 
-                delay={300} 
-                isVisible={isVisible} 
-              />
+                  </div>} features={["0% transaction fees", "Priority support", "Premium themes", "Advanced analytics", "Custom checkout"]} cta="Get Started" isPopular={true} delay={300} isVisible={isVisible} />
               
-              <PricingCard 
-                title="Professional" 
-                price={
-                  <div className="flex items-center">
+              <PricingCard title="Professional" price={<div className="flex items-center">
                     <span className="text-2xl mr-1">$</span>
                     <span className="text-4xl">29</span>
                     <span className="text-xl ml-1 text-gray-500">/mo</span>
-                  </div>
-                } 
-                features={[
-                  "0% transaction fees", 
-                  "Multiple team members", 
-                  "API access", 
-                  "Webhooks integration", 
-                  "White-label experience"
-                ]} 
-                cta="Go Pro" 
-                delay={400} 
-                isVisible={isVisible} 
-              />
+                  </div>} features={["0% transaction fees", "Multiple team members", "API access", "Webhooks integration", "White-label experience"]} cta="Go Pro" delay={400} isVisible={isVisible} />
             </div>
           </div>
           
@@ -149,14 +100,7 @@ const PricingPage = () => {
                 </div>
                 
                 <div className="w-full md:w-2/3 px-4">
-                  <Slider 
-                    defaultValue={[1000]} 
-                    min={100} 
-                    max={5000} 
-                    step={100} 
-                    onValueChange={handleSalesChange} 
-                    className="my-4" 
-                  />
+                  <Slider defaultValue={[1000]} min={100} max={5000} step={100} onValueChange={handleSalesChange} className="my-4" />
                   <div className="flex justify-between text-sm text-gray-500">
                     <span>$100</span>
                     <span>$1,000</span>
@@ -193,22 +137,11 @@ const PricingPage = () => {
             <PricingFAQ />
           </div>
           
-          <div className={`${isVisible ? 'animate-fade-in animation-delay-900' : 'opacity-0'} bg-white rounded-3xl p-10 text-center kawaii-shadow border-2 border-carteYellow/30`}>
-            <h3 className="text-2xl md:text-3xl font-bold mb-4">Ready to Start Your Creative Business?</h3>
-            <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
-              Join thousands of creators who are building successful businesses with Carte.
-            </p>
-            <Button size="lg" className="bg-carteYellow hover:bg-carteYellow-600 text-gray-900 kawaii-shadow">
-              Get Started Now
-              <ArrowRight size={16} />
-            </Button>
-          </div>
+          
         </div>
       </main>
       
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default PricingPage;
