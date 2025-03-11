@@ -87,7 +87,7 @@ const InstagramFeed = () => {
       <div className="container mx-auto px-4">
         <div className={`text-center mb-12 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient">Follow Us on Instagram</h2>
-          <p className="text-lg text-gray-700 max-w-2xl mx-auto">
+          <p className="text-lg text-carteBlue-700 max-w-2xl mx-auto">
             Join our community of creative entrepreneurs and stay updated with the latest features and success stories.
           </p>
         </div>
@@ -117,7 +117,7 @@ const InstagramFeed = () => {
                     href={post} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-blue-500 hover:underline font-medium"
+                    className="text-carteBlue-700 hover:underline font-medium"
                   >
                     View this post on Instagram
                   </a>
