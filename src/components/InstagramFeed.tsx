@@ -1,6 +1,6 @@
 
-import { ArrowRight, Heart, Instagram } from 'lucide-react';
-import { useState } from 'react';
+import { ArrowRight, Instagram } from 'lucide-react';
+import { useEffect } from 'react';
 import { useIntersectionObserver } from '@/lib/animations';
 import { useIsDesktop } from '@/hooks/use-mobile';
 import { Button } from '@/components/ui/button';
@@ -8,29 +8,44 @@ import { Button } from '@/components/ui/button';
 const InstagramFeed = () => {
   const { elementRef, isVisible } = useIntersectionObserver();
   const isDesktop = useIsDesktop();
-  const [posts] = useState([
-    {
-      id: 1,
-      imageUrl: 'https://images.unsplash.com/photo-1662036625997-069dd13e70ba?q=80&w=1974&auto=format&fit=crop',
-      likes: 217,
-      caption: 'Helping small businesses thrive with our all-in-one ecommerce platform. Start selling online today with Carte! #ecommerce #smallbusiness',
-      date: '2024-05-15'
-    },
-    {
-      id: 2,
-      imageUrl: 'https://images.unsplash.com/photo-1661956602926-db6b25f75947?q=80&w=1942&auto=format&fit=crop',
-      likes: 189,
-      caption: 'New feature alert! 🚀 We\'ve just launched our advanced analytics dashboard to help you understand your customers better. #carteapp #digitalmarketing',
-      date: '2024-05-01'
-    },
-    {
-      id: 3,
-      imageUrl: 'https://images.unsplash.com/photo-1664575599618-8f6bd76fc670?q=80&w=2070&auto=format&fit=crop',
-      likes: 246,
-      caption: 'Meet Sarah, who turned her handcrafted jewelry business into a six-figure success story with Carte! Read her full story in our latest blog post (link in bio).',
-      date: '2024-04-22'
+
+  // Load Instagram embed script
+  useEffect(() => {
+    if (!isDesktop) return;
+
+    // Create script element for Instagram embed API
+    const script = document.createElement('script');
+    script.src = 'https://www.instagram.com/embed.js';
+    script.async = true;
+    script.defer = true;
+
+    // Add script to document
+    document.body.appendChild(script);
+
+    // Clean up script on unmount
+    return () => {
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
+      // Clean up any JSONP callback that might be created
+      const embeddedScripts = document.querySelectorAll('script[src^="https://www.instagram.com/embed.js"]');
+      embeddedScripts.forEach(embedScript => {
+        if (embedScript !== script && document.body.contains(embedScript)) {
+          document.body.removeChild(embedScript);
+        }
+      });
+    };
+  }, [isDesktop]);
+
+  // Process Instagram embeds after component loads
+  useEffect(() => {
+    if (!isDesktop || !isVisible) return;
+
+    // If window.instgrm exists, process embeds
+    if (window.instgrm) {
+      window.instgrm.Embeds.process();
     }
-  ]);
+  }, [isVisible, isDesktop]);
 
   // Only render on desktop
   if (!isDesktop) return null;
@@ -50,32 +65,71 @@ const InstagramFeed = () => {
         </div>
 
         <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          {posts.map((post) => (
-            <div key={post.id} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <div className="p-3 flex items-center justify-between border-b border-gray-100">
-                <div className="flex items-center gap-2">
-                  <Instagram className="h-5 w-5 text-cartePink-500" />
-                  <span className="font-semibold text-sm">carteapp.io</span>
-                </div>
-                <span className="text-xs text-gray-500">{post.date}</span>
-              </div>
-              <div className="aspect-square overflow-hidden">
-                <img 
-                  src={post.imageUrl} 
-                  alt={`Instagram post ${post.id}`} 
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-4">
-                <div className="flex items-center gap-1 mb-2">
-                  <Heart className="h-4 w-4 text-cartePink-500" />
-                  <span className="text-sm text-gray-600">{post.likes} likes</span>
-                </div>
-                <p className="text-sm text-gray-800 line-clamp-3 mb-3">{post.caption}</p>
-              </div>
-            </div>
-          ))}
+          {/* Instagram Post 1 */}
+          <div className="instagram-embed-container bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+            <blockquote 
+              className="instagram-media" 
+              data-instgrm-permalink="https://www.instagram.com/p/C8KxRF8r11n/" 
+              data-instgrm-version="14"
+              style={{ 
+                background: '#FFF', 
+                border: '0', 
+                borderRadius: '3px', 
+                boxShadow: 'none', 
+                margin: '0', 
+                maxWidth: '540px', 
+                minWidth: '100%', 
+                padding: '0', 
+                width: '100%' 
+              }}
+            >
+              <div style={{ padding: '16px' }}></div>
+            </blockquote>
+          </div>
+
+          {/* Instagram Post 2 */}
+          <div className="instagram-embed-container bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+            <blockquote 
+              className="instagram-media"
+              data-instgrm-permalink="https://www.instagram.com/p/C7k0fD8rDnl/"
+              data-instgrm-version="14"
+              style={{ 
+                background: '#FFF', 
+                border: '0', 
+                borderRadius: '3px', 
+                boxShadow: 'none', 
+                margin: '0', 
+                maxWidth: '540px', 
+                minWidth: '100%', 
+                padding: '0', 
+                width: '100%' 
+              }}
+            >
+              <div style={{ padding: '16px' }}></div>
+            </blockquote>
+          </div>
+
+          {/* Instagram Post 3 */}
+          <div className="instagram-embed-container bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+            <blockquote 
+              className="instagram-media"
+              data-instgrm-permalink="https://www.instagram.com/p/C6vaqClL3eQ/"
+              data-instgrm-version="14"
+              style={{ 
+                background: '#FFF', 
+                border: '0', 
+                borderRadius: '3px', 
+                boxShadow: 'none', 
+                margin: '0', 
+                maxWidth: '540px', 
+                minWidth: '100%', 
+                padding: '0', 
+                width: '100%' 
+              }}
+            >
+              <div style={{ padding: '16px' }}></div>
+            </blockquote>
+          </div>
         </div>
 
         <div className={`text-center mt-10 transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -97,5 +151,16 @@ const InstagramFeed = () => {
     </section>
   );
 };
+
+// Add TypeScript interface for Instagram's embed API
+declare global {
+  interface Window {
+    instgrm?: {
+      Embeds: {
+        process: () => void;
+      };
+    };
+  }
+}
 
 export default InstagramFeed;
