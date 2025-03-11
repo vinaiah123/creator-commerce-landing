@@ -27,7 +27,7 @@ const FeatureCard = ({ icon, title, description, delay, isVisible, color, index,
             : 'opacity-0 translate-y-10'
       }`}
     >
-      <div className={`w-10 h-10 bg-${color}/20 rounded-xl flex items-center justify-center text-${color} mb-3 animate-bounce-small`}>
+      <div className={`w-10 h-10 bg-${color}/20 rounded-xl flex items-center justify-center text-${color} mb-2 animate-bounce-small`}>
         {icon}
       </div>
       <h3 className="text-lg font-bold text-gray-900 mb-1">{title}</h3>
@@ -76,37 +76,37 @@ const Features = () => {
     {
       icon: <ShoppingBag size={20} />,
       title: "Online Shop",
-      description: "Create a beautiful online shop to showcase and sell your products.",
+      description: "Create a beautiful online shop to showcase your products. No technical skills needed to get started quickly.",
       color: "cartePink"
     },
     {
       icon: <LinkIcon size={20} />,
       title: "Link in Bio",
-      description: "Centralize all your social media links in one customizable page.",
+      description: "Centralize all your social media links in one customizable page. Boost your conversion with a professional link hub.",
       color: "carte"
     },
     {
       icon: <CreditCard size={20} />,
       title: "Multiple Payments",
-      description: "Accept payments through PayPal, Stripe and more.",
+      description: "Accept payments through PayPal, Stripe and more. Give your customers flexibility with various payment options.",
       color: "carteBlue"
     },
     {
       icon: <MessageSquare size={20} />,
       title: "Customer Reviews",
-      description: "Let customers leave reviews to build trust with future shoppers.",
+      description: "Let customers leave reviews to build trust with future shoppers. Showcase positive experiences to increase sales.",
       color: "cartePink"
     },
     {
       icon: <Palette size={20} />,
       title: "Custom Themes",
-      description: "Choose from dozens of kawaii themes or create your own.",
+      description: "Choose from dozens of kawaii themes or create your own. Match your brand's unique style with customizable options.",
       color: "carte"
     },
     {
       icon: <Globe size={20} />,
       title: "Global Shipping",
-      description: "Set up international shipping rates to sell worldwide.",
+      description: "Set up international shipping rates to sell worldwide. Expand your reach to customers across the globe easily.",
       color: "carteBlue"
     }
   ];
