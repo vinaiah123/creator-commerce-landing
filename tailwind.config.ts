@@ -63,31 +63,31 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				purple: {
-					DEFAULT: '#3D2F78',
+				carte: {
+					DEFAULT: '#A57CE4', // Main purple from Figma
 					50: '#F5F3FB',
 					100: '#E0DCF4',
 					200: '#C1B8E9',
-					300: '#A294DE',
-					400: '#8370D3',
-					500: '#644CC8',
-					600: '#503AA6',
-					700: '#3D2F78',
-					800: '#29204F',
-					900: '#151027',
+					300: '#A57CE4', // Primary purple
+					400: '#8D64DD',
+					500: '#744BD6',
+					600: '#5C31BE',
+					700: '#4D29A3',
+					800: '#3F2288',
+					900: '#311B6D',
 				},
 				blue: {
-					DEFAULT: '#3B82F6',
-					50: '#EFF6FF',
-					100: '#DBEAFE',
-					200: '#BFDBFE',
-					300: '#93C5FD',
-					400: '#60A5FA',
-					500: '#3B82F6',
-					600: '#2563EB',
-					700: '#1D4ED8',
-					800: '#1E40AF',
-					900: '#1E3A8A',
+					DEFAULT: '#E8F1FF', // Light blue from Figma
+					50: '#F8FAFF',
+					100: '#E8F1FF', // Secondary blue
+					200: '#C5DBFF',
+					300: '#A2C5FF',
+					400: '#7FAFFF',
+					500: '#5C99FF',
+					600: '#3982FF',
+					700: '#166CFF',
+					800: '#0052E0',
+					900: '#0041B3',
 				},
 			},
 			borderRadius: {

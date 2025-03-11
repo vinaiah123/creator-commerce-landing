@@ -35,7 +35,7 @@ const Navbar = () => {
       <div className="container mx-auto px-6 flex items-center justify-between">
         <a 
           href="#" 
-          className="font-inter font-bold text-2xl text-purple-700 transition-all duration-300"
+          className="font-inter font-bold text-2xl text-carte-300 transition-all duration-300"
         >
           Carte
         </a>
@@ -46,14 +46,14 @@ const Navbar = () => {
             <a 
               key={item}
               href={`#${item.toLowerCase()}`}
-              className="font-outfit text-gray-800 hover:text-blue-600 transition-colors duration-300 text-base"
+              className="font-outfit text-gray-800 hover:text-carte-400 transition-colors duration-300 text-base"
             >
               {item}
             </a>
           ))}
           <a 
             href="#start"
-            className="px-6 py-2.5 bg-purple-700 text-white rounded-md hover:bg-purple-600 transition-colors duration-300 font-outfit font-medium text-sm"
+            className="px-6 py-2.5 bg-carte-300 text-white rounded-md hover:bg-carte-400 transition-colors duration-300 font-outfit font-medium text-sm"
           >
             Start Selling
           </a>
@@ -61,7 +61,7 @@ const Navbar = () => {
         
         {/* Mobile Menu Button */}
         <button 
-          className="md:hidden text-purple-700 focus:outline-none" 
+          className="md:hidden text-carte-300 focus:outline-none" 
           onClick={toggleMenu}
           aria-label="Toggle menu"
         >
@@ -80,7 +80,7 @@ const Navbar = () => {
             <a 
               key={item}
               href={`#${item.toLowerCase()}`}
-              className="font-outfit text-gray-800 hover:text-blue-600 transition-colors duration-300 py-2 text-lg"
+              className="font-outfit text-gray-800 hover:text-carte-400 transition-colors duration-300 py-2 text-lg"
               onClick={() => setMenuOpen(false)}
             >
               {item}
@@ -88,7 +88,7 @@ const Navbar = () => {
           ))}
           <a 
             href="#start"
-            className="px-6 py-3 bg-purple-700 text-white rounded-md hover:bg-purple-600 transition-colors duration-300 font-outfit font-medium text-base text-center"
+            className="px-6 py-3 bg-carte-300 text-white rounded-md hover:bg-carte-400 transition-colors duration-300 font-outfit font-medium text-base text-center"
             onClick={() => setMenuOpen(false)}
           >
             Start Selling
