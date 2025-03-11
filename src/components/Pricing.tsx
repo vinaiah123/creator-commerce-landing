@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useIntersectionObserver } from '../lib/animations';
 import { CreditCard, DollarSign, Infinity, Percent, ArrowRight, Check, Info, ArrowDown, TrendingDown, Award } from 'lucide-react';
@@ -31,6 +30,7 @@ const formatCurrency = (amount: number) => {
 const formatPercent = (amount: number, total: number) => {
   return `${(amount / total * 100).toFixed(1)}%`;
 };
+
 const PricingCard = ({
   title,
   subtitle,
@@ -71,6 +71,7 @@ const PricingCard = ({
       </Button>
     </div>;
 };
+
 const FeeComparisonCard = ({
   platform,
   fee,
@@ -111,6 +112,7 @@ const FeeComparisonCard = ({
         </div>}
     </div>;
 };
+
 const SubscriptionComparisonCard = () => {
   return <div className="rounded-3xl p-8 kawaii-shadow border-2 border-carteYellow/30 bg-zinc-900">
       <h3 className="text-2xl font-bold mb-6 text-center text-slate-50">Switch to Zero Fees with Our Subscription</h3>
@@ -206,6 +208,7 @@ const SubscriptionComparisonCard = () => {
       </div>
     </div>;
 };
+
 const Pricing = () => {
   const {
     elementRef,
@@ -263,9 +266,6 @@ const Pricing = () => {
                 Drag the slider to see how Carte's 5% transaction fee compares to other platforms at different sales volumes.
               </p>
             </div>
-            <div className="mt-4 md:mt-0">
-              
-            </div>
           </div>
           
           <div className="bg-white p-6 rounded-xl mb-8">
@@ -296,24 +296,23 @@ const Pricing = () => {
             </div>
           </div>
           
-          <div className="mt-6 text-center">
-            <p className="text-gray-600 text-sm italic">
-              *Estimates based on standard platform rates. Actual fees may vary by specific plan, transaction volume, and payment method.
-            </p>
+          <div className="mt-6 text-gray-600 text-sm italic text-center mb-8">
+            *Estimates based on standard platform rates. Actual fees may vary by specific plan, transaction volume, and payment method.
           </div>
-        </div>
-
-        <div className={`bg-white rounded-3xl p-10 text-center kawaii-shadow border-2 border-carteYellow/30 ${isVisible ? 'animate-fade-in animation-delay-800' : 'opacity-0'}`}>
-          <h3 className="text-2xl md:text-3xl font-bold mb-4">Flexible Pricing That Grows With You</h3>
-          <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
-            Start with no upfront costs and switch to a subscription at any time to eliminate transaction fees completely.
-          </p>
-          <Button size="lg" className="bg-carteYellow hover:bg-carteYellow-600 text-gray-900 kawaii-shadow">
-            Start Creating For Free
-            <ArrowRight size={16} />
-          </Button>
+          
+          <div className="bg-white rounded-xl p-6 text-center border-2 border-carteYellow/30 kawaii-shadow">
+            <h3 className="text-xl md:text-2xl font-bold mb-4">Ready to Start Saving on Fees?</h3>
+            <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+              Start with no upfront costs and switch to a subscription at any time to eliminate transaction fees completely.
+            </p>
+            <Button size="lg" className="bg-carteYellow hover:bg-carteYellow-600 text-gray-900 kawaii-shadow">
+              Start Creating For Free
+              <ArrowRight size={16} className="ml-2" />
+            </Button>
+          </div>
         </div>
       </div>
     </section>;
 };
+
 export default Pricing;
