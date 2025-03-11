@@ -1,7 +1,6 @@
-
 import { useState } from 'react';
 import { useIntersectionObserver } from '../lib/animations';
-import { CreditCard, DollarSign, Infinity, Percent, ArrowRight, Check, Info } from 'lucide-react';
+import { CreditCard, DollarSign, Infinity, Percent, ArrowRight, Check, Info, ArrowDown, TrendingDown, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useNavigate } from 'react-router-dom';
@@ -61,34 +60,102 @@ const PricingCard = ({
   );
 };
 
-// Comparison platform card
 const ComparisonCard = ({ 
   platform, 
   fee, 
+  carteFee = "4.9%",
+  savingsPercent,
   isLowest = false, 
   delay, 
   isVisible 
 }: { 
   platform: string;
   fee: string;
+  carteFee?: string;
+  savingsPercent?: number;
   isLowest?: boolean;
   delay: number;
   isVisible: boolean;
 }) => {
   return (
     <div 
-      className={`bg-white rounded-2xl p-5 kawaii-shadow border ${
+      className={`bg-white rounded-2xl p-5 kawaii-shadow border-2 ${
         isLowest ? 'border-carteYellow' : 'border-gray-200'
       } transition-all duration-500 ease-out ${
         isVisible 
-          ? `opacity-100 translate-y-0 delay-${delay}` 
+          ? `opacity-100 translate-y-0 delay-${delay} hover:-translate-y-1` 
           : 'opacity-0 translate-y-10'
       }`}
     >
       <div className="text-lg font-semibold mb-1">{platform}</div>
-      <div className={`text-xl font-bold ${isLowest ? 'text-carteYellow' : 'text-gray-700'}`}>
+      <div className={`text-xl font-bold ${isLowest ? 'text-carteYellow' : 'text-gray-700'} mb-2`}>
         {fee}
       </div>
+      
+      {savingsPercent && (
+        <div className="flex items-center mt-2 text-green-600 font-medium text-sm">
+          <TrendingDown size={14} className="mr-1" />
+          <span>Save up to {savingsPercent}%</span>
+        </div>
+      )}
+      
+      {!isLowest && (
+        <div className="flex items-center pt-2 mt-2 border-t border-gray-100">
+          <div className="bg-carteYellow/20 text-gray-900 px-2 py-1 rounded-full text-xs font-medium flex items-center">
+            <ArrowDown size={12} className="mr-1" /> 
+            Carte: {carteFee}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const VisualComparisonCard = ({ 
+  platform, 
+  fee,
+  percentValue,
+  isLowest = false, 
+  delay, 
+  isVisible 
+}: { 
+  platform: string;
+  fee: string;
+  percentValue: number;
+  isLowest?: boolean;
+  delay: number;
+  isVisible: boolean;
+}) => {
+  const barColor = isLowest ? 'bg-carteYellow' : 'bg-gray-400';
+  const barWidth = `${Math.min(percentValue * 4, 100)}%`;  // Scale to make differences more visible
+  
+  return (
+    <div 
+      className={`bg-white rounded-2xl p-5 kawaii-shadow border-2 ${
+        isLowest ? 'border-carteYellow' : 'border-gray-200'
+      } transition-all duration-500 ease-out ${
+        isVisible 
+          ? `opacity-100 translate-y-0 delay-${delay} hover:-translate-y-1` 
+          : 'opacity-0 translate-y-10'
+      }`}
+    >
+      <div className="flex items-center justify-between mb-2">
+        <div className="text-lg font-semibold">{platform}</div>
+        <div className={`text-lg font-bold ${isLowest ? 'text-carteYellow' : 'text-gray-700'}`}>
+          {fee}
+        </div>
+      </div>
+      
+      <div className="w-full bg-gray-100 rounded-full h-2.5 mb-1">
+        <div className={`${barColor} h-2.5 rounded-full`} style={{ width: barWidth }}></div>
+      </div>
+      
+      {isLowest && (
+        <div className="flex items-center justify-center mt-2">
+          <Award size={14} className="text-carteYellow mr-1" />
+          <span className="text-sm font-medium">Lowest Fees</span>
+        </div>
+      )}
     </div>
   );
 };
@@ -96,6 +163,7 @@ const ComparisonCard = ({
 const Pricing = () => {
   const { elementRef, isVisible } = useIntersectionObserver();
   const [annualBilling, setAnnualBilling] = useState(false);
+  const [comparisonStyle, setComparisonStyle] = useState<'standard' | 'visual'>('visual');
   const navigate = useNavigate();
 
   const handleViewAllPlans = () => {
@@ -134,7 +202,6 @@ const Pricing = () => {
           </p>
         </div>
 
-        {/* Pricing Cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           <PricingCard 
             title="Pay As You Go"
@@ -209,47 +276,124 @@ const Pricing = () => {
           />
         </div>
 
-        {/* Competitor Comparison */}
         <div className={`bg-carteBackground-dark rounded-3xl p-8 mb-12 kawaii-shadow ${
           isVisible ? 'animate-fade-in animation-delay-500' : 'opacity-0'
         }`}>
-          <h3 className="text-2xl font-bold text-center mb-6">Transaction Fee Comparison</h3>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            <ComparisonCard 
-              platform="Carte" 
-              fee="4.9%" 
-              isLowest={true}
-              delay={600}
-              isVisible={isVisible}
-            />
-            <ComparisonCard 
-              platform="Etsy" 
-              fee="6.5% + $0.20" 
-              delay={700}
-              isVisible={isVisible}
-            />
-            <ComparisonCard 
-              platform="Gumroad" 
-              fee="10% + $0.30" 
-              delay={800}
-              isVisible={isVisible}
-            />
-            <ComparisonCard 
-              platform="Patreon" 
-              fee="8-12%" 
-              delay={900}
-              isVisible={isVisible}
-            />
-            <ComparisonCard 
-              platform="Shopify" 
-              fee="$29/mo + 2.9%" 
-              delay={1000}
-              isVisible={isVisible}
-            />
+          <div className="flex flex-col md:flex-row items-center justify-between mb-8">
+            <div>
+              <h3 className="text-2xl font-bold mb-2">Why Creators Love Our Pricing</h3>
+              <p className="text-gray-600 max-w-xl">Carte offers the lowest transaction fees in the industry, helping you keep more of what you earn.</p>
+            </div>
+            <div className="flex space-x-2 mt-4 md:mt-0">
+              <Button 
+                variant={comparisonStyle === 'standard' ? 'default' : 'outline'} 
+                size="sm"
+                onClick={() => setComparisonStyle('standard')}
+                className={comparisonStyle === 'standard' ? 'bg-carteYellow text-gray-900' : ''}
+              >
+                Standard
+              </Button>
+              <Button 
+                variant={comparisonStyle === 'visual' ? 'default' : 'outline'} 
+                size="sm"
+                onClick={() => setComparisonStyle('visual')}
+                className={comparisonStyle === 'visual' ? 'bg-carteYellow text-gray-900' : ''}
+              >
+                Visual
+              </Button>
+            </div>
+          </div>
+          
+          {comparisonStyle === 'standard' ? (
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+              <ComparisonCard 
+                platform="Carte" 
+                fee="4.9%" 
+                isLowest={true}
+                delay={600}
+                isVisible={isVisible}
+              />
+              <ComparisonCard 
+                platform="Etsy" 
+                fee="6.5% + $0.20" 
+                carteFee="4.9%"
+                savingsPercent={25}
+                delay={700}
+                isVisible={isVisible}
+              />
+              <ComparisonCard 
+                platform="Gumroad" 
+                fee="10% + $0.30" 
+                carteFee="4.9%"
+                savingsPercent={51}
+                delay={800}
+                isVisible={isVisible}
+              />
+              <ComparisonCard 
+                platform="Patreon" 
+                fee="8-12%" 
+                carteFee="4.9%"
+                savingsPercent={59}
+                delay={900}
+                isVisible={isVisible}
+              />
+              <ComparisonCard 
+                platform="Shopify" 
+                fee="$29/mo + 2.9%" 
+                carteFee="4.9%"
+                savingsPercent={40}
+                delay={1000}
+                isVisible={isVisible}
+              />
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-4">
+              <VisualComparisonCard 
+                platform="Carte" 
+                fee="4.9%" 
+                percentValue={4.9}
+                isLowest={true}
+                delay={600}
+                isVisible={isVisible}
+              />
+              <VisualComparisonCard 
+                platform="Etsy" 
+                fee="6.5% + $0.20" 
+                percentValue={7.5}
+                delay={700}
+                isVisible={isVisible}
+              />
+              <VisualComparisonCard 
+                platform="Gumroad" 
+                fee="10% + $0.30" 
+                percentValue={11}
+                delay={800}
+                isVisible={isVisible}
+              />
+              <VisualComparisonCard 
+                platform="Patreon" 
+                fee="8-12%" 
+                percentValue={12}
+                delay={900}
+                isVisible={isVisible}
+              />
+              <VisualComparisonCard 
+                platform="Shopify" 
+                fee="$29/mo + 2.9%" 
+                percentValue={9.9}
+                delay={1000}
+                isVisible={isVisible}
+              />
+            </div>
+          )}
+          
+          <div className="mt-6 text-center">
+            <p className="text-gray-600 text-sm italic">
+              *Based on average transaction value of $25. Actual savings may vary depending on your sales volume.
+            </p>
           </div>
         </div>
 
-        {/* CTA Section */}
         <div className={`bg-white rounded-3xl p-10 text-center kawaii-shadow border-2 border-carteYellow/30 ${
           isVisible ? 'animate-fade-in animation-delay-600' : 'opacity-0'
         }`}>
