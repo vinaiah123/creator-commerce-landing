@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from "react";
 import { useIntersectionObserver } from "@/lib/animations";
 import { stores } from "@/data/stores";
@@ -6,7 +5,7 @@ import FeaturedStore from "@/components/store/FeaturedStore";
 import StoreCard from "@/components/store/StoreCard";
 import GetStartedCard from "@/components/store/GetStartedCard";
 import StoreScrollNavigation from "@/components/store/StoreScrollNavigation";
-import { useMobile } from "@/hooks/use-mobile";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const StoreShowcase = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -14,7 +13,7 @@ const StoreShowcase = () => {
   const [canScrollRight, setCanScrollRight] = useState(true);
   const { elementRef, isVisible } = useIntersectionObserver();
   const [activeStore, setActiveStore] = useState<string | null>(null);
-  const isMobile = useMobile();
+  const isMobile = useIsMobile();
 
   const scrollLeft = () => {
     if (scrollContainerRef.current && !isMobile) {
@@ -43,11 +42,9 @@ const StoreShowcase = () => {
     const scrollContainer = scrollContainerRef.current;
     if (scrollContainer && !isMobile) {
       scrollContainer.addEventListener('scroll', checkScrollButtons);
-      // Check on initial load
       checkScrollButtons();
     }
 
-    // Check when window is resized
     window.addEventListener('resize', checkScrollButtons);
 
     return () => {
