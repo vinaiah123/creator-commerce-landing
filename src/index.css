@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,13 +7,13 @@
 
 @layer base {
   :root {
-    --background: 43 50% 98%;
+    --background: 39 100% 98%;
     --foreground: 222.2 84% 4.9%;
 
-    --card: 43 50% 98%;
+    --card: 39 100% 98%;
     --card-foreground: 222.2 84% 4.9%;
 
-    --popover: 43 50% 98%;
+    --popover: 39 100% 98%;
     --popover-foreground: 222.2 84% 4.9%;
 
     --primary: 45 100% 49%;
@@ -22,28 +22,28 @@
     --secondary: 200 78% 24%;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 200 15% 95%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 337 100% 96%;
+    --muted-foreground: 337 40% 40%;
 
-    --accent: 45 100% 49%;
+    --accent: 337 85% 72%;
     --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 200 10% 85%;
-    --input: 200 10% 85%;
+    --border: 337 60% 90%;
+    --input: 337 60% 90%;
     --ring: 45 100% 49%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
 
-    --sidebar-background: 43 50% 98%;
+    --sidebar-background: 39 100% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 45 100% 49%;
     --sidebar-primary-foreground: 0 0% 20%;
-    --sidebar-accent: 43 40% 95%;
+    --sidebar-accent: 39 80% 95%;
     --sidebar-accent-foreground: 45 100% 49%;
-    --sidebar-border: 220 13% 91%;
+    --sidebar-border: 337 60% 92%;
     --sidebar-ring: 45 100% 49%;
   }
 
@@ -52,7 +52,7 @@
   }
 
   body {
-    @apply bg-carteBackground text-foreground font-outfit;
+    @apply bg-carteBackground text-foreground font-nunito;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -81,6 +81,19 @@
   .text-balance {
     text-wrap: balance;
   }
+
+  /* Kawaii utilities */
+  .kawaii-shadow {
+    box-shadow: 0 4px 0 0 rgba(0,0,0,0.1);
+  }
+  
+  .kawaii-border {
+    @apply border-2 border-accent/50 rounded-xl;
+  }
+  
+  .kawaii-button {
+    @apply rounded-full px-6 py-3 font-bold transition-all duration-300 kawaii-shadow hover:translate-y-[-2px] hover:shadow-lg active:translate-y-[2px] active:shadow-none;
+  }
 }
 
 /* Custom scrollbar */
@@ -94,14 +107,35 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-carte/50 rounded-full transition-colors;
+  @apply bg-accent/50 rounded-full transition-colors;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-carte/80;
+  @apply bg-accent/80;
 }
 
 /* Focus styles */
 :focus-visible {
-  @apply outline-none ring-2 ring-carte ring-offset-2 ring-offset-white;
+  @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-white;
 }
+
+/* Kawaii animations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.animate-bounce-slow {
+  animation: bounce 2s ease-in-out infinite;
+}
+

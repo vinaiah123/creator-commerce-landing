@@ -64,33 +64,59 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				carte: {
-					DEFAULT: '#0D4E6F', // Primary blue from image
-					50: '#E6EFF3',
-					100: '#C2D8E3',
-					200: '#9BC0D2',
-					300: '#73A8C1',
-					400: '#4C90B0',
-					500: '#0D4E6F', // Primary blue
-					600: '#0B4560',
-					700: '#093A51',
-					800: '#072F41',
-					900: '#052432',
-				},
-				carteYellow: {
-					DEFAULT: '#FAC200', // Secondary yellow from image
+					DEFAULT: '#FAC200', // Primary yellow
 					50: '#FFFBEB',
 					100: '#FEF3CD',
 					200: '#FDE7A0',
 					300: '#FCDA73',
 					400: '#FBCE47',
-					500: '#FAC200', // Secondary yellow
+					500: '#FAC200', // Primary yellow
 					600: '#C89B00',
 					700: '#966F00',
 					800: '#644B00',
 					900: '#322500',
 				},
+				carteYellow: {
+					DEFAULT: '#FAC200', // Same as carte for compatibility
+					50: '#FFFBEB',
+					100: '#FEF3CD',
+					200: '#FDE7A0',
+					300: '#FCDA73',
+					400: '#FBCE47',
+					500: '#FAC200',
+					600: '#C89B00',
+					700: '#966F00',
+					800: '#644B00',
+					900: '#322500',
+				},
+				carteBlue: {
+					DEFAULT: '#0D4E6F', // Secondary blue 
+					50: '#E6EFF3',
+					100: '#C2D8E3',
+					200: '#9BC0D2',
+					300: '#73A8C1',
+					400: '#4C90B0',
+					500: '#0D4E6F',
+					600: '#0B4560',
+					700: '#093A51',
+					800: '#072F41',
+					900: '#052432',
+				},
+				cartePink: {
+					DEFAULT: '#FF7BAC', // New pink accent
+					50: '#FFEFF5',
+					100: '#FFDAEA',
+					200: '#FFB5D5',
+					300: '#FF98C0',
+					400: '#FF7BAC',
+					500: '#FF5E97',
+					600: '#FF4182',
+					700: '#FF246D',
+					800: '#FF0758',
+					900: '#EA0050',
+				},
 				carteBackground: {
-					DEFAULT: '#FFFDF6', // Background cream from image
+					DEFAULT: '#FFFDF6', // Background cream 
 					dark: '#F8F4E9',
 				},
 			},
@@ -102,6 +128,7 @@ export default {
 			fontFamily: {
 				inter: ['Inter', 'sans-serif'],
 				outfit: ['Outfit', 'sans-serif'],
+				nunito: ['Nunito', 'sans-serif'],
 			},
 			keyframes: {
 				'accordion-down': {
@@ -127,6 +154,14 @@ export default {
 				'spin-slow': {
 					'0%': { transform: 'rotate(0deg)' },
 					'100%': { transform: 'rotate(360deg)' }
+				},
+				'float': {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-10px)' },
+				},
+				'bounce-small': {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-5px)' },
 				}
 			},
 			animation: {
@@ -135,7 +170,9 @@ export default {
 				'fade-in': 'fade-in 0.7s ease-out',
 				'fade-in-right': 'fade-in-right 0.7s ease-out',
 				'fade-in-left': 'fade-in-left 0.7s ease-out',
-				'spin-slow': 'spin-slow 3s linear infinite'
+				'spin-slow': 'spin-slow 3s linear infinite',
+				'float': 'float 3s ease-in-out infinite',
+				'bounce-small': 'bounce-small 2s ease-in-out infinite'
 			}
 		}
 	},
