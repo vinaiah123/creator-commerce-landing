@@ -1,4 +1,3 @@
-
 import { useIntersectionObserver } from '../lib/animations';
 import { useNavigate } from 'react-router-dom';
 import { ShoppingBag, Link as LinkIcon, CreditCard, MessageSquare, Palette, Globe, Sparkles, ArrowRight } from 'lucide-react';
@@ -55,7 +54,6 @@ const Features = () => {
     };
   }, []);
 
-  // Reset animations when we scroll into view on mobile
   useEffect(() => {
     if (isVisible && isMobile && featureContainerRef.current) {
       const cards = featureContainerRef.current.querySelectorAll('.features-mobile-container > div');
@@ -112,9 +110,7 @@ const Features = () => {
   ];
 
   const handleViewAllFeatures = () => {
-    // Navigate to features page and ensure it starts at the top
     navigate('/features', { replace: false });
-    // Scroll to top will happen when the page loads
   };
 
   return (
@@ -131,7 +127,7 @@ const Features = () => {
             }`}
           >
             <Sparkles size={14} className="inline mr-1" />
-            FULL FEATURED
+            FULLY FEATURED
           </span>
           <h2 
             className={`text-2xl md:text-3xl font-bold text-gray-900 mb-4 font-worksans ${
