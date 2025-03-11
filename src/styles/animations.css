@@ -144,3 +144,70 @@
     transform: scale(1);
   }
 }
+
+/* Mobile feature card sliding animations */
+@keyframes slideUpCard0 {
+  0% { transform: translateY(60px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideUpCard1 {
+  0% { transform: translateY(60px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideUpCard2 {
+  0% { transform: translateY(60px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideUpCard3 {
+  0% { transform: translateY(60px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideUpCard4 {
+  0% { transform: translateY(60px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideUpCard5 {
+  0% { transform: translateY(60px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.features-mobile-container {
+  perspective: 1000px;
+  overflow-x: hidden;
+}
+
+.feature-card-mobile-0 {
+  animation: slideUpCard0 0.6s ease-out forwards;
+}
+
+.feature-card-mobile-1 {
+  animation: slideUpCard1 0.6s ease-out 0.1s forwards;
+}
+
+.feature-card-mobile-2 {
+  animation: slideUpCard2 0.6s ease-out 0.2s forwards;
+}
+
+.feature-card-mobile-3 {
+  animation: slideUpCard3 0.6s ease-out 0.3s forwards;
+}
+
+.feature-card-mobile-4 {
+  animation: slideUpCard4 0.6s ease-out 0.4s forwards;
+}
+
+.feature-card-mobile-5 {
+  animation: slideUpCard5 0.6s ease-out 0.5s forwards;
+}
+
+@media (max-width: 767px) {
+  .features-mobile-container > div {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+}
