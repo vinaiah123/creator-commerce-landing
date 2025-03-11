@@ -2,10 +2,12 @@
 import React from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { useIntersectionObserver } from '@/lib/animations';
-import { HelpCircle, MessageCircle, CreditCard, Package, ShoppingBag, BarChart, Heart } from 'lucide-react';
+import { HelpCircle, MessageCircle, CreditCard, Package, ShoppingBag, BarChart, Heart, ExternalLink } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const FAQ = () => {
   const { elementRef, isVisible } = useIntersectionObserver();
+  const isMobile = useIsMobile();
 
   const faqItems = [
     {
@@ -74,23 +76,35 @@ const FAQ = () => {
               ))}
             </Accordion>
           </div>
-          
-          {/* Help bubble */}
-          <div className={`absolute -bottom-8 right-8 transition-all duration-700 delay-400 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
-            <div className="bg-cartePink text-white p-4 rounded-2xl rounded-br-none shadow-lg flex items-center kawaii-shadow max-w-xs">
-              <HelpCircle className="mr-3 h-6 w-6 animate-bounce-slow" />
-              <p className="text-sm font-medium">Still have questions? We're here to help! <a href="#" className="underline font-bold">Contact us</a></p>
-            </div>
-          </div>
         </div>
 
-        <div className={`mt-16 text-center transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <a href="#" className="kawaii-button bg-carteYellow text-primary-foreground inline-flex items-center">
-            <span>Browse Knowledge Base</span>
-            <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-            </svg>
-          </a>
+        {/* Redesigned CTA section - replaces the floating help bubble */}
+        <div className={`mt-12 transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="bg-gradient-to-r from-cartePink/90 to-carteYellow/90 rounded-2xl p-6 md:p-8 shadow-lg flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-start space-x-4 max-w-xl">
+              <HelpCircle className="h-8 w-8 text-white flex-shrink-0 mt-1" />
+              <div>
+                <h3 className="text-white font-bold text-xl mb-2">Still have questions?</h3>
+                <p className="text-white/90">Our help center has comprehensive documentation and guides to help you get started and make the most of Carte.</p>
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+              <a 
+                href="#" 
+                className="kawaii-button bg-white text-cartePink hover:bg-gray-100 flex justify-center items-center gap-2 w-full md:w-auto"
+              >
+                <span>Browse Help Docs</span>
+                <ExternalLink className="h-4 w-4" />
+              </a>
+              <a 
+                href="#" 
+                className="kawaii-button bg-carteBlue text-white hover:bg-carteBlue/90 flex justify-center items-center gap-2 w-full md:w-auto"
+              >
+                <span>Contact Support</span>
+                <MessageCircle className="h-4 w-4" />
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
