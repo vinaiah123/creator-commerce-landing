@@ -33,7 +33,7 @@ const NewsletterForm = () => {
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="block w-full rounded-md border-0 px-4 py-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-carte sm:text-sm sm:leading-6"
+          className="block w-full rounded-md border-0 px-4 py-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-carteYellow sm:text-sm sm:leading-6"
           placeholder="Enter your email"
         />
       </div>
@@ -41,7 +41,7 @@ const NewsletterForm = () => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="block w-full rounded-md bg-carte-500 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-carte-600 focus:ring-2 focus:ring-carte-500 focus:ring-offset-2 focus:outline-none transition-colors duration-300 disabled:opacity-70"
+          className="block w-full rounded-md bg-carte px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-carte-600 focus:ring-2 focus:ring-carteYellow focus:ring-offset-2 focus:outline-none transition-colors duration-300 disabled:opacity-70"
         >
           {isSubmitting ? (
             <span className="flex items-center justify-center">
