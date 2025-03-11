@@ -30,8 +30,8 @@ const FeatureCard = ({ icon, title, description, delay, isVisible, color, index,
       <div className={`w-10 h-10 bg-${color}/20 rounded-xl flex items-center justify-center text-${color} mb-2 animate-bounce-small`}>
         {icon}
       </div>
-      <h3 className="text-lg font-bold text-gray-900 mb-1">{title}</h3>
-      <p className="text-gray-600 text-xs">{description}</p>
+      <h3 className="text-lg font-bold text-gray-900 mb-1 font-worksans">{title}</h3>
+      <p className="text-gray-600 text-xs font-worksans">{description}</p>
     </div>
   );
 };
@@ -134,14 +134,14 @@ const Features = () => {
             FULL FEATURED
           </span>
           <h2 
-            className={`text-2xl md:text-3xl font-bold text-gray-900 mb-4 ${
+            className={`text-2xl md:text-3xl font-bold text-gray-900 mb-4 font-worksans ${
               isVisible ? 'animate-fade-in animation-delay-100' : 'opacity-0'
             }`}
           >
             Everything You Need to Create
           </h2>
           <p 
-            className={`text-base text-gray-600 max-w-xl mx-auto ${
+            className={`text-base text-gray-600 max-w-xl mx-auto font-worksans ${
               isVisible ? 'animate-fade-in animation-delay-200' : 'opacity-0'
             }`}
           >
@@ -173,7 +173,7 @@ const Features = () => {
         <div className="text-center mt-10">
           <Button 
             variant="outline" 
-            className="bg-white border-carteYellow text-carteYellow hover:bg-carteYellow hover:text-gray-900 transition-all duration-300 kawaii-shadow"
+            className="bg-white border-carteYellow text-carteYellow hover:bg-carteYellow hover:text-gray-900 transition-all duration-300 kawaii-shadow font-worksans"
             onClick={handleViewAllFeatures}
           >
             View All Features

@@ -13,7 +13,7 @@ const NavLink = ({ to, children, className }: { to: string; children: React.Reac
     <Link
       to={to}
       className={cn(
-        "font-outfit transition-colors duration-300 text-base",
+        "font-worksans transition-colors duration-300 text-base",
         isActive ? "text-carteYellow" : "text-gray-800 hover:text-carteYellow",
         className
       )}
@@ -71,7 +71,7 @@ const Navbar = () => {
         <div className="container mx-auto px-4 flex items-center justify-between">
           <Link 
             to="/" 
-            className="font-inter font-bold text-xl md:text-2xl text-carteYellow transition-all duration-300 z-50"
+            className="font-worksans font-bold text-xl md:text-2xl text-carteYellow transition-all duration-300 z-50"
           >
             Carte
           </Link>
@@ -83,7 +83,7 @@ const Navbar = () => {
             <NavLink to="/pricing">Pricing</NavLink>
             <Link 
               to="/#start"
-              className="px-6 py-2.5 bg-carteYellow text-gray-900 rounded-md hover:bg-carteYellow-600 transition-colors duration-300 font-outfit font-medium text-sm"
+              className="px-6 py-2.5 bg-carteYellow text-gray-900 rounded-md hover:bg-carteYellow-600 transition-colors duration-300 font-worksans font-medium text-sm"
             >
               Start Selling
             </Link>
@@ -128,7 +128,7 @@ const Navbar = () => {
           </NavLink>
           <Link 
             to="/#start"
-            className="w-full px-6 py-3 bg-carteYellow text-gray-900 rounded-md hover:bg-carteYellow-600 transition-colors duration-300 font-outfit font-medium text-xl text-center mt-4"
+            className="w-full px-6 py-3 bg-carteYellow text-gray-900 rounded-md hover:bg-carteYellow-600 transition-colors duration-300 font-worksans font-medium text-xl text-center mt-4"
           >
             Start Selling
           </Link>
