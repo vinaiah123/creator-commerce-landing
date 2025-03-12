@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -39,11 +38,9 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    // Close mobile menu when route changes
     setMenuOpen(false);
   }, [location]);
 
-  // Prevent body scroll when mobile menu is open
   useEffect(() => {
     if (menuOpen) {
       document.body.style.overflow = 'hidden';
@@ -76,12 +73,12 @@ const Navbar = () => {
             Carte
           </Link>
           
-          {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             <NavLink to="/">Home</NavLink>
             <NavLink to="/features">Features</NavLink>
             <NavLink to="/pricing">Pricing</NavLink>
             <NavLink to="/why-carte">Why Carte</NavLink>
+            <NavLink to="/our-story">Our Story</NavLink>
             <Link 
               to="/#start"
               className="px-6 py-2.5 bg-carteYellow text-gray-900 rounded-md hover:bg-carteYellow-600 transition-colors duration-300 font-worksans font-medium text-sm"
@@ -90,7 +87,6 @@ const Navbar = () => {
             </Link>
           </nav>
           
-          {/* Mobile Menu Button */}
           <button 
             className="md:hidden text-carteYellow focus:outline-none z-50"
             onClick={toggleMenu}
@@ -101,7 +97,6 @@ const Navbar = () => {
         </div>
       </header>
       
-      {/* Mobile Menu - Moved outside header to ensure proper positioning */}
       <div 
         className={cn(
           "fixed inset-0 bg-white z-40 transition-transform duration-300 md:hidden overflow-auto pt-20",
@@ -132,6 +127,12 @@ const Navbar = () => {
             className="text-2xl py-2"
           >
             Why Carte
+          </NavLink>
+          <NavLink
+            to="/our-story"
+            className="text-2xl py-2"
+          >
+            Our Story
           </NavLink>
           <Link 
             to="/#start"

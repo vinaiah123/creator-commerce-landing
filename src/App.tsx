@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import FeaturesPage from "./pages/FeaturesPage";
 import PricingPage from "./pages/PricingPage";
 import WhyCartePage from "./pages/WhyCartePage";
+import OurStoryPage from "./pages/OurStoryPage";
 import NotFound from "./pages/NotFound";
 
 // This component handles scrolling to top on route changes
@@ -36,6 +37,7 @@ const App = () => (
           <Route path="/features" element={<FeaturesPage />} />
           <Route path="/pricing" element={<PricingPage />} />
           <Route path="/why-carte" element={<WhyCartePage />} />
+          <Route path="/our-story" element={<OurStoryPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
