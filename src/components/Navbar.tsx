@@ -81,6 +81,7 @@ const Navbar = () => {
             <NavLink to="/">Home</NavLink>
             <NavLink to="/features">Features</NavLink>
             <NavLink to="/pricing">Pricing</NavLink>
+            <NavLink to="/why-carte">Why Carte</NavLink>
             <Link 
               to="/#start"
               className="px-6 py-2.5 bg-carteYellow text-gray-900 rounded-md hover:bg-carteYellow-600 transition-colors duration-300 font-worksans font-medium text-sm"
@@ -125,6 +126,12 @@ const Navbar = () => {
             className="text-2xl py-2"
           >
             Pricing
+          </NavLink>
+          <NavLink
+            to="/why-carte"
+            className="text-2xl py-2"
+          >
+            Why Carte
           </NavLink>
           <Link 
             to="/#start"
