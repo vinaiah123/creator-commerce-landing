@@ -15,7 +15,7 @@ const StoreCard = ({ store, isVisible, index, activeStore, setActiveStore }: Sto
   return (
     <div 
       className={cn(
-        "w-[320px] backdrop-blur-lg bg-white/70 rounded-xl border border-white/20 shadow-[0_10px_30px_rgba(0,0,0,0.08)] overflow-hidden group hover:shadow-[0_15px_50px_rgba(0,0,0,0.15)] transition-all duration-500",
+        "w-[320px] backdrop-blur-lg bg-white/50 rounded-xl border border-white/30 overflow-hidden flex flex-col group hover:bg-white/60 transition-all duration-500",
         isVisible 
           ? `opacity-100 translate-y-0 transition-all duration-700 ease-out delay-${300 + index * 150}` 
           : 'opacity-0 translate-y-10'
@@ -37,18 +37,9 @@ const StoreCard = ({ store, isVisible, index, activeStore, setActiveStore }: Sto
           <Star className="h-3.5 w-3.5 fill-carteYellow stroke-carteYellow" />
           <span className="text-xs font-semibold">{store.rating}</span>
         </div>
-        
-        <div className={`absolute inset-0 flex items-center justify-center bg-black/20 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300`}>
-          <a 
-            href={store.url}
-            className="backdrop-blur-md bg-white/70 text-gray-900 font-medium px-5 py-2.5 rounded-full flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 hover:bg-white/90"
-          >
-            Visit Store <ExternalLink className="w-4 h-4" />
-          </a>
-        </div>
       </div>
       
-      <div className="p-6 backdrop-blur-lg bg-white/30">
+      <div className="p-6 backdrop-blur-lg bg-white/30 flex-grow">
         <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-accent transition-colors">{store.name}</h3>
         
         <div className="mb-4 flex items-center gap-3">
@@ -65,13 +56,21 @@ const StoreCard = ({ store, isVisible, index, activeStore, setActiveStore }: Sto
           </div>
         </div>
         
-        <div className="relative overflow-hidden">
+        <div className="relative overflow-hidden mb-6">
           <p className="text-gray-600 text-sm italic leading-relaxed">
             "{store.creator.quote.length > 100 
               ? `${store.creator.quote.substring(0, 100)}...` 
               : store.creator.quote}"
           </p>
         </div>
+
+        <a 
+          href={store.url}
+          className="w-full backdrop-blur-md bg-accent/90 text-white font-medium px-5 py-3 rounded-xl flex items-center justify-center gap-2 transform transition-all duration-300 hover:bg-accent hover:scale-[1.02] hover:shadow-lg group"
+        >
+          Visit Store 
+          <ExternalLink className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+        </a>
       </div>
     </div>
   );

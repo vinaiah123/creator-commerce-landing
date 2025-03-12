@@ -23,7 +23,7 @@ const GetStartedCard = ({ isVisible, delay }: GetStartedCardProps) => {
       </div>
       <h3 className="text-xl font-bold text-gray-900 mb-2 text-center">Start Your Store</h3>
       <p className="text-gray-600 text-center mb-6">Join thousands of successful creators</p>
-      <Button className="bg-accent hover:bg-accent/90 text-white rounded-full px-6 backdrop-blur-sm">
+      <Button className="w-full bg-accent hover:bg-accent/90 text-white rounded-xl px-6 py-6 backdrop-blur-sm transform transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
         Get Started
       </Button>
     </div>

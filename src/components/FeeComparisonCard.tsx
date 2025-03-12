@@ -1,8 +1,6 @@
-
 import React from 'react';
 import { Award } from 'lucide-react';
 
-// Helper to format currency
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -30,7 +28,7 @@ const FeeComparisonCard = ({
   const textColor = isLowest ? 'text-carteYellow' : 'text-gray-700';
   
   return (
-    <div className={`backdrop-blur-md bg-white/70 rounded-2xl p-5 shadow-[0_8px_30px_rgba(0,0,0,0.06)] border ${cardColor} transition-all duration-300 hover:-translate-y-1`}>
+    <div className={`backdrop-blur-xl bg-white/70 rounded-2xl p-5 shadow-[0_8px_30px_rgba(0,0,0,0.06)] border ${cardColor} transition-all duration-300 hover:-translate-y-1 hover:bg-white/80`}>
       <div className="flex justify-between items-center mb-1">
         <div className="text-lg font-semibold">{platform}</div>
         <div className={`text-lg font-bold ${textColor}`}>
