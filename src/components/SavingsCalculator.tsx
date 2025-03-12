@@ -6,20 +6,16 @@ import { Button } from '@/components/ui/button';
 import { toast } from "sonner";
 import { formatCurrency } from '@/utils/pricing';
 
-// Calculate fees for different platforms
 const calculatePlatformFees = (monthlySales: number) => {
-  // Carte plans
   const carteFree = monthlySales * 0.05;
   const carteStarter = 12 + (monthlySales > 200 ? (monthlySales - 200) * 0.025 : 0);
   const carteGrowth = 29 + (monthlySales > 2000 ? (monthlySales - 2000) * 0.01 : 0);
-  const cartePro = 199; // No percentage fees
+  const cartePro = 199;
 
-  // Other platforms
   const etsy = monthlySales * 0.065 + Math.round(monthlySales / 25) * 0.20;
   const gumroad = monthlySales * 0.10 + Math.round(monthlySales / 25) * 0.30;
   const patreon = monthlySales * 0.10;
 
-  // Calculate the recommended plan based on lowest total cost
   let recommendedPlan = "Free";
   let lowestFee = carteFree;
 
@@ -131,35 +127,21 @@ const CompetitorCard = ({
       
       <div className="space-y-2 mb-4">
         <div className="flex justify-between items-center">
-          <span className="text-gray-600">Monthly Cost:</span>
+          <span className="text-gray-600">Their Monthly Cost:</span>
           <span className="font-semibold">{formatCurrency(fee)}</span>
         </div>
-        
-        <div className="flex justify-between items-center">
-          <span className="text-gray-600">Effective Rate:</span>
-          <span className="font-semibold">{effectiveRate}%</span>
-        </div>
       </div>
       
-      <div className="bg-red-50 rounded-xl p-4 mb-4 border border-red-100">
-        <div className="text-red-500 font-medium text-center">
-          You're losing {formatCurrency(savings)} every month!
-        </div>
-      </div>
-      
-      <div className="bg-green-50 rounded-xl p-4 border border-green-100">
+      <div className="bg-green-50 rounded-xl p-6 border border-green-100">
         <div className="text-center">
+          <div className="text-gray-800 font-bold text-lg mb-2">
+            Monthly Cost with Carte {cartePlan}
+          </div>
+          <div className="text-green-700 font-bold text-4xl mb-2">
+            {formatCurrency(carteFee)}
+          </div>
           <div className="text-green-600 font-medium">
-            Save {savingsPercent}% with Carte {cartePlan}
-          </div>
-          <div className="text-green-700 font-bold text-xl">
-            {formatCurrency(savings)}/month
-          </div>
-          <div className="text-green-600 text-sm mt-1">
-            {formatCurrency(savings * 12)}/year
-          </div>
-          <div className="text-gray-800 font-semibold mt-3 border-t border-green-200 pt-2">
-            You would pay only <span className="text-green-700">{formatCurrency(carteFee)}/month</span> with Carte
+            Save {formatCurrency(savings)} per month
           </div>
         </div>
       </div>
