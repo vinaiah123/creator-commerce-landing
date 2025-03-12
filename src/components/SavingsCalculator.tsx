@@ -1,9 +1,10 @@
+
 import { useState, useEffect } from 'react';
 import { useIntersectionObserver } from '@/lib/animations';
 import { ArrowRight, Calculator, PiggyBank, DollarSign } from 'lucide-react';
 import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
-import { toast } from "sonner";
+import { toast } from "@/components/ui/use-toast";
 import { formatCurrency } from '@/utils/pricing';
 
 const calculatePlatformFees = (monthlySales: number) => {
@@ -135,7 +136,7 @@ const CompetitorCard = ({
       <div className="bg-green-50 rounded-xl p-6 border border-green-100">
         <div className="text-center">
           <div className="text-gray-800 font-bold text-lg mb-2">
-            Monthly Cost with Carte {cartePlan}
+            <span className="font-extrabold">MONTHLY COST</span> with Carte {cartePlan}
           </div>
           <div className="text-green-700 font-bold text-4xl mb-2">
             {formatCurrency(carteFee)}
@@ -161,7 +162,10 @@ const SavingsCalculator = () => {
   };
   
   const handleCalculateClick = () => {
-    toast.success(`Based on your monthly sales of ${formatCurrency(monthlySales)}, we recommend our ${fees.recommendedPlan} plan!`);
+    toast.success(
+      `Recommended Plan: ${fees.recommendedPlan}`,
+      `Based on your monthly sales of ${formatCurrency(monthlySales)}, you'll pay only ${formatCurrency(Math.min(fees.carteFree, fees.carteStarter, fees.carteGrowth, fees.cartePro))} per month with Carte!`
+    );
   };
 
   return (
