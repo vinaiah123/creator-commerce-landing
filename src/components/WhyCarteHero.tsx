@@ -1,6 +1,6 @@
 
 import { useIntersectionObserver } from '@/lib/animations';
-import { Shield, DollarSign, Clock, Heart } from 'lucide-react';
+import { Shield, DollarSign, Clock, Heart, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const WhyCarteHero = () => {
@@ -66,6 +66,19 @@ const WhyCarteHero = () => {
           </p>
           <Button size="lg" className="bg-carteYellow hover:bg-carteYellow-600 text-gray-900 px-8 py-6 h-auto rounded-xl transition-all duration-300 hover:-translate-y-1">
             See Your Potential Savings
+          </Button>
+        </div>
+        
+        <div className={`backdrop-blur-xl bg-white/50 rounded-3xl p-10 border border-white/30 text-center shadow-[0_8px_30px_rgba(0,0,0,0.06)] mt-16 ${isVisible ? 'animate-fade-in animation-delay-700' : 'opacity-0'}`}>
+          <h2 className="text-3xl font-bold mb-6">
+            Ready to Start Growing Your Business?
+          </h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
+            Join thousands of creators who are saving money and growing their business with our Growth plan.
+          </p>
+          <Button size="lg" className="bg-carteYellow hover:bg-carteYellow-600 text-gray-900 px-8 py-6 h-auto rounded-xl transition-all duration-300 hover:-translate-y-1">
+            Subscribe to Growth Plan
+            <ArrowRight className="ml-2" size={18} />
           </Button>
         </div>
       </div>

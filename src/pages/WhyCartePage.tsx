@@ -37,9 +37,9 @@ const WhyCartePage = () => {
       
       <main className="flex-grow pt-20 bg-carteBackground">
         <WhyCarteHero />
-        <WhyCarteFeatures />
         <PricingComparison />
         <SavingsCalculator />
+        <WhyCarteFeatures />
         
         <div className="container mx-auto px-6 py-12">
           <SubscriptionComparisonCard />
