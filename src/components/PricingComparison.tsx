@@ -13,6 +13,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { toast } from "@/hooks/use-toast";
 
 const PricingComparison = () => {
   const { elementRef, isVisible } = useIntersectionObserver();
@@ -28,25 +29,38 @@ const PricingComparison = () => {
     return 0;
   });
 
+  const handleChoosePlan = (planTitle: string) => {
+    toast({
+      title: `${planTitle} Plan Selected`,
+      description: "You've selected the perfect plan for your business!",
+      duration: 3000,
+    });
+  };
+
   return (
-    <section className="py-20" ref={elementRef as React.RefObject<HTMLDivElement>}>
+    <section 
+      className="py-20" 
+      ref={elementRef as React.RefObject<HTMLDivElement>}
+      aria-labelledby="pricing-title"
+    >
       <div className="container mx-auto px-6">
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-4 mb-8">
-            <Label htmlFor="billing-toggle">Monthly billing</Label>
+            <Label htmlFor="billing-toggle" className="cursor-pointer">Monthly billing</Label>
             <Switch
               id="billing-toggle"
               checked={isAnnual}
               onCheckedChange={setIsAnnual}
+              aria-label={isAnnual ? "Switch to monthly billing" : "Switch to annual billing"}
             />
             <div className="flex items-center gap-2">
-              <Label htmlFor="billing-toggle">Annual billing</Label>
+              <Label htmlFor="billing-toggle" className="cursor-pointer">Annual billing</Label>
               <Badge variant="secondary" className="bg-green-100 text-green-800">
                 Save 30%
               </Badge>
             </div>
           </div>
-          <h2 className="text-3xl font-bold mb-4">Simple, Transparent Pricing</h2>
+          <h2 className="text-3xl font-bold mb-4" id="pricing-title">Simple, Transparent Pricing</h2>
           <p className="text-gray-600">Start for free, upgrade as you grow. No hidden fees.</p>
         </div>
 
@@ -54,7 +68,7 @@ const PricingComparison = () => {
           {sortedPlans.map((plan) => (
             <div
               key={plan.title}
-              className={`relative bg-white rounded-xl p-6 shadow-lg border-2 ${
+              className={`relative bg-white rounded-xl p-6 shadow-lg border-2 transition-all duration-300 hover:-translate-y-1 ${
                 plan.isRecommended ? 'border-carteYellow' : 'border-gray-100'
               }`}
             >
@@ -96,13 +110,23 @@ const PricingComparison = () => {
                 <div className="border-b border-gray-100 pb-2">
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Transaction Fee:</span>
-                    <span className="font-bold text-lg">
-                      {plan.transactionFee === 0 
-                        ? "None" 
-                        : `${plan.transactionFee}%${plan.feeCap !== null && plan.feeCap > 0 
-                          ? ` (max $${plan.feeCap})` 
-                          : ' (no cap)'}`}
-                    </span>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <span className="font-bold text-lg flex items-center">
+                            {plan.transactionFee === 0 
+                              ? "None" 
+                              : `${plan.transactionFee}%${plan.feeCap !== null && plan.feeCap > 0 
+                                ? ` (max $${plan.feeCap})` 
+                                : ' (no cap)'}`}
+                            <Info size={16} className="ml-1 text-gray-400" />
+                          </span>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Fees apply only to sales above the fee-free threshold</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </div>
                 </div>
                 
@@ -133,6 +157,8 @@ const PricingComparison = () => {
                     ? 'bg-carteYellow text-gray-900 hover:bg-carteYellow/90'
                     : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
                 }`}
+                onClick={() => handleChoosePlan(plan.title)}
+                aria-label={`Choose ${plan.title} Plan`}
               >
                 Choose Plan
                 <ArrowRight size={16} className="ml-2" />
@@ -142,7 +168,11 @@ const PricingComparison = () => {
         </div>
 
         <div className="mt-12 text-center">
-          <Button variant="outline" size="lg" className="border-carteYellow text-carteYellow hover:bg-carteYellow/10">
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="border-carteYellow text-carteYellow hover:bg-carteYellow/10"
+          >
             Try Carte for Free – Start Selling in Minutes!
           </Button>
           <p className="mt-4 text-sm text-gray-500">
