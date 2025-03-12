@@ -155,8 +155,11 @@ const CompetitorCard = ({
           <div className="text-green-700 font-bold text-xl">
             {formatCurrency(savings)}/month
           </div>
-          <div className="text-green-600 text-sm">
+          <div className="text-green-600 text-sm mt-1">
             {formatCurrency(savings * 12)}/year
+          </div>
+          <div className="text-gray-800 font-semibold mt-3 border-t border-green-200 pt-2">
+            You would pay only <span className="text-green-700">{formatCurrency(carteFee)}/month</span> with Carte
           </div>
         </div>
       </div>
