@@ -1,10 +1,16 @@
 
 import { useIntersectionObserver } from '@/lib/animations';
-import { Shield, DollarSign, Clock, Heart, ArrowRight } from 'lucide-react';
+import { Shield, DollarSign, Clock, Heart, ArrowRight, Infinity } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 const WhyCarteHero = () => {
   const { elementRef, isVisible } = useIntersectionObserver();
+  const navigate = useNavigate();
+
+  const handleViewPricing = () => {
+    navigate('/pricing');
+  };
 
   return (
     <section 
@@ -65,15 +71,27 @@ const WhyCarteHero = () => {
             Ready to eliminate transaction fees?
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-8">
-            Our Pro plan gives you zero transaction fees. Perfect for high-volume sellers who want predictable costs and advanced features.
+            Our Business plan gives you zero transaction fees. Perfect for high-volume sellers who want predictable costs and advanced features.
           </p>
-          <Button 
-            size="lg" 
-            className="bg-carteYellow hover:bg-carteYellow-600 text-gray-900 px-8 py-6 h-auto rounded-xl transition-all duration-300 hover:-translate-y-1"
-          >
-            Try Carte for Free – Start Selling in Minutes!
-            <ArrowRight className="ml-2" size={18} />
-          </Button>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Button 
+              size="lg" 
+              className="bg-carteYellow hover:bg-carteYellow-600 text-gray-900 px-8 py-6 h-auto rounded-xl transition-all duration-300 hover:-translate-y-1"
+            >
+              Try Carte for Free
+              <ArrowRight className="ml-2" size={18} />
+            </Button>
+            
+            <Button 
+              variant="outline"
+              size="lg"
+              onClick={handleViewPricing}
+              className="border-carteYellow text-carteYellow hover:bg-carteYellow/10 px-8 py-6 h-auto rounded-xl"
+            >
+              View Pricing Details
+              <ArrowRight className="ml-2" size={18} />
+            </Button>
+          </div>
         </div>
       </div>
     </section>
