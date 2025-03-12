@@ -112,7 +112,7 @@ const Pricing = () => {
   // Calculate fees for different platforms
   const calculateCompetitorFees = (monthlySales: number) => {
     return {
-      carte: calculateFees(monthlySales, PRICING_PLANS[0]),
+      carte: calculateFees(monthlySales, PRICING_PLANS[1]), // Use Starter plan (index 1) instead of Freemium
       etsy: monthlySales * 0.065 + Math.round(monthlySales / 25) * 0.20,
       gumroad: monthlySales * 0.10 + Math.round(monthlySales / 25) * 0.30,
       patreon: monthlySales * 0.10
@@ -146,15 +146,15 @@ const Pricing = () => {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           <PricingCard 
-            title="Freemium" 
-            monthlyPrice={0} 
-            yearlyPrice={0}
+            title="Starter" 
+            monthlyPrice={12} 
+            yearlyPrice={120}
             features={[
-              "All core features",
-              "Basic theming",
-              "Link in bio",
-              "Payment gateways",
-              "Custom domain"
+              "Essential eCommerce tools",
+              "Fee-free up to $1,000/month",
+              "Basic customization",
+              "Scheduled releases",
+              "Ideal for new & small sellers"
             ]} 
             delay={200} 
             isVisible={isVisible} 
