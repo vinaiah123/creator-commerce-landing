@@ -18,9 +18,9 @@ const PricingComparison = () => {
   const { elementRef, isVisible } = useIntersectionObserver();
   const [isAnnual, setIsAnnual] = useState(false);
   
-  // Get the plans in the correct order (excluding Freemium)
-  const sortedPlans = [...PRICING_PLANS].slice(1).sort((a, b) => {
-    // Put Starter first, then Growth, then Business (formerly Pro)
+  // Get all plans in the correct order
+  const sortedPlans = [...PRICING_PLANS].sort((a, b) => {
+    // Put Starter first, then Growth, then Business
     if (a.title === 'Starter') return -1;
     if (b.title === 'Starter') return 1;
     if (a.title === 'Growth') return -1;
@@ -65,7 +65,7 @@ const PricingComparison = () => {
               )}
               
               <div className="mb-6">
-                <h3 className="text-xl font-bold mb-3">{plan.title === 'Pro' ? 'Business' : plan.title}</h3>
+                <h3 className="text-xl font-bold mb-3">{plan.title}</h3>
               
                 <div className="flex items-baseline">
                   <span className="text-4xl font-bold">
