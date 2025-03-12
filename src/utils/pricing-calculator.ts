@@ -12,21 +12,6 @@ export type PlanInfo = {
 
 export const PRICING_PLANS: PlanInfo[] = [
   {
-    title: 'Freemium',
-    monthlyPrice: 0,
-    yearlyPrice: 0,
-    feeThreshold: 100,
-    transactionFee: 5,
-    feeCap: null,
-    features: [
-      'All core features',
-      'Basic theming',
-      'Link in bio',
-      'Payment gateways',
-      'Custom domain'
-    ]
-  },
-  {
     title: 'Starter',
     monthlyPrice: 12,
     yearlyPrice: 120,
