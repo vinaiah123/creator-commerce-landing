@@ -5,21 +5,21 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { PRICING_PLANS, getTotalCost } from '@/utils/pricing-calculator';
-import { formatCurrency } from '@/utils/pricing';
-import { Info } from 'lucide-react';
+import { PRICING_PLANS, getTotalCost, formatCurrency } from '@/utils/pricing-calculator';
+import { Info, Check, ArrowRight } from 'lucide-react';
 import { 
   Tooltip,
   TooltipContent,
+  TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
+} from "@/components/ui/tooltip";
 
 const PricingComparison = () => {
   const { elementRef, isVisible } = useIntersectionObserver();
   const [isAnnual, setIsAnnual] = useState(false);
   
   // Sort plans to put recommended first
-  const sortedPlans = [...PRICING_PLANS].sort((a, b) => {
+  const sortedPlans = [...PRICING_PLANS].slice(1).sort((a, b) => {
     if (a.isRecommended) return -1;
     if (b.isRecommended) return 1;
     return 0;
@@ -47,7 +47,7 @@ const PricingComparison = () => {
           <p className="text-gray-600">Start for free, upgrade as you grow. No hidden fees.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {sortedPlans.map((plan) => (
             <div
               key={plan.title}
@@ -61,58 +61,66 @@ const PricingComparison = () => {
                 </div>
               )}
               
-              <h3 className="text-xl font-bold mb-2">{plan.title}</h3>
-              
               <div className="mb-6">
+                <h3 className="text-xl font-bold mb-3">{plan.title}</h3>
+              
                 <div className="flex items-baseline">
                   <span className="text-4xl font-bold">
                     ${isAnnual ? (plan.yearlyPrice / 12).toFixed(0) : plan.monthlyPrice}
                   </span>
                   <span className="text-gray-500 ml-2">/month</span>
                 </div>
+                
                 {isAnnual && (
                   <div className="text-green-600 text-sm mt-1">
                     Billed ${plan.yearlyPrice}/year
                   </div>
                 )}
+              </div>
                 
-                <div className="mt-4 flex items-center">
-                  <span className="font-medium">Fee-free up to:</span>
-                  <span className="ml-2 text-xl font-bold text-carteYellow">
-                    {formatCurrency(plan.feeThreshold)}
+              <div className="space-y-2 mb-6">
+                <div className="flex items-center justify-between">
+                  <span>Fee-free sales up to:</span>
+                  <span className="font-bold text-xl text-carteYellow">
+                    {formatCurrency(plan.feeThreshold)}/mo
                   </span>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <Info size={16} className="ml-2 text-gray-400" />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p className="max-w-xs">
-                        {plan.overageFee 
-                          ? `${formatCurrency(plan.overageFee.amount)} per ${formatCurrency(plan.overageFee.per)} in sales above threshold`
-                          : 'No transaction fees'}
-                      </p>
-                    </TooltipContent>
-                  </Tooltip>
                 </div>
+                
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <span>Transaction fee</span>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Info size={16} className="ml-1 text-gray-400" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Applied only to sales beyond the fee-free threshold</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
+                  <span className="font-semibold">
+                    {plan.transactionFee}%
+                    {plan.feeCap !== null && plan.feeCap > 0 && ` (max $${plan.feeCap})`}
+                  </span>
+                </div>
+                
+                {plan.feeCap !== null && plan.feeCap > 0 && (
+                  <div className="flex items-center justify-between">
+                    <span>Max monthly cost:</span>
+                    <span className="font-bold text-green-600">
+                      ${plan.monthlyPrice + plan.feeCap}/mo
+                    </span>
+                  </div>
+                )}
               </div>
 
               <ul className="space-y-3 mb-6">
                 {plan.features.map((feature, index) => (
                   <li key={index} className="flex items-center">
-                    <svg
-                      className="w-5 h-5 text-green-500 mr-2"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                    {feature}
+                    <Check size={18} className="text-green-500 mr-2 flex-shrink-0" />
+                    <span className="text-gray-600">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -124,14 +132,18 @@ const PricingComparison = () => {
                     : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
                 }`}
               >
-                {plan.monthlyPrice === 0 ? 'Start for Free' : 'Choose Plan'}
+                Choose Plan
+                <ArrowRight size={16} className="ml-2" />
               </Button>
             </div>
           ))}
         </div>
 
         <div className="mt-12 text-center">
-          <p className="text-sm text-gray-500">
+          <Button variant="outline" size="lg" className="border-carteYellow text-carteYellow hover:bg-carteYellow/10">
+            Try Carte for Free – Start Selling in Minutes!
+          </Button>
+          <p className="mt-4 text-sm text-gray-500">
             All plans include our core features. Upgrade or downgrade at any time.
           </p>
         </div>

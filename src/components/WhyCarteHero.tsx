@@ -23,7 +23,7 @@ const WhyCarteHero = () => {
           </h1>
           
           <p className={`text-lg md:text-xl text-gray-600 max-w-3xl mx-auto ${isVisible ? 'animate-fade-in animation-delay-200' : 'opacity-0'}`}>
-            Start selling for free and only pay when you succeed. Upgrade to eliminate fees as you grow.
+            Sell with zero upfront costs, scale as you grow, and keep more of your revenue. Choose a plan that fits your business.
           </p>
         </div>
 
@@ -32,17 +32,17 @@ const WhyCarteHero = () => {
             {
               icon: <DollarSign className="text-cartePink" size={32} />,
               title: "Fee-Free Thresholds",
-              description: "Every plan includes fee-free sales up to a certain amount. Start with $100 free on our Freemium plan."
+              description: "Each plan includes fee-free sales up to a set amount. Starter gives you $1,000/month fee-free, Growth offers $2,000/month."
             },
             {
               icon: <Shield className="text-carteYellow" size={32} />,
-              title: "Predictable Pricing",
-              description: "Clear, capped overage fees mean you'll always know exactly what you're paying as you scale."
+              title: "Transparent Pricing",
+              description: "Clear transaction fees and pricing tiers mean you'll always know exactly what you're paying as you scale."
             },
             {
               icon: <Clock className="text-accent" size={32} />,
-              title: "Scale With Confidence",
-              description: "Our Growth plan lets you earn $2,000 per month fee-free, with minimal fees beyond that."
+              title: "Capped Fees on Growth",
+              description: "Our Growth plan's transaction fees are capped at $50/month, making it ideal for businesses with monthly sales over $5,000."
             }
           ].map((item, index) => (
             <div
@@ -65,13 +65,13 @@ const WhyCarteHero = () => {
             Ready to eliminate transaction fees?
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-8">
-            Our Growth plan gives you $2,000 in fee-free sales every month, with minimal fees beyond that. Perfect for creators who are ready to scale.
+            Our Pro plan gives you zero transaction fees. Perfect for high-volume sellers who want predictable costs and advanced features.
           </p>
           <Button 
             size="lg" 
             className="bg-carteYellow hover:bg-carteYellow-600 text-gray-900 px-8 py-6 h-auto rounded-xl transition-all duration-300 hover:-translate-y-1"
           >
-            Get Started with Growth
+            Try Carte for Free – Start Selling in Minutes!
             <ArrowRight className="ml-2" size={18} />
           </Button>
         </div>

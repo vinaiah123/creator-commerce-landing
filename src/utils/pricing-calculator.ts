@@ -4,11 +4,8 @@ export type PlanInfo = {
   monthlyPrice: number;
   yearlyPrice: number;
   feeThreshold: number;
-  overageFee: {
-    amount: number;
-    per: number;
-    cap: number;
-  } | null;
+  transactionFee: number;
+  feeCap: number | null;
   features: string[];
   isRecommended?: boolean;
 };
@@ -19,11 +16,8 @@ export const PRICING_PLANS: PlanInfo[] = [
     monthlyPrice: 0,
     yearlyPrice: 0,
     feeThreshold: 100,
-    overageFee: {
-      amount: 5,
-      per: 100,
-      cap: Infinity
-    },
+    transactionFee: 5,
+    feeCap: null,
     features: [
       'All core features',
       'Basic theming',
@@ -36,36 +30,30 @@ export const PRICING_PLANS: PlanInfo[] = [
     title: 'Starter',
     monthlyPrice: 12,
     yearlyPrice: 120,
-    feeThreshold: 500,
-    overageFee: {
-      amount: 1.50,
-      per: 250,
-      cap: 12
-    },
+    feeThreshold: 1000,
+    transactionFee: 2,
+    feeCap: null,
     features: [
+      'Essential eCommerce tools',
+      'Fee-free up to $1,000/month',
       'Basic customization',
       'Scheduled releases',
-      'Product FAQs',
-      'Digital products (coming soon)',
-      'Priority support'
+      'Ideal for new & small sellers'
     ]
   },
   {
     title: 'Growth',
-    monthlyPrice: 29,
-    yearlyPrice: 290,
+    monthlyPrice: 35,
+    yearlyPrice: 350,
     feeThreshold: 2000,
-    overageFee: {
-      amount: 2.50,
-      per: 500,
-      cap: 29
-    },
+    transactionFee: 1,
+    feeCap: 50,
     features: [
       '3 team members',
-      'Affiliate tools',
-      'Priority payouts',
-      'Automation',
-      'Advanced filters'
+      'Fee-free up to $2,000/month',
+      'Priority support',
+      'Automation tools',
+      'Perfect for growing businesses'
     ],
     isRecommended: true
   },
@@ -73,32 +61,60 @@ export const PRICING_PLANS: PlanInfo[] = [
     title: 'Pro',
     monthlyPrice: 199,
     yearlyPrice: 1990,
-    feeThreshold: 50000,
-    overageFee: null,
+    feeThreshold: Infinity,
+    transactionFee: 0,
+    feeCap: 0,
     features: [
       'Unlimited team members',
-      'Multi-store (up to 5)',
-      'Full API access',
-      'Premium support',
-      'Advanced analytics'
+      'No transaction fees',
+      'Multi-store functionality',
+      'Advanced analytics & integrations',
+      'Best for high-volume sellers'
     ]
   }
 ];
 
-export const calculateOverageFees = (sales: number, plan: PlanInfo): number => {
-  if (!plan.overageFee || sales <= plan.feeThreshold) {
+export const calculateFees = (sales: number, plan: PlanInfo): number => {
+  if (sales <= plan.feeThreshold) {
     return 0;
   }
-
-  const overage = sales - plan.feeThreshold;
-  const units = Math.ceil(overage / plan.overageFee.per);
-  const fees = units * plan.overageFee.amount;
   
-  return Math.min(fees, plan.overageFee.cap);
+  const excessSales = sales - plan.feeThreshold;
+  const fee = excessSales * (plan.transactionFee / 100);
+  
+  if (plan.feeCap !== null) {
+    return Math.min(fee, plan.feeCap);
+  }
+  
+  return fee;
 };
 
 export const getTotalCost = (sales: number, plan: PlanInfo, isAnnual: boolean = false): number => {
   const baseCost = isAnnual ? plan.yearlyPrice / 12 : plan.monthlyPrice;
-  const overageFees = calculateOverageFees(sales, plan);
-  return baseCost + overageFees;
+  const feesCost = calculateFees(sales, plan);
+  return baseCost + feesCost;
+};
+
+export const formatCurrency = (amount: number) => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2
+  }).format(amount);
+};
+
+export const getBestValuePlan = (sales: number, isAnnual: boolean = false): string => {
+  let bestPlan = PRICING_PLANS[0].title;
+  let lowestCost = getTotalCost(sales, PRICING_PLANS[0], isAnnual);
+
+  for (let i = 1; i < PRICING_PLANS.length; i++) {
+    const cost = getTotalCost(sales, PRICING_PLANS[i], isAnnual);
+    if (cost < lowestCost) {
+      lowestCost = cost;
+      bestPlan = PRICING_PLANS[i].title;
+    }
+  }
+
+  return bestPlan;
 };
