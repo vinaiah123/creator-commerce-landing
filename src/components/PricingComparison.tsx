@@ -18,10 +18,13 @@ const PricingComparison = () => {
   const { elementRef, isVisible } = useIntersectionObserver();
   const [isAnnual, setIsAnnual] = useState(false);
   
-  // Sort plans to put recommended first
+  // Get the plans in the correct order (excluding Freemium)
   const sortedPlans = [...PRICING_PLANS].slice(1).sort((a, b) => {
-    if (a.isRecommended) return -1;
-    if (b.isRecommended) return 1;
+    // Put Starter first, then Growth, then Business (formerly Pro)
+    if (a.title === 'Starter') return -1;
+    if (b.title === 'Starter') return 1;
+    if (a.title === 'Growth') return -1;
+    if (b.title === 'Growth') return 1;
     return 0;
   });
 
@@ -62,7 +65,7 @@ const PricingComparison = () => {
               )}
               
               <div className="mb-6">
-                <h3 className="text-xl font-bold mb-3">{plan.title}</h3>
+                <h3 className="text-xl font-bold mb-3">{plan.title === 'Pro' ? 'Business' : plan.title}</h3>
               
                 <div className="flex items-baseline">
                   <span className="text-4xl font-bold">
@@ -78,42 +81,41 @@ const PricingComparison = () => {
                 )}
               </div>
                 
-              <div className="space-y-2 mb-6">
-                <div className="flex items-center justify-between">
-                  <span>Fee-free sales up to:</span>
-                  <span className="font-bold text-xl text-carteYellow">
-                    {formatCurrency(plan.feeThreshold)}/mo
-                  </span>
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <span>Transaction fee</span>
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <Info size={16} className="ml-1 text-gray-400" />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Applied only to sales beyond the fee-free threshold</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
-                  <span className="font-semibold">
-                    {plan.transactionFee}%
-                    {plan.feeCap !== null && plan.feeCap > 0 && ` (max $${plan.feeCap})`}
-                  </span>
-                </div>
-                
-                {plan.feeCap !== null && plan.feeCap > 0 && (
+              <div className="space-y-4 mb-6">
+                <div className="border-b border-gray-100 pb-2">
                   <div className="flex items-center justify-between">
-                    <span>Max monthly cost:</span>
-                    <span className="font-bold text-green-600">
-                      ${plan.monthlyPrice + plan.feeCap}/mo
+                    <span className="text-gray-600">Fee-Free Sales:</span>
+                    <span className="font-bold text-lg">
+                      {plan.feeThreshold === Infinity 
+                        ? "Unlimited" 
+                        : `${formatCurrency(plan.feeThreshold)}/mo`}
                     </span>
                   </div>
-                )}
+                </div>
+                
+                <div className="border-b border-gray-100 pb-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Transaction Fee:</span>
+                    <span className="font-bold text-lg">
+                      {plan.transactionFee === 0 
+                        ? "None" 
+                        : `${plan.transactionFee}%${plan.feeCap !== null && plan.feeCap > 0 
+                          ? ` (max $${plan.feeCap})` 
+                          : ' (no cap)'}`}
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="pb-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Max Cost:</span>
+                    <span className="font-bold text-lg">
+                      {plan.feeCap !== null 
+                        ? `$${plan.monthlyPrice + plan.feeCap}/mo total` 
+                        : "Varies with sales"}
+                    </span>
+                  </div>
+                </div>
               </div>
 
               <ul className="space-y-3 mb-6">

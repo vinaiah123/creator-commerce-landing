@@ -58,7 +58,7 @@ export const PRICING_PLANS: PlanInfo[] = [
     isRecommended: true
   },
   {
-    title: 'Pro',
+    title: 'Business',
     monthlyPrice: 199,
     yearlyPrice: 1990,
     feeThreshold: Infinity,
