@@ -15,7 +15,7 @@ const OurStoryMission = () => {
           <div className={`text-center mb-12 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Mission</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              At Carte, we're on a mission to empower creators by providing the most creator-friendly e-commerce platform in the world.
+              At Carte, we're on a mission to provide a sensible and reliable starting point for small businesses to thrive online through user-centric design.
             </p>
           </div>
           
@@ -24,9 +24,9 @@ const OurStoryMission = () => {
               <div className="w-12 h-12 bg-carteYellow rounded-full flex items-center justify-center mb-4">
                 <Zap size={24} className="text-gray-900" />
               </div>
-              <h3 className="text-xl font-bold mb-2">Zero Barriers</h3>
+              <h3 className="text-xl font-bold mb-2">Quick Setup</h3>
               <p className="text-gray-600">
-                We believe in removing obstacles for creators, allowing them to start selling online without upfront costs or technical headaches.
+                We believe in removing technical barriers for small businesses, allowing them to set up their online shop in just minutes with no technical skills required.
               </p>
             </div>
             
@@ -34,9 +34,9 @@ const OurStoryMission = () => {
               <div className="w-12 h-12 bg-cartePink rounded-full flex items-center justify-center mb-4">
                 <Users size={24} className="text-white" />
               </div>
-              <h3 className="text-xl font-bold mb-2">Creator First</h3>
+              <h3 className="text-xl font-bold mb-2">User-Centric</h3>
               <p className="text-gray-600">
-                Every decision we make starts with the question: "How does this benefit creators?" Your success is our success.
+                We focus on the unique challenges of small businesses: customer engagement, product reviews, payments, and customizability that other platforms overlook.
               </p>
             </div>
             
@@ -44,16 +44,16 @@ const OurStoryMission = () => {
               <div className="w-12 h-12 bg-carteBlue rounded-full flex items-center justify-center mb-4">
                 <Sprout size={24} className="text-white" />
               </div>
-              <h3 className="text-xl font-bold mb-2">Sustainable Growth</h3>
+              <h3 className="text-xl font-bold mb-2">Business Growth</h3>
               <p className="text-gray-600">
-                We grow when you grow. Our pricing scales with your success, ensuring we're always aligned with your business goals.
+                We're committed to helping small businesses focus on what matters most - building and growing their business, not managing complicated technology.
               </p>
             </div>
           </div>
           
           <div className={`mt-12 p-6 bg-muted rounded-xl text-center ${isVisible ? 'animate-fade-in animation-delay-400' : 'opacity-0'}`}>
             <p className="text-lg italic">
-              "We created Carte because we believe creators should keep more of what they earn. It's that simple."
+              "It literally takes a few minutes to build a Carte shop, so you can focus on what's important - building your business."
             </p>
             <p className="mt-2 font-bold">— The Carte Team</p>
           </div>

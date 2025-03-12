@@ -1,6 +1,20 @@
 
 import { useIntersectionObserver } from '@/lib/animations';
-import { Calendar, Flag, Lightbulb, Users, Award, ArrowUpRight } from 'lucide-react';
+import { 
+  Calendar, 
+  Flag, 
+  Lightbulb, 
+  Users, 
+  Award, 
+  ArrowUpRight, 
+  Home, 
+  ShoppingBag, 
+  Rocket, 
+  Zap,
+  Globe,
+  MessageSquare,
+  CreditCard
+} from 'lucide-react';
 
 const TimelineItem = ({ 
   year, 
@@ -38,33 +52,75 @@ const OurStoryTimeline = () => {
 
   const timelineData = [
     {
-      year: '2021',
-      title: 'The Idea',
-      description: 'Frustrated by high fees and complicated platforms, we envisioned a simpler, more affordable way for creators to sell online.',
+      year: '2020',
+      title: 'COVID-19 Insight',
+      description: 'During the pandemic, we noticed a sharp increase in home-based businesses in Singapore struggling with manual order collection through Instagram DMs and Google Forms.',
+      icon: <Home size={20} className="text-carteYellow" />
+    },
+    {
+      year: '2020',
+      title: 'The Gap in the Market',
+      description: 'We identified unique challenges for small businesses that were overlooked: customer engagement, product reviews, P2P payments, and customizability.',
       icon: <Lightbulb size={20} className="text-carteYellow" />
     },
     {
+      year: '2021',
+      title: 'Carte Concept',
+      description: 'We began developing Carte as a user-centric solution that would take just minutes to set up, allowing small businesses to focus on growth.',
+      icon: <ShoppingBag size={20} className="text-carteYellow" />
+    },
+    {
+      year: '2021',
+      title: 'Early Prototype',
+      description: 'We built our first working prototype focused on simplicity and solving the pain points of small business owners.',
+      icon: <Rocket size={20} className="text-carteYellow" />
+    },
+    {
       year: '2022',
-      title: 'Carte is Born',
-      description: 'We launched our beta with a small group of creators who helped shape our platform with valuable feedback.',
+      title: 'Launch in Singapore',
+      description: 'Carte officially launched in Singapore, offering local businesses a simple way to start selling online without technical barriers.',
       icon: <Calendar size={20} className="text-carteYellow" />
     },
     {
       year: '2022',
-      title: 'Growing Community',
-      description: 'Our creator community expanded rapidly as word spread about our creator-friendly pricing and easy-to-use platform.',
-      icon: <Users size={20} className="text-carteYellow" />
+      title: 'Customer Feedback Loop',
+      description: 'We implemented a robust feedback system to continuously improve the platform based on real user experiences and needs.',
+      icon: <MessageSquare size={20} className="text-carteYellow" />
+    },
+    {
+      year: '2022',
+      title: 'Payment Integration',
+      description: 'We expanded our payment options to better serve the needs of small businesses, making transactions seamless for both merchants and customers.',
+      icon: <CreditCard size={20} className="text-carteYellow" />
     },
     {
       year: '2023',
+      title: 'International Expansion',
+      description: 'Carte began serving businesses beyond Singapore, helping small entrepreneurs worldwide establish their online presence quickly.',
+      icon: <Globe size={20} className="text-carteYellow" />
+    },
+    {
+      year: '2023',
+      title: 'Feature Enhancement',
+      description: 'We added robust analytics, marketing tools, and customization options to help our users grow their businesses effectively.',
+      icon: <Zap size={20} className="text-carteYellow" />
+    },
+    {
+      year: '2023',
+      title: 'Growing Community',
+      description: 'Our creator community expanded rapidly as word spread about our business-friendly pricing and easy-to-use platform.',
+      icon: <Users size={20} className="text-carteYellow" />
+    },
+    {
+      year: '2024',
       title: 'Major Milestones',
-      description: 'We celebrated helping creators earn millions in revenue while saving them thousands in fees.',
+      description: 'We celebrated helping businesses earn millions in revenue while saving them thousands in fees and countless hours in setup time.',
       icon: <Flag size={20} className="text-carteYellow" />
     },
     {
       year: 'Today',
       title: 'Continuing the Journey',
-      description: 'With thousands of creators and growing, we continue to innovate and improve the platform every day.',
+      description: 'With thousands of businesses trusting Carte, we remain focused on our mission to provide the most sensible starting point for small businesses to thrive online.',
       icon: <Award size={20} className="text-carteYellow" />
     }
   ];
@@ -76,7 +132,7 @@ const OurStoryTimeline = () => {
           <div className={`text-center mb-16 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Journey</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              From a simple idea to a thriving platform, here's how Carte has evolved.
+              From identifying a gap in the market to creating a platform that helps small businesses thrive, here's how Carte has evolved.
             </p>
           </div>
           
