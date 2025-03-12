@@ -1,23 +1,47 @@
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useIntersectionObserver } from '@/lib/animations';
-import { ArrowRight, Calculator, PiggyBank, DollarSign } from 'lucide-react';
+import { ArrowRight, Calculator, PiggyBank, DollarSign, Info } from 'lucide-react';
 import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
+import { Switch } from '@/components/ui/switch';
 import { toast } from "@/components/ui/use-toast";
+import { 
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { formatCurrency } from '@/utils/pricing';
+import { PRICING_PLANS, calculateOverageFees } from '@/utils/pricing-calculator';
 
-const calculatePlatformFees = (monthlySales: number) => {
-  const carteFree = monthlySales * 0.05;
-  const carteStarter = 12 + (monthlySales > 200 ? (monthlySales - 200) * 0.025 : 0);
-  const carteGrowth = 29 + (monthlySales > 2000 ? (monthlySales - 2000) * 0.01 : 0);
-  const cartePro = 199;
+const calculatePlatformFees = (monthlySales: number, isAnnual: boolean) => {
+  // Calculate Carte fees based on the updated pricing model
+  const carteFree = monthlySales <= 100 ? 0 : (monthlySales - 100) * 0.05;
+  
+  // Starter plan - $12/mo, no fees up to $500, then $1.50 per $250 (capped at $12)
+  const starterBase = isAnnual ? 120 / 12 : 12;
+  const starterOverage = monthlySales <= 500 ? 0 : 
+    Math.min(Math.ceil((monthlySales - 500) / 250) * 1.5, 12);
+  const carteStarter = starterBase + starterOverage;
+  
+  // Growth plan - $29/mo, no fees up to $2000, then $2.50 per $500 (capped at $29)
+  const growthBase = isAnnual ? 290 / 12 : 29;
+  const growthOverage = monthlySales <= 2000 ? 0 : 
+    Math.min(Math.ceil((monthlySales - 2000) / 500) * 2.5, 29);
+  const carteGrowth = growthBase + growthOverage;
+  
+  // Pro plan - $199/mo with no transaction fees
+  const proBase = isAnnual ? 1990 / 12 : 199;
+  const cartePro = proBase;
 
+  // Calculate competitor fees
   const etsy = monthlySales * 0.065 + Math.round(monthlySales / 25) * 0.20;
   const gumroad = monthlySales * 0.10 + Math.round(monthlySales / 25) * 0.30;
   const patreon = monthlySales * 0.10;
 
-  let recommendedPlan = "Free";
+  // Determine recommended plan
+  let recommendedPlan = "Freemium";
   let lowestFee = carteFree;
 
   if (carteStarter < lowestFee) {
@@ -47,21 +71,41 @@ const calculatePlatformFees = (monthlySales: number) => {
   };
 };
 
+interface PlanCardProps {
+  title: string;
+  fee: number;
+  monthlySales: number;
+  monthlyFee: number;
+  feeThreshold: number;
+  isRecommended: boolean;
+  overageFee: { amount: number; per: number; cap: number } | null;
+  isAnnual: boolean;
+}
+
 const PlanCard = ({ 
   title, 
   fee, 
   monthlySales,
   monthlyFee,
-  isRecommended 
-}: { 
-  title: string; 
-  fee: number; 
-  monthlySales: number;
-  monthlyFee: number; 
-  isRecommended: boolean;
-}) => {
-  const percentageFee = ((fee - monthlyFee) / monthlySales * 100).toFixed(1);
-  const effectiveRate = (fee / monthlySales * 100).toFixed(1);
+  feeThreshold,
+  overageFee,
+  isRecommended,
+  isAnnual
+}: PlanCardProps) => {
+  const getEffectiveRate = () => {
+    if (monthlySales === 0) return "0.0";
+    return (fee / monthlySales * 100).toFixed(1);
+  };
+  
+  const getOverageFeeText = () => {
+    if (!overageFee) return "No transaction fees";
+    
+    if (monthlySales <= feeThreshold) {
+      return `First $${feeThreshold} sales: Fee-free`;
+    }
+    
+    return `$${overageFee.amount} per $${overageFee.per} over $${feeThreshold} (max $${overageFee.cap})`;
+  };
   
   return (
     <div className={`backdrop-blur-xl ${isRecommended ? 'bg-carteYellow/10 border-carteYellow' : 'bg-white/50 border-white/30'} rounded-2xl p-6 border transition-all duration-300 hover:-translate-y-2 relative`}>
@@ -77,22 +121,57 @@ const PlanCard = ({
       
       <div className="space-y-3 mb-4">
         <div className="flex justify-between items-center">
-          <span className="text-gray-600">Monthly Fee:</span>
-          <span className="font-semibold">{formatCurrency(monthlyFee)}</span>
+          <span className="text-gray-600">
+            {isAnnual ? "Annual Plan:" : "Monthly Fee:"}
+          </span>
+          <span className="font-semibold">
+            {isAnnual 
+              ? `${formatCurrency(monthlyFee * 12)}/year` 
+              : `${formatCurrency(monthlyFee)}/mo`}
+          </span>
         </div>
         
         <div className="flex justify-between items-center">
-          <span className="text-gray-600">Transaction Fee:</span>
-          <span className="font-semibold">{percentageFee}%</span>
+          <span className="text-gray-600">Fee Threshold:</span>
+          <div className="flex items-center">
+            <span className="font-semibold">${feeThreshold}</span>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Info size={16} className="ml-1 text-gray-400" />
+                </TooltipTrigger>
+                <TooltipContent className="max-w-[200px]">
+                  <p>Sales up to this amount each month are fee-free</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+        </div>
+        
+        <div className="flex justify-between items-center">
+          <span className="text-gray-600">Overage Fee:</span>
+          <div className="flex items-center">
+            <span className="font-semibold text-sm">{getOverageFeeText()}</span>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Info size={16} className="ml-1 text-gray-400" />
+                </TooltipTrigger>
+                <TooltipContent className="max-w-[250px]">
+                  <p>Fees only apply to sales beyond your monthly threshold</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
         </div>
         
         <div className="border-t border-dashed border-gray-200 my-3 pt-3">
           <div className="flex justify-between items-center">
             <span className="text-gray-700 font-medium">Total Monthly Cost:</span>
-            <span className="text-xl font-bold">{formatCurrency(fee)}</span>
+            <span className="text-2xl font-bold">{formatCurrency(fee)}</span>
           </div>
           <div className="text-right text-sm text-gray-500">
-            (Effective rate: {effectiveRate}%)
+            (Effective rate: {getEffectiveRate()}%)
           </div>
         </div>
       </div>
@@ -119,8 +198,8 @@ const CompetitorCard = ({
   cartePlan: string;
 }) => {
   const savings = fee - carteFee;
-  const savingsPercent = (savings / fee * 100).toFixed(0);
-  const effectiveRate = (fee / monthlySales * 100).toFixed(1);
+  const savingsPercent = fee > 0 ? (savings / fee * 100).toFixed(0) : "0";
+  const effectiveRate = monthlySales > 0 ? (fee / monthlySales * 100).toFixed(1) : "0.0";
   
   return (
     <div className="backdrop-blur-xl bg-white/50 rounded-2xl p-6 border border-white/30 transition-all duration-300 hover:-translate-y-2">
@@ -130,6 +209,9 @@ const CompetitorCard = ({
         <div className="flex justify-between items-center">
           <span className="text-gray-600">Their Monthly Cost:</span>
           <span className="font-semibold">{formatCurrency(fee)}</span>
+        </div>
+        <div className="text-right text-sm text-gray-500">
+          (Effective rate: {effectiveRate}%)
         </div>
       </div>
       
@@ -142,7 +224,7 @@ const CompetitorCard = ({
             {formatCurrency(carteFee)}
           </div>
           <div className="text-green-600 font-medium">
-            Save {formatCurrency(savings)} per month
+            Save {formatCurrency(savings)} per month ({savingsPercent}%)
           </div>
         </div>
       </div>
@@ -154,18 +236,22 @@ const SavingsCalculator = () => {
   const { elementRef, isVisible } = useIntersectionObserver();
   const [monthlySales, setMonthlySales] = useState<number>(1000);
   const [activeTab, setActiveTab] = useState<'carte' | 'competitors'>('carte');
+  const [isAnnual, setIsAnnual] = useState<boolean>(false);
   
-  const fees = calculatePlatformFees(monthlySales);
+  const fees = calculatePlatformFees(monthlySales, isAnnual);
   
   const handleSalesChange = (value: number[]) => {
     setMonthlySales(value[0]);
   };
   
   const handleCalculateClick = () => {
-    toast.success(
-      `Recommended Plan: ${fees.recommendedPlan}`,
-      `Based on your monthly sales of ${formatCurrency(monthlySales)}, you'll pay only ${formatCurrency(Math.min(fees.carteFree, fees.carteStarter, fees.carteGrowth, fees.cartePro))} per month with Carte!`
-    );
+    const lowestFee = Math.min(fees.carteFree, fees.carteStarter, fees.carteGrowth, fees.cartePro);
+    
+    toast({
+      title: `Recommended: Carte ${fees.recommendedPlan}`,
+      description: `Based on your monthly sales of ${formatCurrency(monthlySales)}, you'll pay only ${formatCurrency(lowestFee)} per month with Carte!`,
+      variant: "default",
+    });
   };
 
   return (
@@ -198,6 +284,7 @@ const SavingsCalculator = () => {
             <div className="w-full md:w-2/3 px-4">
               <Slider 
                 defaultValue={[1000]} 
+                value={[monthlySales]}
                 min={100} 
                 max={10000} 
                 step={100} 
@@ -213,51 +300,55 @@ const SavingsCalculator = () => {
             </div>
           </div>
           
-          <div className="flex border-b border-gray-200 mb-6">
-            <button
-              className={`px-6 py-3 font-medium border-b-2 transition-colors ${activeTab === 'carte' ? 'border-carteYellow text-carteYellow' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
-              onClick={() => setActiveTab('carte')}
-            >
-              Carte Plans
-            </button>
-            <button
-              className={`px-6 py-3 font-medium border-b-2 transition-colors ${activeTab === 'competitors' ? 'border-carteYellow text-carteYellow' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
-              onClick={() => setActiveTab('competitors')}
-            >
-              Competitor Comparison
-            </button>
+          <div className="flex justify-between items-center mb-8">
+            <div className="flex border-b border-gray-200">
+              <button
+                className={`px-6 py-3 font-medium border-b-2 transition-colors ${activeTab === 'carte' ? 'border-carteYellow text-carteYellow' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+                onClick={() => setActiveTab('carte')}
+              >
+                Carte Plans
+              </button>
+              <button
+                className={`px-6 py-3 font-medium border-b-2 transition-colors ${activeTab === 'competitors' ? 'border-carteYellow text-carteYellow' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+                onClick={() => setActiveTab('competitors')}
+              >
+                Competitor Comparison
+              </button>
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <span className={`text-sm ${!isAnnual ? 'font-bold' : 'text-gray-500'}`}>Monthly</span>
+              <Switch
+                checked={isAnnual}
+                onCheckedChange={setIsAnnual}
+              />
+              <span className={`text-sm ${isAnnual ? 'font-bold' : 'text-gray-500'}`}>
+                Annual <span className="text-green-600">(Save 20%)</span>
+              </span>
+            </div>
           </div>
           
           {activeTab === 'carte' ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <PlanCard 
-                title="Freemium (5%)" 
-                fee={fees.carteFree} 
-                monthlySales={monthlySales}
-                monthlyFee={0}
-                isRecommended={fees.recommendedPlan === 'Free'} 
-              />
-              <PlanCard 
-                title="Starter ($12/mo, 2.5%)" 
-                fee={fees.carteStarter} 
-                monthlySales={monthlySales}
-                monthlyFee={12}
-                isRecommended={fees.recommendedPlan === 'Starter'} 
-              />
-              <PlanCard 
-                title="Growth ($29/mo, 1%)" 
-                fee={fees.carteGrowth} 
-                monthlySales={monthlySales}
-                monthlyFee={29}
-                isRecommended={fees.recommendedPlan === 'Growth'} 
-              />
-              <PlanCard 
-                title="Pro ($199/mo, 0%)" 
-                fee={fees.cartePro} 
-                monthlySales={monthlySales}
-                monthlyFee={199}
-                isRecommended={fees.recommendedPlan === 'Pro'} 
-              />
+              {PRICING_PLANS.map((plan, index) => {
+                const planFee = calculateOverageFees(monthlySales, plan);
+                const baseCost = isAnnual ? plan.yearlyPrice / 12 : plan.monthlyPrice;
+                const totalCost = baseCost + planFee;
+                
+                return (
+                  <PlanCard 
+                    key={index}
+                    title={plan.title} 
+                    fee={totalCost} 
+                    monthlySales={monthlySales}
+                    monthlyFee={plan.monthlyPrice}
+                    feeThreshold={plan.feeThreshold}
+                    overageFee={plan.overageFee}
+                    isRecommended={fees.recommendedPlan === plan.title}
+                    isAnnual={isAnnual}
+                  />
+                );
+              })}
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
